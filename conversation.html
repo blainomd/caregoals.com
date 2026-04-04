@@ -456,7 +456,9 @@ async function sageReply(text, qr, delay) {
     setTimeout(async () => {
       hideTyping();
       await addMsg(text, 'sage');
-      if (qr) setTimeout(() => { showQR(qr); resolve(); }, 400);
+      try { speak(text); } catch(e) {}
+      try { saveConversation(); } catch(e) {}
+      if (qr && qr.length > 0) setTimeout(() => { showQR(qr); resolve(); }, 400);
       else resolve();
     }, delay || Math.min(1200 + text.length * 6, 2800));
   });
@@ -877,34 +879,28 @@ function loadConversation() {
   } catch { return false; }
 }
 
-// Auto-save after each exchange
-const origHandleMsg = handleMsg;
-handleMsg = async function(text) {
-  await origHandleMsg(text);
-  setTimeout(saveConversation, 1000);
-};
-
-// Patch sageReply to also speak
-const origSageReply = sageReply;
-sageReply = async function(text, qr, delay) {
-  const result = await origSageReply(text, qr, delay);
-  speak(text);
-  return result;
-};
-
-// Start — check for saved conversation first
+// Start
 window.addEventListener('load', () => {
-  setTimeout(() => {
+  try {
     const resumed = loadConversation();
     if (!resumed) {
-      const first = STEPS[0];
-      addMsg(first.sage, 'sage').then(() => {
-        speak(first.sage);
-        step = 1;
-        setTimeout(() => showQR(first.qr), 600);
-      });
+      setTimeout(() => {
+        const first = STEPS[0];
+        addMsg(first.sage, 'sage').then(() => {
+          speak(first.sage);
+          step = 1;
+          setTimeout(() => showQR(first.qr), 600);
+        });
+      }, 800);
     }
-  }, 800);
+  } catch(e) {
+    console.error('Load error:', e);
+    // Fallback: show first message directly
+    setTimeout(() => {
+      addMsg("Hi. I'm Sage. I'm glad you're here. What's your name?", 'sage');
+      step = 1;
+    }, 500);
+  }
 });
 </script>
 
