@@ -1,12 +1,4 @@
 {
   "framework": null,
-  "cleanUrls": true,
-  "redirects": [
-    { "source": "/", "destination": "https://co-op.care/goals", "permanent": false },
-    { "source": "/conversation", "destination": "https://co-op.care/guide/build?domain=caregoals", "permanent": false },
-    { "source": "/first-session", "destination": "https://co-op.care/guide/build?domain=caregoals", "permanent": false },
-    { "source": "/sage-onboarding", "destination": "https://co-op.care/guide/build?domain=caregoals", "permanent": false },
-    { "source": "/gallery", "destination": "https://co-op.care/goals", "permanent": false },
-    { "source": "/(.*)", "destination": "https://co-op.care/goals", "permanent": false }
-  ]
+  "cleanUrls": true
 }
