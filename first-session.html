@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareGoals — First Session</title>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --sage: #8fbc8f;
+            --sage-light: #b5d5b5;
+            --sage-dark: #6a9a6a;
+            --cream: #faf8f5;
+            --cream-dark: #f0ede8;
+            --gold: #c9a96e;
+            --gold-light: #ddc89a;
+            --charcoal: #2c2c2c;
+            --charcoal-light: #5a5a5a;
+            --white: #ffffff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .page-header {
+            text-align: center;
+            padding: 3.5rem 1.5rem 1.5rem;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .page-header h1 {
+            font-family: 'Newsreader', serif;
+            font-weight: 400;
+            font-size: 2rem;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .page-header .subtitle {
+            font-family: 'Newsreader', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--charcoal-light);
+            font-weight: 300;
+            max-width: 480px;
+            margin: 0 auto 1rem;
+        }
+
+        .page-header .note {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: var(--charcoal-light);
+            font-weight: 400;
+            max-width: 440px;
+            margin: 0 auto;
+            padding: 0.75rem 1rem;
+            background-color: var(--cream-dark);
+            border-radius: 0.5rem;
+        }
+
+        /* Chat Container */
+        .chat-container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* Message Rows */
+        .message-row {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            align-items: flex-start;
+        }
+
+        .message-row.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message-row.sage {
+            flex-direction: row;
+        }
+
+        .message-row.jess {
+            flex-direction: row-reverse;
+        }
+
+        .message-row.robert {
+            flex-direction: row-reverse;
+        }
+
+        /* Avatars */
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+        }
+
+        .avatar.sage-avatar {
+            background-color: var(--sage);
+        }
+
+        .avatar svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .avatar.jess-avatar {
+            background-color: var(--gold);
+        }
+
+        .avatar.robert-avatar {
+            background-color: var(--charcoal-light);
+        }
+
+        /* Bubbles */
+        .bubble {
+            max-width: 85%;
+            padding: 1rem 1.25rem;
+            border-radius: 1.125rem;
+            position: relative;
+        }
+
+        .sage .bubble {
+            background-color: var(--white);
+            border: 1px solid #e8e5e0;
+            border-top-left-radius: 4px;
+            font-family: 'Newsreader', serif;
+            font-size: 1.0625rem;
+            font-weight: 400;
+            line-height: 1.7;
+            color: var(--charcoal);
+        }
+
+        .jess .bubble {
+            background-color: var(--sage);
+            border-top-right-radius: 4px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9375rem;
+            font-weight: 400;
+            line-height: 1.55;
+            color: var(--white);
+        }
+
+        .robert .bubble {
+            background-color: var(--charcoal);
+            border-top-right-radius: 4px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9375rem;
+            font-weight: 400;
+            line-height: 1.55;
+            color: #e8e5e0;
+        }
+
+        .bubble .sender-name {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.35rem;
+        }
+
+        .sage .bubble .sender-name {
+            color: var(--sage-dark);
+        }
+
+        .jess .bubble .sender-name {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .robert .bubble .sender-name {
+            color: var(--gold-light);
+        }
+
+        .bubble p + p {
+            margin-top: 0.75rem;
+        }
+
+        .bubble em {
+            font-style: italic;
+        }
+
+        /* Spacer for breathing room between sections */
+        .section-spacer {
+            height: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .section-spacer.visible {
+            opacity: 1;
+        }
+
+        /* Divider */
+        .conversation-divider {
+            text-align: center;
+            padding: 2.5rem 0;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .conversation-divider.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .conversation-divider span {
+            font-family: 'Newsreader', serif;
+            font-style: italic;
+            font-size: 0.875rem;
+            color: var(--charcoal-light);
+            position: relative;
+            display: inline-block;
+            padding: 0 1rem;
+        }
+
+        .conversation-divider span::before,
+        .conversation-divider span::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 1px;
+            background-color: var(--sage-light);
+        }
+
+        .conversation-divider span::before { right: 100%; }
+        .conversation-divider span::after { left: 100%; }
+
+        /* Summary card */
+        .summary-card {
+            background-color: var(--white);
+            border: 1px solid #e8e5e0;
+            border-left: 3px solid var(--sage);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .summary-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .summary-card h3 {
+            font-family: 'Newsreader', serif;
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+        }
+
+        .summary-card dl {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.5rem 1rem;
+        }
+
+        .summary-card dt {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--charcoal-light);
+            padding-top: 0.125rem;
+        }
+
+        .summary-card dd {
+            font-family: 'Newsreader', serif;
+            font-size: 0.9375rem;
+            color: var(--charcoal);
+            line-height: 1.5;
+        }
+
+        .summary-card .card-footer {
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #e8e5e0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: var(--charcoal-light);
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: 3rem 1.5rem 4rem;
+            max-width: 640px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .cta-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cta-section p {
+            font-family: 'Newsreader', serif;
+            font-size: 1.25rem;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--white);
+            background-color: var(--sage-dark);
+            border: none;
+            border-radius: 2rem;
+            padding: 0.875rem 2.5rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--charcoal);
+        }
+
+        /* Footer */
+        .page-footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: var(--charcoal-light);
+            border-top: 1px solid #e8e5e0;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .page-footer a {
+            color: var(--sage-dark);
+            text-decoration: none;
+        }
+
+        /* Print styles */
+        @media print {
+            .cta-section,
+            .page-footer,
+            .page-header .note { display: none; }
+
+            .message-row,
+            .conversation-divider,
+            .summary-card {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .summary-card {
+                break-inside: avoid;
+                border: 1px solid #ccc;
+            }
+
+            body { background: white; font-size: 11pt; }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .page-header { padding: 2rem 1rem 1rem; }
+            .page-header h1 { font-size: 1.625rem; }
+            .chat-container { padding: 1.5rem 1rem 3rem; }
+            .bubble { max-width: 90%; }
+            .avatar { width: 30px; height: 30px; }
+            .avatar svg { width: 15px !important; height: 15px !important; }
+            .summary-card dl { grid-template-columns: 1fr; gap: 0.25rem; }
+            .summary-card dt { margin-top: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="page-header">
+    <h1>The First CareGoals Session</h1>
+    <p class="subtitle">A father and daughter sit down with Sage to talk about what matters most — before it becomes urgent.</p>
+    <p class="note">This conversation is private. Everything documented here is shared only with the people Robert chooses. Sage does not provide medical advice. All clinical oversight is provided by a licensed physician.</p>
+</header>
+
+<div class="chat-container" id="chat">
+
+    <!-- Opening -->
+    <div class="message-row sage" data-step="1">
+        <div class="avatar sage-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" style="fill:none;stroke:#fff;"/><path d="M12 6c0 4-3 6-3 10h6c0-4-3-6-3-10z" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Sage</span>
+            <p>This conversation is about your dad's wishes — what matters to him, what he values, and how he wants to be cared for if he cannot speak for himself.</p>
+            <p>There are no wrong answers. Everything said here is documented and shared only with the people he chooses.</p>
+            <p>Shall we begin?</p>
+        </div>
+    </div>
+
+    <div class="message-row jess" data-step="2">
+        <div class="avatar jess-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" style="fill:#fff;"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Jess</span>
+            Yes. Dad, are you ready?
+        </div>
+    </div>
+
+    <div class="message-row robert" data-step="3">
+        <div class="avatar robert-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" style="fill:#fff;"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Robert</span>
+            I suppose so. Not sure what there is to talk about.
+        </div>
+    </div>
+
+    <!-- Question 1: Quality of Life -->
+    <div class="conversation-divider" data-step="4">
+        <span>What a Good Day Looks Like</span>
+    </div>
+
+    <div class="message-row sage" data-step="5">
+        <div class="avatar sage-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" style="fill:none;stroke:#fff;"/><path d="M12 6c0 4-3 6-3 10h6c0-4-3-6-3-10z" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Sage</span>
+            <p>That is perfectly fine, Robert. We will just talk. Let me start with something simple.</p>
+            <p>What does a good day look like for you?</p>
+        </div>
+    </div>
+
+    <div class="message-row robert" data-step="6">
+        <div class="avatar robert-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" style="fill:#fff;"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Robert</span>
+            A good day. Well. Coffee in the morning, reading the paper. Being able to walk to the mailbox without worrying about falling. Talking to Jess. Maybe watching a game in the evening. Nothing fancy.
+        </div>
+    </div>
+
+    <div class="message-row sage" data-step="7">
+        <div class="avatar sage-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" style="fill:none;stroke:#fff;"/><path d="M12 6c0 4-3 6-3 10h6c0-4-3-6-3-10z" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Sage</span>
+            Nothing fancy — and everything that matters. Independence. Routine. Connection with Jess. I am writing that down because it will guide every decision we make together.
+        </div>
+    </div>
+
+    <!-- Question 2: Healthcare Proxy -->
+    <div class="conversation-divider" data-step="8">
+        <span>Who Speaks For You</span>
+    </div>
+
+    <div class="message-row sage" data-step="9">
+        <div class="avatar sage-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" style="fill:none;stroke:#fff;"/><path d="M12 6c0 4-3 6-3 10h6c0-4-3-6-3-10z" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Sage</span>
+            <p>Robert, if there came a time when you could not make medical decisions for yourself — if you were very sick or recovering from surgery — who would you want to speak for you?</p>
+            <p>This person is sometimes called a healthcare proxy or a medical power of attorney. It is simply the person you trust to say what you would say.</p>
+        </div>
+    </div>
+
+    <div class="message-row robert" data-step="10">
+        <div class="avatar robert-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" style="fill:#fff;"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Robert</span>
+            Jess. That is easy. She knows me better than anyone.
+        </div>
+    </div>
+
+    <div class="message-row jess" data-step="11">
+        <div class="avatar jess-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" style="fill:#fff;"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Jess</span>
+            I want to get it right, Dad.
+        </div>
+    </div>
+
+    <div class="message-row sage" data-step="12">
+        <div class="avatar sage-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" style="fill:none;stroke:#fff;"/><path d="M12 6c0 4-3 6-3 10h6c0-4-3-6-3-10z" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Sage</span>
+            That is exactly why we are having this conversation now — so you do not have to guess. The rest of what we talk about today will help Jess know exactly what "right" looks like for you, Robert.
+        </div>
+    </div>
+
+    <!-- Question 3: Treatments -->
+    <div class="conversation-divider" data-step="13">
+        <span>What He Would Not Want</span>
+    </div>
+
+    <div class="message-row sage" data-step="14">
+        <div class="avatar sage-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" style="fill:none;stroke:#fff;"/><path d="M12 6c0 4-3 6-3 10h6c0-4-3-6-3-10z" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Sage</span>
+            <p>This next question is harder, and you can take your time with it.</p>
+            <p>Are there any treatments you would not want — even if they might extend your life? Some people feel strongly about being on a breathing machine. Others feel strongly about being kept alive if they cannot recognize their family. There is no right answer. Only your answer.</p>
+        </div>
+    </div>
+
+    <div class="message-row robert" data-step="15">
+        <div class="avatar robert-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" style="fill:#fff;"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Robert</span>
+            I watched Margaret — my wife — go through three months on machines at the end. She would not have wanted that. I do not want that either. If I cannot walk to the mailbox and read my paper and know who Jess is, then it is time to let me go.
+        </div>
+    </div>
+
+    <div class="message-row sage" data-step="16">
+        <div class="avatar sage-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" style="fill:none;stroke:#fff;"/><path d="M12 6c0 4-3 6-3 10h6c0-4-3-6-3-10z" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Sage</span>
+            <p>Thank you for saying that, Robert. That took courage. And Jess — you heard him. He is telling you clearly: independence, recognition, and dignity are the lines. That is enormously valuable for you to know.</p>
+            <p>I am documenting this exactly as he said it.</p>
+        </div>
+    </div>
+
+    <!-- Question 4: Fear -->
+    <div class="conversation-divider" data-step="17">
+        <span>The Human Question</span>
+    </div>
+
+    <div class="message-row sage" data-step="18">
+        <div class="avatar sage-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" style="fill:none;stroke:#fff;"/><path d="M12 6c0 4-3 6-3 10h6c0-4-3-6-3-10z" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Sage</span>
+            Robert, what are you most afraid of about getting older?
+        </div>
+    </div>
+
+    <div class="message-row robert" data-step="19">
+        <div class="avatar robert-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" style="fill:#fff;"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Robert</span>
+            Being a burden on Jess. That is the only thing.
+        </div>
+    </div>
+
+    <div class="message-row jess" data-step="20">
+        <div class="avatar jess-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" style="fill:#fff;"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Jess</span>
+            Dad, you are not a burden.
+        </div>
+    </div>
+
+    <div class="message-row sage" data-step="21">
+        <div class="avatar sage-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" style="fill:none;stroke:#fff;"/><path d="M12 6c0 4-3 6-3 10h6c0-4-3-6-3-10z" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Sage</span>
+            Robert, that fear tells me something important — you care about Jess's wellbeing as much as she cares about yours. That is exactly why systems like this exist. So that caring for someone you love does not have to mean carrying everything alone.
+        </div>
+    </div>
+
+    <!-- Question 5: Joy -->
+    <div class="conversation-divider" data-step="22">
+        <span>What Brings Joy</span>
+    </div>
+
+    <div class="message-row sage" data-step="23">
+        <div class="avatar sage-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" style="fill:none;stroke:#fff;"/><path d="M12 6c0 4-3 6-3 10h6c0-4-3-6-3-10z" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Sage</span>
+            Last question for today. What brings you the most joy right now?
+        </div>
+    </div>
+
+    <div class="message-row robert" data-step="24">
+        <div class="avatar robert-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" style="fill:#fff;"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Robert</span>
+            Mornings with Jess. She makes coffee the way Margaret used to. And the dog comes and sits on my feet. That is a good morning.
+        </div>
+    </div>
+
+    <div class="message-row sage" data-step="25">
+        <div class="avatar sage-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" style="fill:none;stroke:#fff;"/><path d="M12 6c0 4-3 6-3 10h6c0-4-3-6-3-10z" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Sage</span>
+            <p>Coffee, continuity, and connection. That is what anchors a good life for Robert.</p>
+            <p>Every care decision we make from here will be measured against that picture — not against a chart or a diagnosis, but against mornings with Jess and a dog on his feet.</p>
+        </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="conversation-divider" data-step="26">
+        <span>Sage Summarizes</span>
+    </div>
+
+    <div class="message-row sage" data-step="27">
+        <div class="avatar sage-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" style="fill:none;stroke:#fff;"/><path d="M12 6c0 4-3 6-3 10h6c0-4-3-6-3-10z" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Sage</span>
+            <p>Robert, here is what I have documented from our conversation today. I want you both to read it and tell me if it sounds right.</p>
+        </div>
+    </div>
+
+    <!-- Summary Card -->
+    <div class="summary-card" data-step="28">
+        <h3>Robert's Care Wishes</h3>
+        <dl>
+            <dt>A Good Day</dt>
+            <dd>Coffee in the morning, reading the paper, walking to the mailbox independently, conversation with Jess, a game in the evening</dd>
+
+            <dt>Speaks For Me</dt>
+            <dd>Jess (daughter) — designated healthcare proxy</dd>
+
+            <dt>Would Not Want</dt>
+            <dd>Prolonged life support or mechanical ventilation. If he cannot walk, read, and recognize Jess, he wants to be allowed to go peacefully</dd>
+
+            <dt>Greatest Fear</dt>
+            <dd>Being a burden on Jess</dd>
+
+            <dt>Greatest Joy</dt>
+            <dd>Morning coffee with Jess. The dog on his feet. Continuity with the life he and Margaret built</dd>
+        </dl>
+        <div class="card-footer">
+            Documented by Sage on behalf of Robert. Pending physician review by Dr. Emdur.
+        </div>
+    </div>
+
+    <!-- Closing messages -->
+    <div class="message-row robert" data-step="29">
+        <div class="avatar robert-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" style="fill:#fff;"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Robert</span>
+            That is right. That is what I mean.
+        </div>
+    </div>
+
+    <div class="message-row sage" data-step="30">
+        <div class="avatar sage-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" style="fill:none;stroke:#fff;"/><path d="M12 6c0 4-3 6-3 10h6c0-4-3-6-3-10z" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Sage</span>
+            <p>Thank you, Robert. Dr. Emdur will review this and confirm that everything is documented properly.</p>
+            <p>When you are ready, I can help you create a legally binding advance directive based on what you have told me today. That document makes sure any hospital, any doctor, anywhere in the country knows exactly what Robert wants.</p>
+            <p>There is no rush. This conversation is saved and we can come back to it anytime.</p>
+        </div>
+    </div>
+
+    <div class="message-row jess" data-step="31">
+        <div class="avatar jess-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" style="fill:#fff;"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Jess</span>
+            Thank you, Sage. I have been trying to have this conversation for two years.
+        </div>
+    </div>
+
+    <div class="message-row sage" data-step="32">
+        <div class="avatar sage-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" style="fill:none;stroke:#fff;"/><path d="M12 6c0 4-3 6-3 10h6c0-4-3-6-3-10z" style="fill:#fff;"/></svg>
+        </div>
+        <div class="bubble">
+            <span class="sender-name">Sage</span>
+            Most families have. The conversation is the hardest part, and you just did it. Everything from here gets easier.
+        </div>
+    </div>
+
+</div>
+
+<!-- CTA -->
+<div class="cta-section" data-step="33">
+    <p>Every family has this conversation eventually.<br>The ones who have it early carry less alone.</p>
+    <a href="index.html" class="cta-button">Start Your Family's Conversation</a>
+</div>
+
+<footer class="page-footer">
+    <p>CareGoals is an advance care planning experience by <a href="https://co-op.care">co-op.care</a>. Sage does not provide medical advice, diagnosis, or treatment. All care wishes documents are reviewed by a licensed physician before becoming part of a legal advance directive.</p>
+    <p style="margin-top: 8px;"><a href="index.html">CareGoals</a> · <a href="sage-onboarding.html">Sage Onboarding</a></p>
+    <p style="margin-top: 8px;">
+        <a href="https://solvinghealth.com">SolvingHealth</a> ·
+        <a href="https://surgeonvalue.com">SurgeonValue</a> ·
+        <a href="https://clinicalswipe.com">ClinicalSwipe</a> ·
+        <a href="https://co-op.care">co-op.care</a> ·
+        <a href="https://comfortcard.org">ComfortCard</a>
+    </p>
+</footer>
+
+<script>
+(function() {
+    const allSteps = document.querySelectorAll('[data-step]');
+    let currentStep = 0;
+    let isAnimating = false;
+
+    function showNext() {
+        if (currentStep >= allSteps.length || isAnimating) return;
+        isAnimating = true;
+
+        const el = allSteps[currentStep];
+        el.classList.add('visible');
+        currentStep++;
+
+        const delay = 600;
+        setTimeout(function() {
+            isAnimating = false;
+        }, delay);
+    }
+
+    // Show first message on load
+    setTimeout(showNext, 700);
+
+    // Reveal on click
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.cta-button')) return;
+        showNext();
+    });
+
+    // Also reveal on scroll
+    let lastScroll = 0;
+    window.addEventListener('scroll', function() {
+        const now = Date.now();
+        if (now - lastScroll < 500) return;
+        lastScroll = now;
+        showNext();
+    });
+
+    // Keyboard: space or enter
+    document.addEventListener('keydown', function(e) {
+        if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            showNext();
+        }
+    });
+})();
+</script>
+
+</body>
+</html>

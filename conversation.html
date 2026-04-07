@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>CareGoals — Your Story, Your Wishes</title>
+<meta name="description" content="A gentle conversation about what matters most to you. Document your wishes, your story, and the things you want your family to know.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sage: #7c9a7c;
+  --sage-light: #a3bfa3;
+  --sage-dark: #5a7a5a;
+  --sage-dim: rgba(124,154,124,0.08);
+  --cream: #faf8f5;
+  --cream-dark: #f0ebe3;
+  --gold: #c9a96e;
+  --gold-dim: rgba(201,169,110,0.1);
+  --navy: #2c3e50;
+  --white: #ffffff;
+  --gray-200: #e5e7eb;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --serif: 'Newsreader', Georgia, serif;
+  --sans: 'Inter', -apple-system, sans-serif;
+}
+
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--navy);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(250,248,245,0.96);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  flex-shrink: 0;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sage-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--sage);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sage-avatar svg { width: 18px; height: 18px; color: var(--white); }
+.header-text h1 {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.header-text p {
+  font-size: 11px;
+  color: var(--gray-500);
+}
+.header-actions { display: flex; gap: 8px; }
+.print-btn {
+  padding: 6px 14px;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: var(--sans);
+  color: var(--gray-500);
+  background: var(--white);
+  cursor: pointer;
+}
+.print-btn:hover { border-color: var(--sage); color: var(--sage); }
+
+/* Chat */
+.chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  -webkit-overflow-scrolling: touch;
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Messages */
+.msg { max-width: 88%; animation: fadeUp 0.4s ease; }
+.msg-sage { align-self: flex-start; }
+.msg-user { align-self: flex-end; }
+
+.msg-bubble {
+  padding: 14px 18px;
+  border-radius: 20px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.msg-sage .msg-bubble {
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.05);
+  border-bottom-left-radius: 6px;
+  font-family: var(--serif);
+  font-size: 17px;
+  color: var(--navy);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+.msg-user .msg-bubble {
+  background: var(--sage);
+  color: var(--white);
+  border-bottom-right-radius: 6px;
+}
+
+.msg-meta {
+  font-size: 11px;
+  color: var(--gray-400);
+  margin-top: 4px;
+  padding: 0 6px;
+}
+
+/* Typing */
+.typing {
+  display: flex;
+  gap: 5px;
+  padding: 14px 18px;
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 20px;
+  border-bottom-left-radius: 6px;
+  align-self: flex-start;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+.typing span {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--sage-light);
+  animation: pulse 1.4s infinite;
+}
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+
+/* Quick replies */
+.quick-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  animation: fadeUp 0.3s ease;
+  align-self: flex-start;
+  max-width: 88%;
+}
+.qr {
+  padding: 10px 18px;
+  border: 1px solid var(--sage-light);
+  border-radius: 22px;
+  font-size: 14px;
+  font-family: var(--sans);
+  color: var(--sage-dark);
+  background: var(--white);
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1.3;
+}
+.qr:hover {
+  background: var(--sage);
+  color: var(--white);
+  border-color: var(--sage);
+}
+
+/* Care wishes summary card */
+.wishes-card {
+  background: var(--white);
+  border: 2px solid var(--sage-light);
+  border-radius: 16px;
+  padding: 24px;
+  margin: 8px 0;
+  max-width: 100%;
+  align-self: stretch;
+  animation: fadeUp 0.5s ease;
+}
+.wishes-card h3 {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--sage-dark);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.wishes-row {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+.wishes-row:last-child { border-bottom: none; }
+.wishes-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sage);
+  margin-bottom: 4px;
+}
+.wishes-value {
+  font-family: var(--serif);
+  font-size: 15px;
+  color: var(--navy);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* Input */
+.input-area {
+  padding: 12px 16px 28px;
+  background: var(--white);
+  border-top: 1px solid rgba(0,0,0,0.05);
+  flex-shrink: 0;
+}
+.input-row {
+  display: flex;
+  gap: 10px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.input-field {
+  flex: 1;
+  padding: 14px 18px;
+  border: 1px solid var(--gray-200);
+  border-radius: 24px;
+  font-size: 16px;
+  font-family: var(--sans);
+  outline: none;
+  background: var(--cream);
+  color: var(--navy);
+  -webkit-appearance: none;
+}
+.input-field:focus { border-color: var(--sage); }
+.input-field::placeholder { color: var(--gray-400); }
+.send-btn {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: var(--sage);
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.send-btn:hover { background: var(--sage-dark); }
+.send-btn svg { width: 20px; height: 20px; }
+.voice-btn {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--gray-200);
+  background: var(--cream);
+  color: var(--gray-500);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.voice-btn:hover { border-color: var(--sage); color: var(--sage); }
+.voice-btn.recording {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #ef4444;
+  animation: pulse-ring 1.5s infinite;
+}
+.voice-btn svg { width: 20px; height: 20px; }
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.3); }
+  70% { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+  100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+}
+/* Speaker toggle */
+.speaker-btn {
+  padding: 6px 14px;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: var(--sans);
+  color: var(--gray-500);
+  background: var(--white);
+  cursor: pointer;
+}
+.speaker-btn:hover { border-color: var(--sage); color: var(--sage); }
+.speaker-btn.active { background: var(--sage-dim); border-color: var(--sage); color: var(--sage-dark); }
+/* Save banner */
+.save-banner {
+  padding: 10px 16px;
+  background: var(--sage-dim);
+  border: 1px solid var(--sage-light);
+  border-radius: 12px;
+  font-size: 13px;
+  color: var(--sage-dark);
+  text-align: center;
+  animation: fadeUp 0.3s ease;
+  align-self: stretch;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 80%, 100% { opacity: 0.4; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
+/* Print */
+@media print {
+  .header, .input-area, .msg-user, .quick-replies, .typing, .msg-meta { display: none; }
+  body { background: white; overflow: visible; }
+  .chat { overflow: visible; max-width: 100%; padding: 20px; }
+  .msg-sage .msg-bubble { border: none; box-shadow: none; padding: 8px 0; font-size: 14px; }
+  .wishes-card { break-inside: avoid; border-width: 1px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="sage-avatar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="15" cy="9" r="1" fill="currentColor"/></svg>
+    </div>
+    <div class="header-text">
+      <h1>Sage</h1>
+      <p>Your care companion</p>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="speaker-btn" id="speakerBtn" onclick="toggleSpeaker()">Voice On</button>
+    <button class="print-btn" onclick="window.print()">Print</button>
+    <button class="print-btn" onclick="saveToLocal()">Save</button>
+  </div>
+</div>
+
+<div class="chat" id="chat"></div>
+
+<div class="input-area">
+  <div class="input-row">
+    <input type="text" class="input-field" id="input" placeholder="Share what's on your heart..." autocomplete="off">
+    <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()" aria-label="Voice input">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+    </button>
+    <button class="send-btn" onclick="sendMessage()" aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+const chat = document.getElementById('chat');
+const input = document.getElementById('input');
+
+let step = 0;
+let wishes = {};
+let name = '';
+
+function addMsg(text, sender) {
+  return new Promise(resolve => {
+    const d = document.createElement('div');
+    d.className = `msg msg-${sender}`;
+    const b = document.createElement('div');
+    b.className = 'msg-bubble';
+    b.innerHTML = text.replace(/\n/g, '<br>');
+    d.appendChild(b);
+    chat.appendChild(d);
+    chat.scrollTop = chat.scrollHeight;
+    setTimeout(resolve, 100);
+  });
+}
+
+function showTyping() {
+  const t = document.createElement('div');
+  t.className = 'typing'; t.id = 'typing';
+  t.innerHTML = '<span></span><span></span><span></span>';
+  chat.appendChild(t);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function hideTyping() {
+  const t = document.getElementById('typing');
+  if (t) t.remove();
+}
+
+function showQR(replies) {
+  if (!replies || !replies.length) return;
+  const c = document.createElement('div');
+  c.className = 'quick-replies'; c.id = 'qr';
+  replies.forEach(text => {
+    const btn = document.createElement('button');
+    btn.className = 'qr';
+    btn.textContent = text;
+    btn.onclick = () => { c.remove(); handleMsg(text); };
+    c.appendChild(btn);
+  });
+  chat.appendChild(c);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function showWishesCard() {
+  const card = document.createElement('div');
+  card.className = 'wishes-card';
+
+  let html = `<h3>Care Wishes for ${name || 'You'}</h3>`;
+
+  const fields = [
+    ['A Good Day Looks Like', wishes.goodDay],
+    ['Speaks For Me', wishes.proxy],
+    ['Would Not Want', wishes.wouldNotWant],
+    ['What I Value Most', wishes.values],
+    ['Message to My Family', wishes.message],
+    ['What Brings Me Joy', wishes.joy],
+  ];
+
+  fields.forEach(([label, value]) => {
+    if (value) {
+      html += `<div class="wishes-row"><div class="wishes-label">${label}</div><div class="wishes-value">"${value}"</div></div>`;
+    }
+  });
+
+  html += `<div class="wishes-row" style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(0,0,0,0.08)"><div class="wishes-label">Documented</div><div class="wishes-value" style="font-style:normal;font-family:var(--sans);font-size:13px;color:var(--gray-500)">${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}. To be reviewed by physician.</div></div>`;
+
+  card.innerHTML = html;
+  chat.appendChild(card);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+async function sageReply(text, qr, delay) {
+  showTyping();
+  return new Promise(resolve => {
+    setTimeout(async () => {
+      hideTyping();
+      await addMsg(text, 'sage');
+      try { speak(text); } catch(e) {}
+      try { saveConversation(); } catch(e) {}
+      if (qr && qr.length > 0) setTimeout(() => { showQR(qr); resolve(); }, 400);
+      else resolve();
+    }, delay || Math.min(1200 + text.length * 6, 2800));
+  });
+}
+
+const STEPS = [
+  // 0: Opening — warm, no framework jargon
+  {
+    sage: "Hi. I'm Sage.\n\nI'm glad you're here. What we're going to do is simple — just talk. About you. About what matters to you. About the things you want the people you love to understand.\n\nBy the end, you'll have something real — a document in your own words that your family and your doctor can hold onto. Not medical language. Your language.\n\nWhat's your name?",
+    qr: [],
+  },
+  // 1: Name — then ease in gently
+  {
+    handler: (msg) => {
+      // Extract name — handle "My name is X", "I'm X", "It's X", "X", etc.
+      let raw = msg.trim();
+      const patterns = [
+        /my name is (\w+)/i,
+        /i'?m (\w+)/i,
+        /it'?s (\w+)/i,
+        /call me (\w+)/i,
+        /they call me (\w+)/i,
+      ];
+      for (const p of patterns) {
+        const m = raw.match(p);
+        if (m) { raw = m[1]; break; }
+      }
+      name = raw.split(/\s+/)[0].replace(/[^a-zA-Z'-]/g, '');
+      if (name.length < 2 || ['yes','hi','hello','ok','sure','ready','hey','my','the','its','im'].includes(name.toLowerCase())) {
+        name = '';
+        return { sage: "Just your first name is perfect.", qr: [] };
+      }
+      name = name.charAt(0).toUpperCase() + name.slice(1);
+      return {
+        sage: `Hi, ${name}. It's nice to meet you.\n\nBefore we get into the big stuff, I'd love to just know a little about you. Tell me something about your life right now — it doesn't have to be about health or illness. Just... what's your life like these days?`,
+        qr: [],
+      };
+    }
+  },
+  // 2: Listen, reflect, then gently open the door
+  {
+    handler: (msg) => {
+      wishes.aboutYou = msg;
+      const lower = msg.toLowerCase();
+      let reflection;
+      if (lower.includes('grandkid') || lower.includes('grandchild') || lower.includes('family')) {
+        reflection = "Family. That says a lot about what matters to you.";
+      } else if (lower.includes('garden') || lower.includes('outside') || lower.includes('walk') || lower.includes('nature')) {
+        reflection = "There's something about being close to the earth that keeps us honest.";
+      } else if (lower.includes('read') || lower.includes('book') || lower.includes('music') || lower.includes('paint') || lower.includes('art')) {
+        reflection = "The things that feed your mind and spirit — those matter.";
+      } else if (lower.includes('tired') || lower.includes('hard') || lower.includes('sick') || lower.includes('pain') || lower.includes('difficult')) {
+        reflection = "Thank you for being honest about that. You don't have to pretend here.";
+      } else if (lower.includes('good') || lower.includes('fine') || lower.includes('okay')) {
+        reflection = "I'm glad to hear that.";
+      } else {
+        reflection = "Thank you for sharing that with me.";
+      }
+      return {
+        sage: `${reflection}\n\n${name}, here's why I asked. Everything we talk about today is going to be shaped by who you are — not your diagnosis, not your chart. You.\n\nSo let me ask you this: when you think about a really good day — not a perfect one, just one where you'd lay your head down and think, "yeah, that was good" — what does that day look like?`,
+        qr: [],
+      };
+    }
+  },
+  // 3: Good day captured — transition to proxy naturally
+  {
+    handler: (msg) => {
+      wishes.goodDay = msg;
+      return {
+        sage: `I love that picture. I want you to know — when your family reads this someday, that's the part they'll hold onto. Not the medical stuff. That.\n\nCan I ask you something a little harder now? You can always say "not yet" and we'll come back to it.\n\nIf you got really sick — too sick to tell the doctors what you want — who would you trust to speak for you? Not just someone who'd be willing, but someone who really knows you. Who really gets what you'd want.`,
+        qr: ["My spouse", "My daughter", "My son", "Let me think about that"],
+      };
+    }
+  },
+  // 4: Proxy — follow up with warmth
+  {
+    handler: (msg) => {
+      wishes.proxy = msg;
+      const lower = msg.toLowerCase();
+      let followUp;
+      if (lower.includes('spouse') || lower.includes('husband') || lower.includes('wife') || lower.includes('partner')) {
+        followUp = "Your partner. That makes sense — they know the rhythms of your days, the things you'd never put on a form.";
+      } else if (lower.includes('daughter')) {
+        followUp = "Your daughter. There's something powerful about a daughter carrying her parent's voice. She probably already knows more than you think.";
+      } else if (lower.includes('son')) {
+        followUp = "Your son. That's a big thing to hand someone. I hope he knows you trust him with it.";
+      } else if (lower.includes('friend')) {
+        followUp = "A friend. Sometimes the people who choose us know us differently than the people who are born to us. That's a beautiful choice.";
+      } else if (lower.includes('think') || lower.includes('sure') || lower.includes('know')) {
+        followUp = "That's okay. You don't have to decide right now. Just hold the question. The right person will come to mind.";
+      } else {
+        followUp = "Good. That's someone important. Make sure they know — not just that you chose them, but why.";
+      }
+      return {
+        sage: `${followUp}\n\nHave you told them? Sometimes we assume people know, but it means the world to hear it directly.`,
+        qr: ["Yes, they know", "No, I haven't told them yet", "I will after this"],
+      };
+    }
+  },
+  // 5: Transition to treatment — gently, not clinically
+  {
+    handler: (msg) => {
+      wishes.proxyTold = msg;
+      return {
+        sage: `Okay. Here's where the conversation gets a little heavier. But I want you to know — there's no right answer. There's only your answer.\n\nSome people, when they get very sick, want doctors to try everything — every machine, every treatment, every chance. And that's completely valid.\n\nOther people reach a point where they say, "I've had a full life. When it's time, let me go gently." And that's valid too.\n\nWhere do you fall, ${name}? Not what you think you're supposed to say. What you actually feel.`,
+        qr: ["Try everything — I'm not ready to go", "I want to be comfortable, not prolonged", "Somewhere in between", "I honestly don't know"],
+      };
+    }
+  },
+  // 6: Dig deeper on treatment — specific and gentle
+  {
+    handler: (msg) => {
+      wishes.treatmentGeneral = msg;
+      const lower = msg.toLowerCase();
+      let followUp;
+      if (lower.includes('everything') || lower.includes('not ready') || lower.includes('fight')) {
+        followUp = "That fire in you — that matters. Your family should know that about you. You want to fight, and they should fight with you.";
+        wishes.codeStatus = 'full code';
+      } else if (lower.includes('comfortable') || lower.includes('gentle') || lower.includes('let me go') || lower.includes('not prolonged')) {
+        followUp = "That takes a kind of courage most people don't talk about. Choosing peace over fear. Your family needs to hear that from you — so they don't carry the guilt of that decision themselves.";
+        wishes.codeStatus = 'comfort-focused';
+      } else if (lower.includes('between') || lower.includes('depends')) {
+        followUp = "That's honest. Most people are somewhere in between. Let me ask it a different way.";
+        wishes.codeStatus = 'conditional';
+      } else {
+        followUp = "That's okay. You don't have to have it figured out. Let me make it more concrete.";
+        wishes.codeStatus = 'undecided';
+      }
+      return {
+        sage: `${followUp}\n\nLet me put it simply: if your heart stopped, would you want them to try to restart it? Chest compressions, electric paddles, a tube down your throat. It's aggressive, and it doesn't always work the way TV shows it.\n\nSome people say yes. Some say no. Some say "only if the doctors think I have a real chance." All of those are okay.`,
+        qr: ["Yes, try to restart it", "No — if my heart stops, let it stop", "Only if there's a real chance", "I don't want to decide that right now"],
+      };
+    }
+  },
+  // 7: Comfort — shift to warmth
+  {
+    handler: (msg) => {
+      wishes.cpr = msg;
+      return {
+        sage: `Thank you, ${name}. You just did something most people avoid their entire lives. You said it out loud. That's brave.\n\nLet's shift to something gentler now.\n\nIf you were very sick, and the focus shifted from trying to cure you to making sure you were comfortable — what would comfort look like for you?\n\nI don't mean hospital stuff. I mean... where would you want to be? What sounds, what smells, what people around you? What makes you feel safe?`,
+        qr: [],
+      };
+    }
+  },
+  // 8: Comfort details — the small things
+  {
+    handler: (msg) => {
+      wishes.comfort = msg;
+      return {
+        sage: `That's exactly the kind of thing that gets lost in a medical chart. But it's the thing that actually matters when someone is caring for you.\n\nI'm going to ask one more comfort question, because these small details are gold for the people taking care of you:\n\nIs there a specific thing — music, a blanket, a pet, someone's hand, a window open, a prayer, total quiet — that calms you down when things feel hard?`,
+        qr: ["Music — let me tell you what kind", "Quiet. Just quiet.", "Someone's hand in mine", "Being outside or near a window", "Prayer or spiritual practice"],
+      };
+    }
+  },
+  // 9: Dignity — how you want to be treated
+  {
+    handler: (msg) => {
+      wishes.comfortDetail = msg;
+      return {
+        sage: `I'll make sure that's in your document. The people caring for you will know.\n\n${name}, here's one that surprises people — but it matters deeply.\n\nEven if you can't talk, can't open your eyes, can't respond at all — you're still you. How do you want to be treated in those moments?\n\nSome people say, "Talk to me. I might still hear you." Others say, "Don't let me look like someone I wouldn't recognize." Others say, "Just don't leave me alone in a room."\n\nWhat matters to you?`,
+        qr: [],
+      };
+    }
+  },
+  // 10: The big one — message to family
+  {
+    handler: (msg) => {
+      wishes.dignity = msg;
+      return {
+        sage: `${name}, I want you to know — what you just said? That's the part of this document that will mean the most to the people who love you. The machines, the codes, the medical decisions — those matter. But what you just told me about how you want to be treated as a person? That's what they'll carry with them.\n\nWe're almost done. This last part isn't medical at all.\n\nIf you could say one thing to the people you love — one thing you want them to hear from you, in your voice — what would it be?`,
+        qr: [],
+      };
+    }
+  },
+  // 11: Forgiveness / peace
+  {
+    handler: (msg) => {
+      wishes.message = msg;
+      return {
+        sage: `They need to hear that. More than you know.\n\nOne last thing. And you can skip this if you want — but I've found that most people feel lighter after they say it.\n\nIs there anything unfinished between you and someone you love? Something you wish you'd said, or something you'd like to let go of? Not because you have to. Because sometimes putting it into words is the thing that sets it down.`,
+        qr: ["Yes, there's something", "I think I'm at peace", "I'd rather keep that private"],
+      };
+    }
+  },
+  // 12: Joy — end on light
+  {
+    handler: (msg) => {
+      wishes.peace = msg;
+      return {
+        sage: `Thank you for trusting me with that.\n\nOkay, ${name}. Last question. And this one's easy — I promise.\n\nWhat has brought you the most joy in your life? Not what should bring you joy. What actually does. The thing that, just thinking about it right now, makes something in your chest soften a little.`,
+        qr: [],
+      };
+    }
+  },
+  // 13: Summary — show the card
+  {
+    handler: (msg) => {
+      wishes.joy = msg;
+      return {
+        sage: `${name}.\n\nDo you know what you just did? You put your whole self into words. Not your diagnosis. Not your chart number. You.\n\nI've gathered everything you shared into a document — your Care Wishes. It's below this message. You can print it and give it to:\n\n- The person who speaks for you, so they know exactly what you want\n- Your family, so they never have to guess\n- Your doctor, so it becomes part of your record\n\nA physician can review this and help make it legally binding. But even without that — what you said here today is a gift. Your family will never have to wonder. They'll know. Because you told them.`,
+        qr: ["Print my wishes", "I want to keep talking", "Thank you, Sage"],
+        showCard: true,
+      };
+    }
+  },
+  // 14+: Open-ended continuation
+  {
+    handler: (msg) => {
+      const lower = msg.toLowerCase();
+      if (lower.includes('print')) {
+        window.print();
+        return {
+          sage: "The print dialog should be open. It'll print just the document — clean, without our conversation.\n\nOne copy for your family. One for your doctor. And one somewhere it can be found.",
+          qr: ["I want to keep talking", "I think I'm done"],
+        };
+      }
+      if (lower.includes('thank') || lower.includes('done') || lower.includes('goodbye') || lower.includes('think i')) {
+        return {
+          sage: `${name}. It's been an honor.\n\nWhat you did today — sitting here, saying these things out loud — most people never do it. You did. And because you did, the people who love you will never have to carry the weight of guessing.\n\nYour words live here now. And they'll live in your family.\n\nCome back anytime. I don't forget.\n\nWith care,\nSage`,
+          qr: [],
+        };
+      }
+      if (lower.includes('afraid') || lower.includes('scared') || lower.includes('fear') || lower.includes('dying') || lower.includes('die')) {
+        return {
+          sage: `I'm not going to pretend that's not real, ${name}. It is real. And you're allowed to feel all of it.\n\nCan I tell you something? The fact that you're here, doing this, means you're not running from it. Most people run. You sat down. That's not nothing.\n\nWhat's the hardest part for you right now? Not what you think I want to hear. The real thing.`,
+          qr: [],
+        };
+      }
+      if (lower.includes('add') || lower.includes('change') || lower.includes('forgot') || lower.includes('want to say')) {
+        return {
+          sage: `Of course. Tell me — I'll add it to your document.`,
+          qr: [],
+        };
+      }
+      if (lower.includes('god') || lower.includes('pray') || lower.includes('faith') || lower.includes('heaven') || lower.includes('spirit') || lower.includes('church')) {
+        return {
+          sage: `Your faith matters here, ${name}. If that's part of how you understand what's happening — I want to honor that.\n\nIs there something specific you'd like included in your wishes about your spiritual care? A prayer, a person you'd want to visit you, a practice that brings you peace?`,
+          qr: [],
+        };
+      }
+      return {
+        sage: `I'm still here, ${name}. No clock, no agenda. If something comes to mind — something you forgot to say, something you want to add, something that's just sitting in your chest — say it. This is your space.`,
+        qr: ["I want to add something", "Tell me what happens next with this document", "I think I'm okay for now"],
+      };
+    }
+  },
+];
+
+async function handleMsg(text) {
+  await addMsg(text, 'user');
+  const existing = document.getElementById('qr');
+  if (existing) existing.remove();
+
+  let response;
+  if (step < STEPS.length) {
+    const node = STEPS[step];
+    response = node.handler ? node.handler(text) : node;
+    step++;
+  } else {
+    response = STEPS[STEPS.length - 1].handler(text);
+  }
+
+  await sageReply(response.sage, response.qr);
+
+  if (response.showCard) {
+    setTimeout(() => showWishesCard(), 600);
+  }
+}
+
+function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  handleMsg(text);
+}
+
+input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
+
+// ============================================================
+// VOICE — Web Speech API
+// ============================================================
+
+let speakEnabled = false;
+let recognition = null;
+let isRecording = false;
+
+// Text-to-Speech: Sage speaks
+function speak(text) {
+  if (!speakEnabled || !window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const clean = text.replace(/\n/g, '. ').replace(/\*\*/g, '');
+  const utterance = new SpeechSynthesisUtterance(clean);
+  utterance.rate = 0.9;
+  utterance.pitch = 1.0;
+  // Prefer a warm female voice
+  const voices = window.speechSynthesis.getVoices();
+  const preferred = voices.find(v => v.name.includes('Samantha')) ||
+                    voices.find(v => v.name.includes('Karen')) ||
+                    voices.find(v => v.name.includes('Google') && v.lang === 'en-US') ||
+                    voices.find(v => v.lang === 'en-US' && v.localService);
+  if (preferred) utterance.voice = preferred;
+  window.speechSynthesis.speak(utterance);
+}
+
+// Load voices (they load async in some browsers)
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = () => {};
+  window.speechSynthesis.getVoices();
+}
+
+function toggleSpeaker() {
+  speakEnabled = !speakEnabled;
+  const btn = document.getElementById('speakerBtn');
+  btn.textContent = speakEnabled ? 'Voice Off' : 'Voice On';
+  btn.classList.toggle('active', speakEnabled);
+}
+
+// Speech-to-Text: User talks
+function toggleVoice() {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    alert('Voice input is not supported in this browser. Please use Chrome or Safari.');
+    return;
+  }
+
+  if (isRecording) {
+    recognition.stop();
+    return;
+  }
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = true;
+  recognition.lang = 'en-US';
+
+  const voiceBtn = document.getElementById('voiceBtn');
+
+  recognition.onstart = () => {
+    isRecording = true;
+    voiceBtn.classList.add('recording');
+    input.placeholder = 'Listening...';
+  };
+
+  recognition.onresult = (event) => {
+    let transcript = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      transcript += event.results[i][0].transcript;
+    }
+    input.value = transcript;
+    // If final result, send automatically
+    if (event.results[event.results.length - 1].isFinal) {
+      setTimeout(() => {
+        if (input.value.trim()) sendMessage();
+      }, 500);
+    }
+  };
+
+  recognition.onerror = (event) => {
+    console.log('Speech error:', event.error);
+    isRecording = false;
+    voiceBtn.classList.remove('recording');
+    input.placeholder = 'Share what\'s on your heart...';
+  };
+
+  recognition.onend = () => {
+    isRecording = false;
+    voiceBtn.classList.remove('recording');
+    input.placeholder = 'Share what\'s on your heart...';
+  };
+
+  recognition.start();
+}
+
+// ============================================================
+// PERSISTENCE — localStorage + export
+// ============================================================
+
+function saveConversation() {
+  const data = {
+    name: name,
+    wishes: wishes,
+    step: step,
+    timestamp: new Date().toISOString(),
+    messages: Array.from(chat.querySelectorAll('.msg')).map(m => ({
+      sender: m.classList.contains('msg-sage') ? 'sage' : 'user',
+      text: m.querySelector('.msg-bubble').textContent,
+    })),
+  };
+  localStorage.setItem('caregoals_conversation', JSON.stringify(data));
+}
+
+function saveToLocal() {
+  saveConversation();
+  const banner = document.createElement('div');
+  banner.className = 'save-banner';
+  banner.textContent = 'Conversation saved. Your wishes are stored on this device and ready for your next visit.';
+  chat.appendChild(banner);
+  chat.scrollTop = chat.scrollHeight;
+  setTimeout(() => banner.remove(), 4000);
+}
+
+function loadConversation() {
+  try {
+    const saved = localStorage.getItem('caregoals_conversation');
+    if (!saved) return false;
+    const data = JSON.parse(saved);
+    if (!data || !data.messages || !Array.isArray(data.messages) || data.messages.length < 3) {
+      localStorage.removeItem('caregoals_conversation');
+      return false;
+    }
+    name = data.name || '';
+    wishes = data.wishes || {};
+    step = data.step || 0;
+    data.messages.forEach(function(m) {
+      var d = document.createElement('div');
+      d.className = 'msg msg-' + m.sender;
+      var b = document.createElement('div');
+      b.className = 'msg-bubble';
+      b.textContent = m.text;
+      d.appendChild(b);
+      chat.appendChild(d);
+    });
+    if (step >= 13 && Object.keys(wishes).length >= 5) {
+      showWishesCard();
+    }
+    chat.scrollTop = chat.scrollHeight;
+    setTimeout(function() {
+      sageReply((name || 'Friend') + ', welcome back. I remember our conversation. You can keep going, add to your wishes, or just sit here.');
+    }, 800);
+    return true;
+  } catch(e) {
+    console.error('Load error:', e);
+    localStorage.removeItem('caregoals_conversation');
+    return false;
+  }
+}
+
+// Start — always show something
+function startFresh() {
+  step = 1;
+  var msg = "Hi. I'm Sage.\n\nI'm glad you're here. What we're going to do is simple — just talk. About you. About what matters to you. About the things you want the people you love to understand.\n\nBy the end, you'll have something real — a document in your own words that your family and your doctor can hold onto. Not medical language. Your language.\n\nWhat's your name?";
+  addMsg(msg, 'sage');
+}
+
+// Clear any corrupted state from old redirect era
+try {
+  var old = localStorage.getItem('caregoals_conversation');
+  if (old) {
+    var parsed = JSON.parse(old);
+    if (!parsed || !parsed.messages || !Array.isArray(parsed.messages)) {
+      localStorage.removeItem('caregoals_conversation');
+    }
+  }
+} catch(e) {
+  localStorage.removeItem('caregoals_conversation');
+}
+
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    try {
+      var resumed = loadConversation();
+      if (!resumed) {
+        startFresh();
+      }
+    } catch(e) {
+      console.error('Start error:', e);
+      localStorage.removeItem('caregoals_conversation');
+      startFresh();
+    }
+    // Safety net — if chat is still empty after 2s, force start
+    setTimeout(function() {
+      if (chat.children.length === 0) {
+        localStorage.removeItem('caregoals_conversation');
+        startFresh();
+      }
+    }, 2000);
+  }, 600);
+});
+</script>
+
+</body>
+</html>
