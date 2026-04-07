@@ -903,6 +903,19 @@ function startFresh() {
   addMsg(msg, 'sage');
 }
 
+// Clear any corrupted state from old redirect era
+try {
+  var old = localStorage.getItem('caregoals_conversation');
+  if (old) {
+    var parsed = JSON.parse(old);
+    if (!parsed || !parsed.messages || !Array.isArray(parsed.messages)) {
+      localStorage.removeItem('caregoals_conversation');
+    }
+  }
+} catch(e) {
+  localStorage.removeItem('caregoals_conversation');
+}
+
 window.addEventListener('load', function() {
   setTimeout(function() {
     try {
@@ -915,6 +928,13 @@ window.addEventListener('load', function() {
       localStorage.removeItem('caregoals_conversation');
       startFresh();
     }
+    // Safety net — if chat is still empty after 2s, force start
+    setTimeout(function() {
+      if (chat.children.length === 0) {
+        localStorage.removeItem('caregoals_conversation');
+        startFresh();
+      }
+    }, 2000);
   }, 600);
 });
 </script>
