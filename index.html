@@ -1,913 +1,280 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CareGoals -- Story Preservation + Advance Care Planning</title>
-  <meta name="description" content="Record your family's stories. Preserve wishes. Plan care for generations. CareGoals helps families capture what matters — through conversation, not forms.">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --primary: #3e6750;
-      --on-primary: #ffffff;
-      --surface: #fcf9f4;
-      --surface-dim: #dcdad5;
-      --surface-container: #f0ede9;
-      --surface-container-high: #ebe8e3;
-      --on-surface: #1c1c19;
-      --secondary: #4f5e81;
-      --tertiary: #7b5800;
-      --inverse-surface: #31302d;
-      --outline: #717973;
-      --outline-variant: #c1c8c1;
-      --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
-      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      --radius: 0.25rem;
-      --radius-lg: 0.5rem;
-      --radius-xl: 0.75rem;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--sans);
-      background: var(--surface);
-      color: var(--on-surface);
-      line-height: 1.7;
-      font-size: 16px;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ---- Animations ---- */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeInUp 0.8s ease forwards;
-      animation-play-state: paused;
-    }
-    .reveal.visible {
-      animation-play-state: running;
-    }
-    .reveal.delay-1 { animation-delay: 0.15s; }
-    .reveal.delay-2 { animation-delay: 0.3s; }
-    .reveal.delay-3 { animation-delay: 0.45s; }
-
-    /* ---- Nav ---- */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(252, 249, 244, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: box-shadow 0.3s;
-    }
-    nav.scrolled { box-shadow: 0 2px 20px rgba(28, 28, 25, 0.06); }
-    .nav-brand {
-      font-family: var(--serif);
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--on-surface);
-      text-decoration: none;
-      letter-spacing: -0.02em;
-    }
-    .nav-links { display: flex; gap: 2rem; align-items: center; }
-    .nav-links a {
-      font-size: 0.875rem;
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--on-surface); }
-
-    /* ---- Section layout ---- */
-    section { padding: 6rem 2rem; }
-    .container { max-width: 1100px; margin: 0 auto; }
-    .section-label {
-      font-family: var(--sans);
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--primary);
-      margin-bottom: 1rem;
-    }
-    h1, h2, h3, h4 { font-family: var(--serif); font-weight: 600; line-height: 1.25; color: var(--on-surface); }
-    h1 { font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: -0.02em; }
-    h2 { font-size: clamp(2rem, 3.5vw, 2.75rem); letter-spacing: -0.01em; }
-    h3 { font-size: 1.5rem; }
-
-    /* ---- Hero ---- */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding-top: 5rem;
-      background: linear-gradient(175deg, var(--surface) 0%, var(--surface-container) 40%, var(--surface-container-high) 100%);
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -30%;
-      width: 80%;
-      height: 80%;
-      background: radial-gradient(ellipse, rgba(62, 103, 80, 0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero-content { position: relative; z-index: 1; max-width: 750px; }
-    .hero h1 {
-      margin-bottom: 1.5rem;
-      animation: fadeInUp 1s ease forwards;
-    }
-    .hero p {
-      font-size: clamp(1.05rem, 2vw, 1.25rem);
-      color: var(--outline);
-      max-width: 600px;
-      margin: 0 auto 2.5rem;
-      animation: fadeInUp 1s ease 0.2s forwards;
-      opacity: 0;
-    }
-    .btn-primary {
-      display: inline-block;
-      font-family: var(--sans);
-      font-size: 1rem;
-      font-weight: 500;
-      padding: 0.9rem 2.4rem;
-      background: var(--primary);
-      color: var(--on-primary);
-      border: none;
-      border-radius: 100px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
-      animation: fadeInUp 1s ease 0.4s forwards;
-      opacity: 0;
-    }
-    .btn-primary:hover { background: var(--on-surface); transform: translateY(-2px); }
-    .btn-secondary {
-      display: inline-block;
-      font-family: var(--sans);
-      font-size: 0.95rem;
-      font-weight: 500;
-      padding: 0.8rem 2rem;
-      background: transparent;
-      color: var(--primary);
-      border: 1.5px solid var(--primary);
-      border-radius: 100px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .btn-secondary:hover { background: var(--primary); color: var(--on-primary); }
-
-    /* ---- How It Works ---- */
-    .how-it-works { background: var(--surface-container); }
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3rem;
-      margin-top: 3.5rem;
-    }
-    .step {
-      text-align: center;
-      padding: 2rem 1.5rem;
-    }
-    .step-icon {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--surface);
-      border-radius: var(--radius-xl);
-    }
-    .step-icon svg { width: 36px; height: 36px; stroke: var(--primary); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-    .step-number {
-      font-family: var(--serif);
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--tertiary);
-      margin-bottom: 0.75rem;
-      letter-spacing: 0.05em;
-    }
-    .step h3 { margin-bottom: 0.75rem; }
-    .step p { font-size: 0.95rem; color: var(--outline); line-height: 1.65; }
-
-    /* ---- Features ---- */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2rem;
-      margin-top: 3.5rem;
-    }
-    .feature-card {
-      background: var(--surface-container);
-      border-radius: var(--radius-xl);
-      padding: 2.5rem;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(28, 28, 25, 0.06);
-    }
-    .feature-icon {
-      width: 48px;
-      height: 48px;
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--surface);
-      border-radius: var(--radius-lg);
-    }
-    .feature-icon svg { width: 24px; height: 24px; stroke: var(--primary); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-    .feature-card h3 { margin-bottom: 0.5rem; font-size: 1.35rem; }
-    .feature-card p { font-size: 0.95rem; color: var(--outline); }
-    .feature-tags { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .feature-tag {
-      font-size: 0.75rem;
-      font-weight: 500;
-      padding: 0.3rem 0.75rem;
-      background: rgba(62, 103, 80, 0.08);
-      color: var(--primary);
-      border-radius: 100px;
-      letter-spacing: 0.02em;
-    }
-
-    /* ---- Connection ---- */
-    .connection { background: var(--surface-container); }
-    .connection-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-      margin-top: 3rem;
-    }
-    .connection-text p {
-      font-size: 1.05rem;
-      color: var(--outline);
-      margin-bottom: 1.25rem;
-      line-height: 1.75;
-    }
-    .connection-text p:first-of-type {
-      font-family: var(--serif);
-      font-size: 1.3rem;
-      color: var(--on-surface);
-      font-style: italic;
-    }
-    .connection-list { list-style: none; margin: 1.5rem 0 2rem; }
-    .connection-list li {
-      position: relative;
-      padding-left: 1.75rem;
-      margin-bottom: 0.75rem;
-      font-size: 0.95rem;
-      color: var(--on-surface);
-    }
-    .connection-list li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0.55rem;
-      width: 8px;
-      height: 8px;
-      background: var(--tertiary);
-      border-radius: 50%;
-    }
-
-    /* ---- Phone Mockup ---- */
-    .phone-frame {
-      width: 280px;
-      height: 560px;
-      margin: 0 auto;
-      background: var(--inverse-surface);
-      border-radius: 36px;
-      padding: 12px;
-      box-shadow: 0 25px 60px rgba(28, 28, 25, 0.15), inset 0 0 0 2px #444;
-      position: relative;
-    }
-    .phone-frame::before {
-      content: '';
-      position: absolute;
-      top: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 24px;
-      background: var(--inverse-surface);
-      border-radius: 0 0 16px 16px;
-      z-index: 2;
-    }
-    .phone-screen {
-      width: 100%;
-      height: 100%;
-      border-radius: 24px;
-      overflow: hidden;
-      background: var(--surface);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 2.5rem 1.25rem 1.5rem;
-      text-align: center;
-    }
-    .phone-screen .mock-icon {
-      width: 48px;
-      height: 48px;
-      background: var(--primary);
-      border-radius: var(--radius-lg);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .phone-screen .mock-icon svg { width: 28px; height: 28px; stroke: var(--on-primary); fill: none; stroke-width: 1.5; }
-    .phone-screen h4 { font-family: var(--serif); font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--on-surface); }
-    .phone-screen .mock-subtitle { font-size: 0.7rem; color: var(--outline); margin-bottom: 1.5rem; }
-    .mock-card {
-      width: 100%;
-      background: var(--surface-container);
-      border-radius: var(--radius-lg);
-      padding: 0.75rem;
-      margin-bottom: 0.5rem;
-      text-align: left;
-    }
-    .mock-card-label { font-size: 0.6rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.08em; }
-    .mock-card-text { font-size: 0.7rem; color: var(--on-surface); margin-top: 0.2rem; font-family: var(--serif); }
-    .mock-btn {
-      margin-top: 1rem;
-      display: inline-block;
-      padding: 0.4rem 1.2rem;
-      background: var(--primary);
-      color: var(--on-primary);
-      font-size: 0.65rem;
-      border-radius: 100px;
-      font-weight: 500;
-    }
-
-    /* ---- Testimonial ---- */
-    .testimonial {
-      background: linear-gradient(175deg, var(--surface-container-high) 0%, var(--surface-container) 100%);
-      text-align: center;
-    }
-    .testimonial-quote {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    .testimonial-quote svg { width: 40px; height: 40px; fill: var(--primary); opacity: 0.3; margin-bottom: 1.5rem; }
-    .testimonial-quote blockquote {
-      font-family: var(--serif);
-      font-size: clamp(1.15rem, 2.5vw, 1.5rem);
-      font-style: italic;
-      line-height: 1.65;
-      color: var(--on-surface);
-      margin-bottom: 1.5rem;
-    }
-    .testimonial-quote cite {
-      font-family: var(--sans);
-      font-style: normal;
-      font-size: 0.9rem;
-      color: var(--outline);
-      font-weight: 500;
-    }
-
-    /* ---- Pricing ---- */
-    .pricing { text-align: center; }
-    .pricing-card {
-      max-width: 540px;
-      margin: 3rem auto 0;
-      background: var(--surface-container);
-      border-radius: var(--radius-xl);
-      padding: 3.5rem 3rem;
-    }
-    .pricing-amount {
-      font-family: var(--serif);
-      font-size: 3.5rem;
-      font-weight: 600;
-      color: var(--on-surface);
-      margin-bottom: 0.25rem;
-    }
-    .pricing-period {
-      font-size: 0.9rem;
-      color: var(--outline);
-      margin-bottom: 1.5rem;
-    }
-    .pricing-card p {
-      font-size: 1rem;
-      color: var(--outline);
-      line-height: 1.7;
-      margin-bottom: 2rem;
-    }
-
-    /* ---- Footer ---- */
-    footer {
-      padding: 3rem 2rem;
-      background: var(--inverse-surface);
-      text-align: center;
-    }
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.5rem;
-    }
-    .footer-links a {
-      font-size: 0.9rem;
-      color: var(--outline-variant);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--on-primary); }
-    .footer-tagline {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: 0.95rem;
-      color: var(--outline);
-      margin-bottom: 0.75rem;
-    }
-    .footer-copy {
-      font-size: 0.8rem;
-      color: var(--outline);
-    }
-
-    /* ---- Responsive ---- */
-    @media (max-width: 768px) {
-      section { padding: 4rem 1.25rem; }
-      .steps-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .features-grid { grid-template-columns: 1fr; }
-      .connection-content { grid-template-columns: 1fr; gap: 2.5rem; }
-      .phone-frame { width: 240px; height: 480px; }
-      .nav-links { gap: 1rem; }
-      .nav-links a { font-size: 0.8rem; }
-      .pricing-card { padding: 2.5rem 1.5rem; }
-    }
-    @media (max-width: 480px) {
-      nav { padding: 0.75rem 1rem; }
-      .nav-brand { font-size: 1.25rem; }
-      .hero { min-height: 90vh; }
-    }
-  </style>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CareGoals — The Gift of Peace of Mind</title>
+<meta name="description" content="Every life deserves more than a dash between two dates. CareGoals captures stories, preserves legacies, and generates advance directives as a natural byproduct of storytelling. The Century Plan: $1,000 for 100 years.">
+<meta property="og:title" content="CareGoals — The Gift of Peace of Mind">
+<meta property="og:description" content="Capture stories. Preserve legacies. Generate advance directives from storytelling, not forms. Century Plan: $1,000 for 100 years.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://caregoals.com">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={theme:{extend:{
+  colors:{
+    "primary":"#264f39","primary-container":"#3e6750","primary-fixed":"#c0edd0",
+    "on-primary":"#ffffff","on-primary-container":"#b6e3c6",
+    "secondary":"#58605b","secondary-container":"#dde5dd",
+    "surface":"#fcf9f4","surface-container-low":"#f6f3ee","surface-container":"#f0ede8",
+    "surface-container-high":"#ebe8e2","surface-container-highest":"#e5e2dd",
+    "surface-container-lowest":"#ffffff",
+    "on-surface":"#1c1c19","on-surface-variant":"#414943",
+    "outline":"#717973","outline-variant":"#c1c8c1",
+  },
+  fontFamily:{headline:["Newsreader","serif"],body:["Inter","sans-serif"]}
+}}}
+</script>
+<style>
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+body{background:#fcf9f4;color:#1c1c19;font-family:'Inter',sans-serif}
+h1,h2,h3,.font-serif{font-family:'Newsreader',serif}
+</style>
 </head>
-<body>
+<body class="bg-surface text-on-surface">
 
-  <!-- Nav -->
-  <nav id="nav">
-    <a href="/" class="nav-brand" style="display:inline-flex;align-items:center;gap:8px;"><img src="/favicon.svg" alt="" style="width:28px;height:28px;border-radius:6px;display:block;">CareGoals</a>
-    <div class="nav-links">
-      <a href="#how-it-works">How It Works</a>
-      <a href="#advance-directive">Advance Directive</a>
-      <a href="#start-talking">Start Talking</a>
-      <a href="https://co-op.care" target="_blank" rel="noopener">co-op.care</a>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+<div class="flex justify-between items-center px-6 md:px-12 py-4 max-w-6xl mx-auto">
+  <a href="/" class="flex items-center gap-2">
+    <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings:'FILL' 1">auto_stories</span>
+    <span class="text-xl font-serif italic text-primary">CareGoals</span>
+  </a>
+  <div class="hidden md:flex items-center gap-8">
+    <a class="text-primary font-semibold text-xs tracking-[0.15em] uppercase" href="#">Home</a>
+    <a class="text-on-surface-variant hover:text-primary transition-colors text-xs tracking-[0.15em] uppercase" href="#pillars">The Gift</a>
+    <a class="text-on-surface-variant hover:text-primary transition-colors text-xs tracking-[0.15em] uppercase" href="#record">Record</a>
+    <a class="text-on-surface-variant hover:text-primary transition-colors text-xs tracking-[0.15em] uppercase" href="#connect">Connect</a>
+  </div>
+  <a href="#gift" class="bg-primary text-on-primary px-5 py-2 rounded-lg text-sm font-medium hover:bg-primary-container transition-all">Gift This</a>
+</div>
+</nav>
+
+<main class="max-w-6xl mx-auto px-6 py-12 md:py-24">
+
+<!-- HERO -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-32">
+  <div class="lg:col-span-6 z-10">
+    <span class="font-body text-xs tracking-[0.3em] uppercase text-primary font-bold mb-4 block">Every life deserves more than a dash between two dates</span>
+    <h1 class="text-5xl md:text-7xl leading-[1.1] text-on-surface mb-8 tracking-tight italic">
+      The Gift of <br/>Peace of Mind
+    </h1>
+    <p class="text-xl text-secondary leading-relaxed mb-10 max-w-lg">
+      Ensure your family's future is shaped by love, not logistics. CareGoals captures stories, preserves legacies, and generates advance directives as a natural byproduct — not through forms, but through storytelling.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4">
+      <a href="#gift" class="px-8 py-5 rounded-lg bg-primary text-on-primary font-semibold text-lg flex items-center justify-center gap-3 shadow-lg shadow-primary/10 hover:bg-primary-container transition-all">
+        Gift this to my family <span class="material-symbols-outlined">arrow_forward</span>
+      </a>
+      <a href="#record" class="px-8 py-5 rounded-lg border border-outline-variant/30 text-primary font-semibold text-lg hover:bg-surface-container-low transition-colors text-center">
+        Record a story
+      </a>
     </div>
-  </nav>
-
-  <!-- Hero -->
-  <section class="hero" id="hero">
-    <div class="hero-content">
-      <h1>Every family has a story worth preserving.</h1>
-      <p>CareGoals helps you capture your family's stories, document wishes, and plan for a century of care.</p>
-      <a href="#how-it-works" class="btn-primary">Start Preserving</a>
+  </div>
+  <div class="lg:col-span-6 relative h-[400px] md:h-[550px]">
+    <div class="absolute inset-0 bg-surface-container-high rounded-3xl rotate-2"></div>
+    <img alt="Family legacy" class="absolute inset-0 w-full h-full object-cover rounded-3xl -rotate-2 shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwt0mimo9ykBq71mEjZ64G45LtoJR330MnbJUsL6fn0hYHYUhP9dlGiYqSn8yTm__8u3DjBIncY74p7UzQAskR7b_awqpme9M9gIBDvd7-kmTYOp5QsZnweiKTMWPgSDgopQ1aXKmHpVcYZNonBJx8LqqpBSpO1szT1kGEeaIZM3ju5_-l-wqI6lB7q3zSoZh__uu5SWUcIecCAtaXwKklE-6P12X5GSATi7EKwu6VQG-HkDnYuMRV4UT0hxkKOzSm6zvkNpbG308"/>
+    <div class="absolute -bottom-8 -left-8 hidden md:block bg-surface-container-lowest p-6 rounded-2xl shadow-xl max-w-xs border border-surface-container-high">
+      <div class="flex items-center gap-3 mb-3">
+        <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">auto_stories</span>
+        <span class="font-body text-xs uppercase tracking-widest font-bold">Polly's Legacy</span>
+      </div>
+      <p class="text-sm text-secondary italic">"We spent an afternoon recording Mom's stories. She told us things we'd never heard."</p>
+      <p class="text-xs text-outline mt-2">— A Boulder family, 50+ stories captured</p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- How It Works -->
-  <section class="how-it-works" id="how-it-works">
-    <div class="container">
-      <div class="reveal">
-        <p class="section-label">How It Works</p>
-        <h2>Three steps around the kitchen table</h2>
+
+<!-- THREE PILLARS -->
+<section class="mb-32" id="pillars">
+  <div class="text-center mb-16">
+    <h2 class="text-4xl md:text-5xl mb-4 italic">The Pillars of Comfort Care</h2>
+    <div class="w-24 h-0.5 bg-primary/20 mx-auto"></div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="md:col-span-2 bg-surface-container-low p-10 rounded-3xl group hover:bg-surface-container-lowest transition-all">
+      <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-6 text-primary">
+        <span class="material-symbols-outlined">history_edu</span>
       </div>
-      <div class="steps-grid">
-
-        <div class="step reveal delay-1">
-          <div class="step-icon">
-            <!-- Microphone SVG -->
-            <svg viewBox="0 0 24 24">
-              <path d="M12 1a4 4 0 0 0-4 4v6a4 4 0 0 0 8 0V5a4 4 0 0 0-4-4z"/>
-              <path d="M19 10v1a7 7 0 0 1-14 0v-1"/>
-              <line x1="12" y1="18" x2="12" y2="23"/>
-              <line x1="8" y1="23" x2="16" y2="23"/>
-            </svg>
-          </div>
-          <p class="step-number">Step One</p>
-          <h3>Record Stories</h3>
-          <p>Sit with your loved one. Press record. Let the stories flow.</p>
-        </div>
-
-        <div class="step reveal delay-2">
-          <div class="step-icon">
-            <!-- Clipboard/Document SVG -->
-            <svg viewBox="0 0 24 24">
-              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
-              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
-              <line x1="9" y1="12" x2="15" y2="12"/>
-              <line x1="9" y1="16" x2="13" y2="16"/>
-            </svg>
-          </div>
-          <p class="step-number">Step Two</p>
-          <h3>Document Wishes</h3>
-          <p>What matters most? Medical preferences, daily routines, legacy plans.</p>
-        </div>
-
-        <div class="step reveal delay-3">
-          <div class="step-icon">
-            <!-- People/Family SVG -->
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="7" r="3"/>
-              <path d="M12 10c-4.42 0-8 1.79-8 4v2h16v-2c0-2.21-3.58-4-8-4z"/>
-              <path d="M18 8.5a2 2 0 1 0 0-4"/>
-              <path d="M20 14c1.1.5 2 1.3 2 2.5V18"/>
-              <path d="M6 8.5a2 2 0 1 1 0-4"/>
-              <path d="M4 14c-1.1.5-2 1.3-2 2.5V18"/>
-            </svg>
-          </div>
-          <p class="step-number">Step Three</p>
-          <h3>Plan Together</h3>
-          <p>The Century Plan -- because family care doesn't end.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Features -->
-  <section class="features" id="features">
-    <div class="container">
-      <div class="reveal">
-        <p class="section-label">Features</p>
-        <h2>Everything your family needs, nothing it doesn't</h2>
-      </div>
-      <div class="features-grid">
-
-        <div class="feature-card reveal delay-1">
-          <div class="feature-icon">
-            <!-- Waveform/Voice SVG -->
-            <svg viewBox="0 0 24 24">
-              <line x1="4" y1="8" x2="4" y2="16"/>
-              <line x1="8" y1="5" x2="8" y2="19"/>
-              <line x1="12" y1="2" x2="12" y2="22"/>
-              <line x1="16" y1="5" x2="16" y2="19"/>
-              <line x1="20" y1="8" x2="20" y2="16"/>
-            </svg>
-          </div>
-          <h3>Story Recording</h3>
-          <p>Voice capture with automatic transcription. Every story gets a place on the timeline -- searchable, shareable, forever yours.</p>
-          <div class="feature-tags">
-            <span class="feature-tag">Voice Capture</span>
-            <span class="feature-tag">Transcription</span>
-            <span class="feature-tag">Timeline</span>
-          </div>
-        </div>
-
-        <div class="feature-card reveal delay-2">
-          <div class="feature-icon">
-            <!-- Heart/Shield SVG -->
-            <svg viewBox="0 0 24 24">
-              <path d="M12 22s-8-4.5-8-11.8A5.2 5.2 0 0 1 12 5.1a5.2 5.2 0 0 1 8 5.1C20 17.5 12 22 12 22z"/>
-            </svg>
-          </div>
-          <h3>Advance Care Planning</h3>
-          <p>Wishes. Medical preferences. Legacy decisions. Documented with clarity, stored with care, shared on your terms.</p>
-          <div class="feature-tags">
-            <span class="feature-tag">Wishes</span>
-            <span class="feature-tag">Medical Preferences</span>
-            <span class="feature-tag">Legacy</span>
-          </div>
-        </div>
-
-        <div class="feature-card reveal delay-1">
-          <div class="feature-icon">
-            <!-- Calendar/Milestone SVG -->
-            <svg viewBox="0 0 24 24">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-              <line x1="16" y1="2" x2="16" y2="6"/>
-              <line x1="8" y1="2" x2="8" y2="6"/>
-              <line x1="3" y1="10" x2="21" y2="10"/>
-              <circle cx="12" cy="16" r="2"/>
-            </svg>
-          </div>
-          <h3>Century Plan</h3>
-          <p>Long-term family care milestones. From next month to the next generation -- a living roadmap that grows with your family.</p>
-          <div class="feature-tags">
-            <span class="feature-tag">Milestones</span>
-            <span class="feature-tag">Family Roadmap</span>
-            <span class="feature-tag">Generations</span>
-          </div>
-        </div>
-
-        <div class="feature-card reveal delay-2">
-          <div class="feature-icon">
-            <!-- Wallet/Card SVG -->
-            <svg viewBox="0 0 24 24">
-              <rect x="2" y="5" width="20" height="15" rx="2"/>
-              <path d="M16 12h.01"/>
-              <path d="M2 10h20"/>
-            </svg>
-          </div>
-          <h3>ComfortCard Integration</h3>
-          <p>Unlock HSA/FSA savings for family care. Your digital wallet connects CareGoals to the financial support your family deserves.</p>
-          <div class="feature-tags">
-            <span class="feature-tag">HSA/FSA</span>
-            <span class="feature-tag">Digital Wallet</span>
-            <span class="feature-tag">Savings</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- co-op.care Connection -->
-  <section class="connection" id="connection">
-    <div class="container">
-      <div class="reveal">
-        <p class="section-label">The co-op.care Connection</p>
-        <h2>The emotional heart of a health system that works for your family</h2>
-      </div>
-      <div class="connection-content">
-        <div class="connection-text reveal delay-1">
-          <p>CareGoals is the emotional heart of co-op.care -- the health system that works for your family.</p>
-          <p>The stories you record, the wishes you document, the plans you make -- none of it lives in isolation. Everything connects.</p>
-          <ul class="connection-list">
-            <li>Stories you capture become part of your Living Profile</li>
-            <li>Wishes you document inform your care plan</li>
-            <li>The Century Plan guides your family's care journey for generations</li>
-          </ul>
-          <a href="https://co-op.care" target="_blank" rel="noopener" class="btn-secondary">Learn more about co-op.care</a>
-        </div>
-        <div class="reveal delay-2">
-          <div class="phone-frame">
-            <div class="phone-screen">
-              <div class="mock-icon">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 22s-8-4.5-8-11.8A5.2 5.2 0 0 1 12 5.1a5.2 5.2 0 0 1 8 5.1C20 17.5 12 22 12 22z"/>
-                </svg>
-              </div>
-              <h4>CareGoals</h4>
-              <p class="mock-subtitle">Your family's story. Your family's plan.</p>
-              <div class="mock-card">
-                <p class="mock-card-label">Latest Story</p>
-                <p class="mock-card-text">"The summer we drove to the lake..."</p>
-              </div>
-              <div class="mock-card">
-                <p class="mock-card-label">Care Wishes</p>
-                <p class="mock-card-text">3 preferences documented</p>
-              </div>
-              <div class="mock-card">
-                <p class="mock-card-label">Century Plan</p>
-                <p class="mock-card-text">Next milestone: May 2026</p>
-              </div>
-              <span class="mock-btn">Record a Story</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Advance Directive Creator -->
-  <section class="how-it-works" id="advance-directive" style="background: var(--inverse-surface); color: var(--on-primary);">
-    <div class="container">
-      <div class="reveal">
-        <p class="section-label" style="color: var(--tertiary);">Advance Care Planning</p>
-        <h2 style="color: var(--on-primary);">The conversation that changes everything</h2>
-      </div>
-      <div style="max-width: 640px; margin: 2rem auto 0;">
-        <p class="reveal delay-1" style="font-family: var(--serif); font-size: 1.2rem; font-style: italic; color: var(--outline-variant); line-height: 1.7; margin-bottom: 2rem;">
-          Most families never have this conversation. Not because they don't care -- because they don't know where to start. Sage starts it for you.
-        </p>
-        <div class="reveal delay-2" style="margin-bottom: 3rem;">
-          <p style="color: var(--outline-variant); margin-bottom: 1.5rem;">Inspired by Five Wishes, the most widely used advance directive in America, Sage walks your family through five questions that matter:</p>
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <div style="background: rgba(255,255,255,0.05); border-radius: var(--radius-xl); padding: 1.25rem 1.5rem; border-left: 3px solid var(--tertiary);">
-              <p style="font-weight: 600; color: var(--on-primary); margin-bottom: 0.25rem;">1. Who speaks for me when I can't?</p>
-              <p style="font-size: 0.9rem; color: var(--outline-variant);">Your healthcare proxy -- the person who knows your heart.</p>
-            </div>
-            <div style="background: rgba(255,255,255,0.05); border-radius: var(--radius-xl); padding: 1.25rem 1.5rem; border-left: 3px solid var(--tertiary);">
-              <p style="font-weight: 600; color: var(--on-primary); margin-bottom: 0.25rem;">2. What kind of medical treatment do I want?</p>
-              <p style="font-size: 0.9rem; color: var(--outline-variant);">Life support, resuscitation, ventilators -- your preferences, documented clearly.</p>
-            </div>
-            <div style="background: rgba(255,255,255,0.05); border-radius: var(--radius-xl); padding: 1.25rem 1.5rem; border-left: 3px solid var(--tertiary);">
-              <p style="font-weight: 600; color: var(--on-primary); margin-bottom: 0.25rem;">3. How comfortable do I want to be?</p>
-              <p style="font-size: 0.9rem; color: var(--outline-variant);">Pain management, dignity, surroundings -- the details that define quality of life.</p>
-            </div>
-            <div style="background: rgba(255,255,255,0.05); border-radius: var(--radius-xl); padding: 1.25rem 1.5rem; border-left: 3px solid var(--tertiary);">
-              <p style="font-weight: 600; color: var(--on-primary); margin-bottom: 0.25rem;">4. How do I want people to treat me?</p>
-              <p style="font-size: 0.9rem; color: var(--outline-variant);">Bathing, grooming, music, prayers, visitors -- what presence looks like.</p>
-            </div>
-            <div style="background: rgba(255,255,255,0.05); border-radius: var(--radius-xl); padding: 1.25rem 1.5rem; border-left: 3px solid var(--tertiary);">
-              <p style="font-weight: 600; color: var(--on-primary); margin-bottom: 0.25rem;">5. What do I want my loved ones to know?</p>
-              <p style="font-size: 0.9rem; color: var(--outline-variant);">Forgiveness, gratitude, final messages -- the words that outlive us.</p>
-            </div>
-          </div>
-        </div>
-        <div class="reveal delay-3" style="text-align: center;">
-          <p style="color: var(--outline-variant); margin-bottom: 1.5rem; font-size: 1.05rem;">
-            Sage guides the conversation. You talk. It listens. At the end, you get a complete advance directive -- generated from your own words, not a form.
-          </p>
-          <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
-            <button onclick="document.getElementById('sv-vbtn')?.click()" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; background: var(--primary); color: var(--on-primary); border: none; border-radius: 100px; font-size: 1rem; font-weight: 600; cursor: pointer; font-family: var(--sans); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
-              Start the conversation with Sage
-            </button>
-            <button onclick="document.getElementById('sh-chat-btn')?.click()" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; background: transparent; color: var(--outline-variant); border: 1px solid var(--outline); border-radius: 100px; font-size: 1rem; font-weight: 500; cursor: pointer; font-family: var(--sans); transition: all 0.2s;" onmouseover="this.style.borderColor='var(--on-primary)';this.style.color='var(--on-primary)'" onmouseout="this.style.borderColor='var(--outline)';this.style.color='var(--outline-variant)'">
-              Or type instead
-            </button>
-          </div>
-          <p style="font-size: 0.85rem; color: var(--outline); margin-top: 1.5rem;">
-            Medicare covers advance care planning conversations (CPT 99497/99498). Your physician can bill for the time.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Conversation Starters -->
-  <section class="how-it-works" id="start-talking">
-    <div class="container">
-      <div class="reveal">
-        <p class="section-label">Start Talking</p>
-        <h2>Not sure where to begin? Try one of these.</h2>
-      </div>
-      <div style="max-width: 640px; margin: 2rem auto 0; display: flex; flex-direction: column; gap: 0.75rem;">
-        <button onclick="document.getElementById('sh-chat-btn')?.click()" style="width: 100%; text-align: left; padding: 1.25rem 1.5rem; background: var(--surface-container); border: 1px solid var(--outline-variant); border-radius: var(--radius-xl); font-size: 1rem; color: var(--on-surface); cursor: pointer; font-family: var(--sans); transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--surface-container-high)'" onmouseout="this.style.borderColor='var(--outline-variant)';this.style.background='var(--surface-container)'">
-          "I want to create an advance directive but I don't know where to start."
-        </button>
-        <button onclick="document.getElementById('sh-chat-btn')?.click()" style="width: 100%; text-align: left; padding: 1.25rem 1.5rem; background: var(--surface-container); border: 1px solid var(--outline-variant); border-radius: var(--radius-xl); font-size: 1rem; color: var(--on-surface); cursor: pointer; font-family: var(--sans); transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--surface-container-high)'" onmouseout="this.style.borderColor='var(--outline-variant)';this.style.background='var(--surface-container)'">
-          "How do I talk to my parents about end-of-life wishes?"
-        </button>
-        <button onclick="document.getElementById('sh-chat-btn')?.click()" style="width: 100%; text-align: left; padding: 1.25rem 1.5rem; background: var(--surface-container); border: 1px solid var(--outline-variant); border-radius: var(--radius-xl); font-size: 1rem; color: var(--on-surface); cursor: pointer; font-family: var(--sans); transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--surface-container-high)'" onmouseout="this.style.borderColor='var(--outline-variant)';this.style.background='var(--surface-container)'">
-          "What's the difference between a living will and a healthcare proxy?"
-        </button>
-        <button onclick="document.getElementById('sh-chat-btn')?.click()" style="width: 100%; text-align: left; padding: 1.25rem 1.5rem; background: var(--surface-container); border: 1px solid var(--outline-variant); border-radius: var(--radius-xl); font-size: 1rem; color: var(--on-surface); cursor: pointer; font-family: var(--sans); transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--surface-container-high)'" onmouseout="this.style.borderColor='var(--outline-variant)';this.style.background='var(--surface-container)'">
-          "My mom was just diagnosed with dementia. What should we do now?"
-        </button>
-        <button onclick="document.getElementById('sh-chat-btn')?.click()" style="width: 100%; text-align: left; padding: 1.25rem 1.5rem; background: var(--surface-container); border: 1px solid var(--outline-variant); border-radius: var(--radius-xl); font-size: 1rem; color: var(--on-surface); cursor: pointer; font-family: var(--sans); transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--surface-container-high)'" onmouseout="this.style.borderColor='var(--outline-variant)';this.style.background='var(--surface-container)'">
-          "Is hospice the same as giving up?"
-        </button>
-        <button onclick="document.getElementById('sh-chat-btn')?.click()" style="width: 100%; text-align: left; padding: 1.25rem 1.5rem; background: var(--surface-container); border: 1px solid var(--outline-variant); border-radius: var(--radius-xl); font-size: 1rem; color: var(--on-surface); cursor: pointer; font-family: var(--sans); transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--surface-container-high)'" onmouseout="this.style.borderColor='var(--outline-variant)';this.style.background='var(--surface-container)'">
-          "I want to record my father's stories before it's too late."
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- DIGITAL HEIRLOOM PREVIEW (Stitch cherry-pick) -->
-  <section style="background: linear-gradient(135deg, #264f39, #3e6750); padding: 5rem 2rem; color: #fff; text-align: center;">
-    <div class="container">
-      <div class="reveal">
-        <p style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.6; margin-bottom: 1rem;">The Digital Heirloom</p>
-        <h2 style="font-size: 2rem; margin-bottom: 0.75rem; font-family: 'Newsreader', Georgia, serif; font-style: italic;">What was your favorite childhood memory?</h2>
-        <p style="opacity: 0.7; max-width: 480px; margin: 0 auto 2rem; line-height: 1.7;">Open a conversation. Ask the questions only you would think to ask. Every answer is captured, transcribed, and preserved for generations.</p>
-      </div>
-      <div class="reveal delay-1" style="max-width: 360px; margin: 0 auto; background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.12); border-radius: 24px; padding: 2rem; text-align: center;">
-        <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
-        </div>
-        <div style="display: flex; justify-content: center; align-items: center; gap: 3px; margin-bottom: 1.5rem; height: 40px;">
-          <div style="width:3px;height:12px;background:rgba(255,255,255,0.3);border-radius:2px;"></div>
-          <div style="width:3px;height:24px;background:rgba(255,255,255,0.5);border-radius:2px;"></div>
-          <div style="width:3px;height:36px;background:rgba(255,255,255,0.7);border-radius:2px;"></div>
-          <div style="width:3px;height:28px;background:rgba(255,255,255,0.6);border-radius:2px;"></div>
-          <div style="width:3px;height:16px;background:rgba(255,255,255,0.4);border-radius:2px;"></div>
-          <div style="width:3px;height:32px;background:rgba(255,255,255,0.65);border-radius:2px;"></div>
-          <div style="width:3px;height:20px;background:rgba(255,255,255,0.45);border-radius:2px;"></div>
-          <div style="width:3px;height:28px;background:rgba(255,255,255,0.55);border-radius:2px;"></div>
-          <div style="width:3px;height:14px;background:rgba(255,255,255,0.35);border-radius:2px;"></div>
-          <div style="width:3px;height:22px;background:rgba(255,255,255,0.5);border-radius:2px;"></div>
-        </div>
-        <p style="font-size: 0.85rem; opacity: 0.7;">Tap to start recording a story</p>
-        <p style="font-size: 0.7rem; opacity: 0.4; margin-top: 0.5rem;">Stories are transcribed, preserved, and woven into your advance directive</p>
-      </div>
-      <div class="reveal delay-2" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 2.5rem;">
-        <div style="text-align: center;"><div style="font-size: 2rem; font-weight: 800;">50+</div><div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.5;">Stories captured</div></div>
-        <div style="text-align: center;"><div style="font-size: 2rem; font-weight: 800;">100yr</div><div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.5;">Century Plan</div></div>
-        <div style="text-align: center;"><div style="font-size: 2rem; font-weight: 800;">$1,000</div><div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.5;">Legacy preserved forever</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Connect Your AI -->
-  <section style="background: var(--surface-container); padding: 5rem 2rem; text-align: center;" id="connector">
-    <div class="container">
-      <div class="reveal">
-        <h2>Connect your AI</h2>
-        <p style="color: var(--outline); font-size: 1.05rem; margin-top: 1rem; max-width: 540px; margin-left: auto; margin-right: auto;">
-          Add the SolvingHealth connector to Claude, or paste a conversation starter into any AI.
-        </p>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 640px; margin: 2rem auto; text-align: left;">
-        <div class="reveal delay-1" style="background: var(--surface); border: 1px solid var(--outline-variant); border-radius: var(--radius-xl); padding: 1.5rem;">
-          <p style="font-size: 0.75rem; font-weight: 600; color: var(--outline); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem;">Claude MCP Connector</p>
-          <div style="font-size: 0.82rem; font-family: monospace; color: var(--on-surface); background: var(--surface-container); border-radius: 8px; padding: 10px 12px; word-break: break-all; margin-bottom: 0.75rem;">solvinghealth-mcp-production.up.railway.app/mcp</div>
-          <p style="font-size: 0.78rem; color: var(--outline);">223 tools. CareGoals: story capture, advance directives, legacy AI, conversation arcs.</p>
-        </div>
-        <div class="reveal delay-2" style="background: #1a237e; border-radius: var(--radius-xl); padding: 1.5rem; color: #fff;">
-          <p style="font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem;">✦ Ask any AI</p>
-          <div style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px; font-family: monospace; font-size: 0.7rem; line-height: 1.55; color: rgba(255,255,255,0.85);">You are a compassionate legacy capture guide for CareGoals. Your role is to help families preserve stories, values, and wishes through voice-first conversations. CareGoals captures life stories and generates advance care directives as a natural byproduct — not through forms, but through storytelling. The Century Plan preserves a legacy for 100 years ($1,000). Ask the user what stories they want to preserve, who they want to capture them from, and guide them through the process. Be warm, patient, and honor every story. If they mention end-of-life planning, explain that advance directives emerge naturally from the stories — no forms required. Billing: ACP (99497/99498).</div>
-          <p style="font-size: 0.65rem; color: rgba(255,255,255,0.4); margin-top: 8px;">Copy → paste into Gemini, ChatGPT, or any AI</p>
-        </div>
-      </div>
-      <p class="reveal delay-2" style="font-size: 0.9rem; color: var(--outline);">
-        Don't have Claude? Get it free at <a href="https://claude.ai" target="_blank" rel="noopener" style="color: var(--primary); font-weight: 500;">claude.ai</a> or use the chat and voice widgets on this page.
+      <h3 class="text-3xl mb-4 italic">Documented Wishes</h3>
+      <p class="text-lg text-secondary leading-relaxed max-w-md">
+        Advance directives emerge naturally from your stories — not through cold forms. CareGoals captures your values first, then generates the legal documents that reflect who you truly are.
       </p>
-    </div>
-  </section>
-
-  <!-- Testimonial -->
-  <section class="testimonial" id="testimonial">
-    <div class="container">
-      <div class="testimonial-quote reveal">
-        <!-- Quote mark SVG -->
-        <svg viewBox="0 0 24 24">
-          <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
-          <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
-        </svg>
-        <blockquote>We spent an afternoon recording Mom's stories. She told us things we'd never heard -- about her childhood, about Dad, about what she wants for her last chapter. Those recordings are priceless.</blockquote>
-        <cite>-- A Boulder family</cite>
+      <div class="mt-8 flex items-center gap-2 text-primary font-bold tracking-widest uppercase text-xs">
+        ACP billing: 99497 / 99498 <span class="material-symbols-outlined text-sm">east</span>
       </div>
     </div>
-  </section>
-
-  <!-- Pricing -->
-  <section class="pricing" id="pricing">
-    <div class="container">
-      <div class="reveal">
-        <p class="section-label">Pricing</p>
-        <h2>No barriers to preserving what matters</h2>
+    <div class="bg-primary p-10 rounded-3xl text-on-primary">
+      <div class="relative overflow-hidden h-28 -mt-10 -mx-10 rounded-t-3xl mb-6">
+        <img class="w-full h-full object-cover opacity-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTw4Afzx0lbCl1RObqvfRo9u6T95wY8qKk3TWaCUljvO19-m-3pCpkOz-WLJJceMWQb07h9AUiaHl401MJlMJvpx0oz2akpjVfOwZZQg4DdKDci8U0_ci0LunvxQ0hDkbtw1AptjYFoJViWCblnIeqGYt2BUa12CDjsmijuB8jIhPzzLMGA-Ne8Z92piYprS9-vS8ynmQopp1t0Frje5oDX5uIYvrbwxTRVVUM_Yi22fpa_T2DU9ewaeXjcUepjjHhSKcsGGkKhyI" alt="Family stories"/>
       </div>
-      <div class="pricing-card reveal delay-1">
-        <p class="pricing-amount">Free</p>
-        <p class="pricing-period">Always.</p>
-        <p>CareGoals is free because every family deserves to preserve their stories and plan their care. When you're ready for companion care, a ComfortCard, or HSA/FSA savings, co-op.care is here.</p>
-        <a href="#hero" class="btn-primary" style="opacity:1; animation:none;">Start Preserving</a>
+      <h3 class="text-2xl mb-4 italic">Shared Stories</h3>
+      <p class="text-on-primary/80 leading-relaxed">Every family has a narrative. Record voice conversations, capture memories, and preserve the "why" behind your most cherished moments. AI transcribes and organizes everything.</p>
+    </div>
+    <div class="bg-secondary-container p-10 rounded-3xl flex flex-col items-center text-center justify-center group">
+      <div class="w-20 h-20 bg-surface-container-lowest rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+        <span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings:'FILL' 1">card_giftcard</span>
+      </div>
+      <h3 class="text-2xl mb-4 italic">The Century Plan</h3>
+      <p class="text-secondary leading-relaxed mb-4">$1,000 for 100 years of preserved legacy. Gift a lifetime of stories that keeps growing as your family does.</p>
+      <span class="font-mono text-xs text-primary/60 tracking-tighter">ARCHIVAL QUALITY · FOREVER</span>
+    </div>
+    <div class="md:col-span-2 bg-surface-container-low p-10 rounded-3xl flex items-center gap-12 group">
+      <div class="flex-1">
+        <h3 class="text-3xl mb-4 italic">The Family Circle</h3>
+        <p class="text-lg text-secondary leading-relaxed">Invite your inner circle to collaborate. Share stories, assign guardians, and build a collective legacy together. When someone can't speak for themselves, the circle speaks with one voice.</p>
+      </div>
+      <div class="hidden lg:flex w-16 h-16 bg-primary/10 rounded-full items-center justify-center flex-shrink-0">
+        <span class="material-symbols-outlined text-primary text-3xl">group</span>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="footer-links">
-        <a href="https://co-op.care" target="_blank" rel="noopener">co-op.care</a>
-        <a href="https://comfortcard.org" target="_blank" rel="noopener">ComfortCard</a>
-        <a href="https://solvinghealth.com" target="_blank" rel="noopener">SolvingHealth</a>
+
+<!-- VOICE RECORDING PREVIEW -->
+<section class="mb-32" id="record">
+  <div class="bg-gradient-to-br from-primary to-primary-container rounded-[2.5rem] p-12 md:p-16 text-on-primary">
+    <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="text-xs tracking-[0.2em] uppercase opacity-60 font-bold block mb-4">The Digital Heirloom</span>
+        <h2 class="text-3xl md:text-4xl italic mb-6">What was your favorite childhood memory?</h2>
+        <p class="text-on-primary-container/80 leading-relaxed mb-8">Open a conversation. Ask the questions only you would think to ask. Every answer is captured, transcribed, and preserved for generations.</p>
+        <div class="flex flex-wrap gap-6">
+          <div><div class="text-3xl font-bold">50+</div><div class="text-xs uppercase tracking-widest opacity-50">Stories captured</div></div>
+          <div><div class="text-3xl font-bold">100yr</div><div class="text-xs uppercase tracking-widest opacity-50">Century Plan</div></div>
+          <div><div class="text-3xl font-bold">$1,000</div><div class="text-xs uppercase tracking-widest opacity-50">Legacy forever</div></div>
+        </div>
       </div>
-      <p class="footer-tagline">Part of the co-op.care family care ecosystem.</p>
-      <p class="footer-copy">&copy; 2026 co-op.care Technologies LLC. All rights reserved.</p>
+      <div class="flex justify-center">
+        <div class="bg-white/8 backdrop-blur-xl border border-white/12 rounded-[2rem] p-8 text-center max-w-[280px] w-full">
+          <div class="w-20 h-20 rounded-full bg-white/10 border-2 border-white/20 flex items-center justify-center mx-auto mb-6">
+            <span class="material-symbols-outlined text-3xl">mic</span>
+          </div>
+          <div class="flex justify-center items-end gap-[3px] h-10 mb-6">
+            <div class="w-[3px] rounded bg-white/30" style="height:30%"></div>
+            <div class="w-[3px] rounded bg-white/50" style="height:60%"></div>
+            <div class="w-[3px] rounded bg-white/70" style="height:90%"></div>
+            <div class="w-[3px] rounded bg-white/60" style="height:70%"></div>
+            <div class="w-[3px] rounded bg-white/40" style="height:40%"></div>
+            <div class="w-[3px] rounded bg-white/65" style="height:80%"></div>
+            <div class="w-[3px] rounded bg-white/45" style="height:50%"></div>
+            <div class="w-[3px] rounded bg-white/55" style="height:65%"></div>
+            <div class="w-[3px] rounded bg-white/35" style="height:35%"></div>
+            <div class="w-[3px] rounded bg-white/50" style="height:55%"></div>
+          </div>
+          <p class="text-sm opacity-70">Tap to start recording</p>
+          <p class="text-[0.65rem] opacity-40 mt-2">Stories are transcribed and woven into your directive</p>
+        </div>
+      </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script>
-    // Nav scroll effect
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 20);
-    });
 
-    // Intersection Observer for scroll animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+<!-- HERITAGE PROGRESS -->
+<section class="mb-32">
+  <div class="max-w-2xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="text-primary font-bold uppercase tracking-widest text-xs">The Journey</span>
+      <h2 class="text-3xl italic mt-2">Heritage Progress</h2>
+    </div>
+    <div class="space-y-8">
+      <div class="flex gap-6 items-start">
+        <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary flex-shrink-0 shadow-lg shadow-primary/20"><span class="material-symbols-outlined text-[18px]" style="font-variation-settings:'FILL' 1">mic</span></div>
+        <div><h4 class="font-bold text-lg mb-1">First Story Recorded</h4><p class="text-sm text-secondary">Your childhood memory, a life lesson, or a favorite recipe — start anywhere.</p></div>
+      </div>
+      <div class="flex gap-6 items-start">
+        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary flex-shrink-0"><span class="material-symbols-outlined text-[18px]">group</span></div>
+        <div><h4 class="font-bold text-lg mb-1">Family Circle Invited</h4><p class="text-sm text-secondary">A reminder to your loved ones that these stories are shared, not solo.</p></div>
+      </div>
+      <div class="flex gap-6 items-start">
+        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary flex-shrink-0"><span class="material-symbols-outlined text-[18px]">description</span></div>
+        <div><h4 class="font-bold text-lg mb-1">Advance Directive Generated</h4><p class="text-sm text-secondary">Your stories naturally produce a care directive — reflecting your real values, not checkbox answers.</p></div>
+      </div>
+      <div class="flex gap-6 items-start">
+        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary flex-shrink-0"><span class="material-symbols-outlined text-[18px]">collections_bookmark</span></div>
+        <div><h4 class="font-bold text-lg mb-1">10 Stories Archived</h4><p class="text-sm text-secondary">A living library that grows with every conversation. Your family's oral history, preserved.</p></div>
+      </div>
+      <div class="flex gap-6 items-start">
+        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary flex-shrink-0"><span class="material-symbols-outlined text-[18px]">menu_book</span></div>
+        <div><h4 class="font-bold text-lg mb-1">Print Your Heirloom Book</h4><p class="text-sm text-secondary">A physical, leather-bound volume of your family's stories. Archival quality. A century of legacy.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  </script>
 
-<script src="https://solvinghealth.com/chat-widget.js" data-channel="caregoals" data-color="#4A7C59" defer></script>
-<script src="https://solvinghealth.com/voice-embed.js" data-site="caregoals" defer></script>
-</body>
-</html>
+<!-- QUOTE -->
+<section class="py-20 border-t border-b border-outline-variant/10 flex flex-col items-center text-center max-w-4xl mx-auto mb-32">
+  <span class="material-symbols-outlined text-primary-container mb-8 text-5xl">format_quote</span>
+  <blockquote class="text-2xl md:text-4xl italic font-serif leading-snug mb-8 text-on-surface">
+    "The greatest gift you can give your family is the certainty that they are carrying your story forward, exactly as you intended."
+  </blockquote>
+  <cite class="not-italic">
+    <span class="font-body text-sm uppercase tracking-[0.2em] font-bold text-primary">Every life deserves more than a dash between two dates.</span>
+  </cite>
+</section>
+
+
+<!-- CONNECT YOUR AI -->
+<section class="mb-32" id="connect">
+  <div class="text-center mb-12">
+    <h2 class="text-3xl italic mb-4">Connect your AI</h2>
+    <p class="text-secondary">Add CareGoals to Claude, or start a legacy conversation with any AI.</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+    <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm">
+      <h3 class="font-bold text-lg mb-3">Add to Claude</h3>
+      <p class="text-secondary text-sm mb-4">Settings &rarr; Connectors &rarr; URL:</p>
+      <div class="bg-surface-container rounded-lg p-3 font-mono text-xs text-on-surface-variant break-all mb-3">solvinghealth-mcp-production.up.railway.app/mcp</div>
+      <p class="text-outline text-xs">223 tools. CareGoals: story capture, advance directives, legacy AI.</p>
+    </div>
+    <div class="bg-gradient-to-br from-[#1a237e] to-[#283593] text-white p-8 rounded-2xl">
+      <h3 class="font-bold text-lg mb-3 flex items-center gap-2"><span>✦</span> Ask any AI</h3>
+      <p class="text-white/70 text-sm mb-4">Paste into Gemini, ChatGPT, or any AI:</p>
+      <div class="bg-white/8 border border-white/12 rounded-lg p-3 font-mono text-[0.6rem] leading-relaxed text-white/85 max-h-[120px] overflow-y-auto">You are a compassionate legacy capture guide for CareGoals. Help families preserve stories, values, and wishes through voice-first conversations. CareGoals captures life stories and generates advance care directives as a natural byproduct — not through forms, but through storytelling. The Century Plan preserves a legacy for 100 years ($1,000). Ask what stories they want to preserve and guide them through the process. Be warm and patient. If they mention end-of-life planning, explain that directives emerge naturally from stories. Billing: ACP (99497/99498).</div>
+      <p class="text-white/40 text-[0.6rem] mt-3">Copy &rarr; paste &rarr; start the conversation</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- CTA -->
+<section class="mb-16" id="gift">
+  <div class="bg-surface-container-high rounded-[2.5rem] p-12 md:p-20 text-center relative overflow-hidden">
+    <div class="relative z-10">
+      <h2 class="text-4xl md:text-5xl italic mb-6">Ready to preserve your family's story?</h2>
+      <p class="text-secondary text-lg mb-10 max-w-xl mx-auto">Gift the Century Plan. Record your first story. Start the conversation that matters most.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="mailto:hello@caregoals.com" class="px-10 py-5 bg-primary text-on-primary rounded-lg font-bold text-lg shadow-lg shadow-primary/10 hover:bg-primary-container transition-all">Start Your Legacy</a>
+        <a href="https://caregoals.com/legacy-ai.html" class="px-10 py-5 border border-outline-variant/30 text-primary rounded-lg font-bold text-lg hover:bg-surface-container-low transition-colors">Explore Legacy AI</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="py-12 px-6 border-t border-outline-variant/10">
+<div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+  <div class="flex items-center gap-2">
+    <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">auto_stories</span>
+    <span class="font-serif italic text-primary">CareGoals</span>
+  </div>
+  <div class="flex flex-wrap gap-6 text-sm text-on-surface-variant">
+    <a class="hover:text-primary transition-colors" href="https://comfortcard.org">ComfortCard</a>
+    <a class="hover:text-primary transition-colors" href="https://altru.care">Altru.care</a>
+    <a class="hover:text-primary transition-colors" href="https://co-op.care">co-op.care</a>
+    <a class="hover:text-primary transition-colors" href="https://solvinghealth.com">SolvingHealth</a>
+    <a class="hover:text-primary transition-colors" href="https://clinicalswipe.com">ClinicalSwipe</a>
+  </div>
+  <p class="text-xs text-outline">© 2026 CareGoals. A co-op.care initiative.</p>
+</div>
+</footer>
+
+</body></html>
