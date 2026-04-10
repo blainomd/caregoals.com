@@ -1,354 +1,253 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html class="light" lang="en">
+<head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CareGoals — Features & Benefits</title>
-<meta name="description" content="Every feature serves one purpose: preserving what matters most. Voice-first recording, AI personality, Century Plan, and 12 features that capture stories and preserve legacies.">
-<meta property="og:title" content="CareGoals — Features & Benefits">
-<meta property="og:description" content="Voice-first legacy capture. AI personality. Century Plan. Heirloom Book. Every feature serves one purpose: preserving what matters most.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://caregoals.com/features">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Features — CareGoals</title>
+<meta name="description" content="Everything in CareGoals: Sage AI conversations, advance directives, family sharing, healthcare proxy, and more."/>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config={theme:{extend:{
-  colors:{
-    "primary":"#264f39","primary-container":"#3e6750","primary-fixed":"#c0edd0",
-    "on-primary":"#ffffff","on-primary-container":"#b6e3c6",
-    "secondary":"#58605b","secondary-container":"#dde5dd",
-    "surface":"#fcf9f4","surface-container-low":"#f6f3ee","surface-container":"#f0ede8",
-    "surface-container-high":"#ebe8e2","surface-container-highest":"#e5e2dd",
-    "surface-container-lowest":"#ffffff",
-    "on-surface":"#1c1c19","on-surface-variant":"#414943",
-    "outline":"#717973","outline-variant":"#c1c8c1",
-  },
-  fontFamily:{headline:["Newsreader","serif"],body:["Inter","sans-serif"]}
-}}}
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "surface-container-low": "#f6f3f2","surface-bright": "#fcf9f8","surface": "#fcf9f8",
+        "surface-container-highest": "#e5e2e1","background": "#fcf9f8","on-primary-container": "#98c27b",
+        "secondary": "#b02d21","secondary-container": "#fc6451","outline": "#73796c",
+        "on-surface-variant": "#43493d","surface-container-high": "#eae7e7","surface-container": "#f0eded",
+        "primary-container": "#2d5016","on-secondary": "#ffffff","on-primary": "#ffffff",
+        "on-surface": "#1c1b1b","outline-variant": "#c3c9b9","primary": "#173901",
+        "inverse-surface": "#313030","inverse-primary": "#a8d38a","on-background": "#1c1b1b"
+      },
+      borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+      fontFamily: { "headline": ["Inter"], "body": ["Inter"], "label": ["Inter"] }
+    }
+  }
+}
 </script>
 <style>
-.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
-body{background:#fcf9f4;color:#1c1c19;font-family:'Inter',sans-serif}
-h1,h2,h3,.font-serif{font-family:'Newsreader',serif}
-.editorial-shadow{box-shadow:0 1px 2px rgba(38,79,57,0.04),0 8px 24px rgba(38,79,57,0.06)}
-.editorial-shadow-lg{box-shadow:0 2px 4px rgba(38,79,57,0.04),0 16px 48px rgba(38,79,57,0.08)}
-.bento-card{transition:transform 0.3s ease,box-shadow 0.3s ease}
-.bento-card:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(38,79,57,0.06),0 20px 56px rgba(38,79,57,0.10)}
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  body { min-height: 100dvh; }
 </style>
 </head>
-<body class="bg-surface text-on-surface">
+<body class="bg-background text-on-surface font-body">
 
-<!-- NAV -->
-<nav class="sticky top-0 z-50 bg-surface/80 backdrop-blur-xl">
-<div class="flex justify-between items-center px-6 md:px-12 py-4 max-w-6xl mx-auto">
-  <a href="/" class="flex items-center gap-2">
-    <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings:'FILL' 1">auto_stories</span>
-    <span class="text-xl font-serif italic text-primary">CareGoals</span>
-  </a>
-  <div class="hidden md:flex items-center gap-8">
-    <a class="text-on-surface-variant hover:text-primary transition-colors text-xs tracking-[0.15em] uppercase" href="/">Home</a>
-    <a class="text-on-surface-variant hover:text-primary transition-colors text-xs tracking-[0.15em] uppercase" href="/#pillars">The Gift</a>
-    <a class="text-on-surface-variant hover:text-primary transition-colors text-xs tracking-[0.15em] uppercase" href="/#record">Record</a>
-    <a class="text-on-surface-variant hover:text-primary transition-colors text-xs tracking-[0.15em] uppercase" href="/#connect">Connect</a>
+<header class="fixed top-0 left-0 right-0 z-50" style="background:rgba(252,249,248,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(115,121,108,0.12);">
+  <div class="max-w-6xl mx-auto px-6 flex items-center justify-between" style="height:60px;">
+    <a href="/" class="font-extrabold text-lg tracking-tight text-primary" style="text-decoration:none;">CareGoals</a>
+    <nav class="hidden md:flex items-center gap-7">
+      <a href="conversation.html" class="text-sm font-medium text-on-surface-variant hover:text-primary" style="text-decoration:none;">Conversations</a>
+      <a href="features.html" class="text-sm font-bold text-primary" style="text-decoration:none;">Features</a>
+      <a href="https://co-op.care" class="text-sm font-medium text-on-surface-variant hover:text-primary" style="text-decoration:none;">co-op.care</a>
+      <a href="sage-onboarding.html" class="text-sm font-bold text-white px-5 py-2.5 rounded-full" style="background:#fc6451;text-decoration:none;">Start with Sage</a>
+    </nav>
   </div>
-  <a href="https://caregoals.com/#hero" class="bg-primary text-on-primary px-5 py-2 rounded-lg text-sm font-medium hover:bg-primary-container transition-all">Start Your Legacy</a>
-</div>
-</nav>
+</header>
+<div style="height:60px;"></div>
 
-<main class="max-w-6xl mx-auto px-6 py-12 md:py-24">
-
-<!-- HERO -->
-<section class="text-center mb-20 md:mb-28">
-  <span class="font-body text-xs tracking-[0.3em] uppercase text-primary font-bold mb-4 block">Features & Benefits</span>
-  <h1 class="text-4xl md:text-6xl lg:text-7xl leading-[1.1] text-on-surface mb-8 tracking-tight italic max-w-4xl mx-auto">
-    Every feature serves one purpose: preserving what matters most.
-  </h1>
-  <p class="text-xl text-secondary leading-relaxed max-w-2xl mx-auto">
-    CareGoals captures stories and preserves legacies. Not through forms or checklists, but through the conversations that make a life worth remembering.
-  </p>
+<section style="background:linear-gradient(135deg,#173901 0%,#2d5016 100%);" class="px-6 py-16">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-xs font-bold uppercase tracking-widest mb-3" style="color:rgba(168,211,138,0.7);">CareGoals</div>
+    <h1 class="text-white text-4xl font-extrabold tracking-tight mb-4">Everything in CareGoals</h1>
+    <p class="text-lg max-w-2xl" style="color:rgba(255,255,255,0.7);">Free for families. Physician-reviewed. Private by design.</p>
+  </div>
 </section>
 
+<!-- Feature grid -->
+<section class="max-w-5xl mx-auto px-6 py-16">
+  <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
 
-<!-- BENTO GRID -->
-<section class="mb-32">
-
-  <!-- Row 1: Voice Recording (large) + Story Prompts -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
-
-    <!-- 1. Voice-First Recording — spans 2 cols -->
-    <div class="md:col-span-2 bento-card bg-gradient-to-br from-primary to-primary-container rounded-3xl p-10 md:p-12 text-on-primary editorial-shadow-lg">
-      <div class="flex items-start justify-between mb-8">
-        <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center">
-          <span class="material-symbols-outlined text-3xl">mic</span>
-        </div>
-        <span class="text-xs tracking-[0.2em] uppercase opacity-50 font-bold">Core Experience</span>
-      </div>
-      <h3 class="text-3xl md:text-4xl italic mb-4">Voice-First Recording</h3>
-      <p class="text-on-primary/80 leading-relaxed text-lg max-w-lg mb-8">
-        Tap to record. AI transcribes and organizes every word. No typing, no forms, no friction. Just talk, and your stories become a searchable, preserved archive.
-      </p>
-      <div class="flex items-center gap-6">
-        <div class="flex items-end gap-[3px] h-8">
-          <div class="w-[3px] rounded bg-white/30" style="height:30%"></div>
-          <div class="w-[3px] rounded bg-white/50" style="height:60%"></div>
-          <div class="w-[3px] rounded bg-white/70" style="height:90%"></div>
-          <div class="w-[3px] rounded bg-white/60" style="height:70%"></div>
-          <div class="w-[3px] rounded bg-white/40" style="height:40%"></div>
-          <div class="w-[3px] rounded bg-white/65" style="height:80%"></div>
-          <div class="w-[3px] rounded bg-white/45" style="height:50%"></div>
-        </div>
-        <span class="text-sm opacity-60">AI transcription + auto-organization</span>
-      </div>
+    <div class="p-6 bg-surface-container-low rounded-2xl">
+      <span class="material-symbols-outlined text-3xl mb-3 block" style="color:#173901;">psychology</span>
+      <div class="font-bold text-sm text-on-surface mb-2">Sage AI conversations</div>
+      <div class="text-xs text-on-surface-variant leading-relaxed">Voice or text, no forms. Sage asks open-ended questions, listens, and builds your care summary from real conversation.</div>
     </div>
 
-    <!-- 2. Story Prompts -->
-    <div class="bento-card bg-surface-container-lowest rounded-3xl p-10 editorial-shadow flex flex-col justify-between">
-      <div>
-        <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-          <span class="material-symbols-outlined text-primary text-2xl">chat_bubble</span>
-        </div>
-        <h3 class="text-2xl italic mb-3">Story Prompts</h3>
-        <p class="text-secondary leading-relaxed">
-          Guided questions unlock memories you didn't know you had. Thoughtful prompts designed by care professionals.
-        </p>
-      </div>
-      <div class="mt-8 bg-surface-container rounded-xl p-4">
-        <p class="text-sm text-on-surface-variant italic">"What was your favorite childhood memory?"</p>
-        <p class="text-xs text-outline mt-2">1 of 200+ guided prompts</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Row 2: Advance Directive + Century Plan + Family Circle -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
-
-    <!-- 3. Advance Directive -->
-    <div class="bento-card bg-surface-container-lowest rounded-3xl p-10 editorial-shadow">
-      <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-        <span class="material-symbols-outlined text-primary text-2xl">history_edu</span>
-      </div>
-      <h3 class="text-2xl italic mb-3">Advance Directive</h3>
-      <p class="text-secondary leading-relaxed mb-6">
-        Generated naturally from your stories, not cold forms. Your values shape the document. Your voice fills every page.
-      </p>
-      <div class="flex items-center gap-2 text-primary">
-        <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1">check_circle</span>
-        <span class="text-sm font-medium">Stories in, directive out</span>
-      </div>
+    <div class="p-6 bg-surface-container-low rounded-2xl">
+      <span class="material-symbols-outlined text-3xl mb-3 block" style="color:#173901;">favorite</span>
+      <div class="font-bold text-sm text-on-surface mb-2">Values mapping</div>
+      <div class="text-xs text-on-surface-variant leading-relaxed">Structured capture of what matters most — not a checklist, a real picture of who you are and what you care about.</div>
     </div>
 
-    <!-- 4. Century Plan — featured -->
-    <div class="bento-card bg-primary/5 rounded-3xl p-10 editorial-shadow border border-primary/10">
-      <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-        <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings:'FILL' 1">diamond</span>
-      </div>
-      <h3 class="text-2xl italic mb-3">The Century Plan</h3>
-      <p class="text-secondary leading-relaxed mb-6">
-        $1,000 for 100 years of preserved legacy. A single gift that keeps growing as your family does. Archival quality, forever.
-      </p>
-      <div class="flex items-baseline gap-2">
-        <span class="text-4xl font-bold text-primary">$1,000</span>
-        <span class="text-sm text-outline">/ 100 years</span>
-      </div>
+    <div class="p-6 bg-surface-container-low rounded-2xl">
+      <span class="material-symbols-outlined text-3xl mb-3 block" style="color:#173901;">description</span>
+      <div class="font-bold text-sm text-on-surface mb-2">Advance directive drafting</div>
+      <div class="text-xs text-on-surface-variant leading-relaxed">State-specific templates. Physician-reviewed. Print, sign, and store — or use our remote online notarization (RON) where available.</div>
     </div>
 
-    <!-- 5. Family Circle -->
-    <div class="bento-card bg-surface-container-lowest rounded-3xl p-10 editorial-shadow">
-      <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-        <span class="material-symbols-outlined text-primary text-2xl">group</span>
-      </div>
-      <h3 class="text-2xl italic mb-3">Family Circle</h3>
-      <p class="text-secondary leading-relaxed mb-6">
-        Invite loved ones to collaborate on the legacy. Share stories, assign guardians, build the narrative together.
-      </p>
-      <div class="flex -space-x-2">
-        <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary">P</div>
-        <div class="w-8 h-8 rounded-full bg-primary/30 flex items-center justify-center text-xs font-bold text-primary">M</div>
-        <div class="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center text-xs font-bold text-primary">J</div>
-        <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center"><span class="material-symbols-outlined text-primary text-sm">add</span></div>
-      </div>
+    <div class="p-6 bg-surface-container-low rounded-2xl">
+      <span class="material-symbols-outlined text-3xl mb-3 block" style="color:#173901;">gavel</span>
+      <div class="font-bold text-sm text-on-surface mb-2">Healthcare proxy designation</div>
+      <div class="text-xs text-on-surface-variant leading-relaxed">Designate your proxy, give them specific guidance, and send them a notification — all in one step.</div>
+    </div>
+
+    <div class="p-6 bg-surface-container-low rounded-2xl">
+      <span class="material-symbols-outlined text-3xl mb-3 block" style="color:#173901;">family_restroom</span>
+      <div class="font-bold text-sm text-on-surface mb-2">Family sharing</div>
+      <div class="text-xs text-on-surface-variant leading-relaxed">Invite family members to view your care summary. Control exactly what they see. Everyone on the same page.</div>
+    </div>
+
+    <div class="p-6 bg-surface-container-low rounded-2xl">
+      <span class="material-symbols-outlined text-3xl mb-3 block" style="color:#173901;">stethoscope</span>
+      <div class="font-bold text-sm text-on-surface mb-2">Care team integration</div>
+      <div class="text-xs text-on-surface-variant leading-relaxed">Share your summary with your doctor, specialist, or care team. One link, always current.</div>
+    </div>
+
+    <div class="p-6 bg-surface-container-low rounded-2xl">
+      <span class="material-symbols-outlined text-3xl mb-3 block" style="color:#173901;">memory</span>
+      <div class="font-bold text-sm text-on-surface mb-2">Cumulative memory</div>
+      <div class="text-xs text-on-surface-variant leading-relaxed">Sage remembers previous conversations. Updates build on what you've already shared — no starting over.</div>
+    </div>
+
+    <div class="p-6 bg-surface-container-low rounded-2xl">
+      <span class="material-symbols-outlined text-3xl mb-3 block" style="color:#173901;">lock</span>
+      <div class="font-bold text-sm text-on-surface mb-2">Secure and private</div>
+      <div class="text-xs text-on-surface-variant leading-relaxed">End-to-end encrypted. HIPAA-compliant. Your data is never sold, never shared without your permission.</div>
+    </div>
+
+    <div class="p-6 bg-surface-container-low rounded-2xl">
+      <span class="material-symbols-outlined text-3xl mb-3 block" style="color:#173901;">auto_stories</span>
+      <div class="font-bold text-sm text-on-surface mb-2">Legacy capture</div>
+      <div class="text-xs text-on-surface-variant leading-relaxed">Record stories, messages to loved ones, and the things you want remembered. Stored in your living archive.</div>
     </div>
   </div>
-
-  <!-- Row 3: Heritage Progress (wide) + AI Personality -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
-
-    <!-- 6. Heritage Progress -->
-    <div class="bento-card bg-surface-container-lowest rounded-3xl p-10 editorial-shadow">
-      <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-        <span class="material-symbols-outlined text-primary text-2xl">trending_up</span>
-      </div>
-      <h3 class="text-2xl italic mb-3">Heritage Progress</h3>
-      <p class="text-secondary leading-relaxed mb-6">
-        Track milestones from first story to heirloom book. Every recording moves the needle.
-      </p>
-      <div class="space-y-3">
-        <div class="flex items-center gap-3">
-          <div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-xs" style="font-variation-settings:'FILL' 1">check</span></div>
-          <span class="text-sm">First story recorded</span>
-        </div>
-        <div class="flex items-center gap-3">
-          <div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-xs" style="font-variation-settings:'FILL' 1">check</span></div>
-          <span class="text-sm">Circle invited</span>
-        </div>
-        <div class="flex items-center gap-3">
-          <div class="w-6 h-6 rounded-full bg-outline-variant/30 flex items-center justify-center"><span class="text-xs text-outline">3</span></div>
-          <span class="text-sm text-outline">Directive generated</span>
-        </div>
-        <div class="flex items-center gap-3">
-          <div class="w-6 h-6 rounded-full bg-outline-variant/30 flex items-center justify-center"><span class="text-xs text-outline">4</span></div>
-          <span class="text-sm text-outline">Heirloom book</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- 7. AI Personality — spans 2 cols -->
-    <div class="md:col-span-2 bento-card bg-gradient-to-br from-[#1a237e] to-[#283593] rounded-3xl p-10 md:p-12 text-white editorial-shadow-lg">
-      <div class="flex items-start justify-between mb-8">
-        <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center">
-          <span class="material-symbols-outlined text-3xl">smart_toy</span>
-        </div>
-        <span class="text-xs tracking-[0.2em] uppercase opacity-50 font-bold">Digital Immortality</span>
-      </div>
-      <h3 class="text-3xl md:text-4xl italic mb-4">"Talk to Polly"</h3>
-      <p class="text-white/75 leading-relaxed text-lg max-w-lg mb-8">
-        An AI personality that responds using their actual words. Not a generic chatbot, but a digital reflection of a real person, built from the stories they recorded. Grandchildren can ask questions. The voice answers.
-      </p>
-      <div class="bg-white/8 backdrop-blur border border-white/12 rounded-xl p-5 max-w-md">
-        <div class="flex items-center gap-3 mb-3">
-          <div class="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center text-sm font-bold">P</div>
-          <span class="text-sm font-medium opacity-80">Polly</span>
-        </div>
-        <p class="text-sm text-white/70 italic">"Oh, that reminds me of the summer your grandfather built the porch. We used to sit out there every evening and watch the fireflies..."</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Row 4: ACP Billing + Digital Immortality + Heirloom Book -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
-
-    <!-- 8. ACP Billing -->
-    <div class="bento-card bg-surface-container-lowest rounded-3xl p-10 editorial-shadow">
-      <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-        <span class="material-symbols-outlined text-primary text-2xl">receipt_long</span>
-      </div>
-      <h3 class="text-2xl italic mb-3">ACP Billing</h3>
-      <p class="text-secondary leading-relaxed mb-6">
-        Medicare codes 99497 and 99498 for advance care planning. Story-based conversations that qualify for reimbursement.
-      </p>
-      <div class="flex gap-3">
-        <span class="bg-primary/10 text-primary text-xs font-mono font-bold px-3 py-1.5 rounded-lg">99497</span>
-        <span class="bg-primary/10 text-primary text-xs font-mono font-bold px-3 py-1.5 rounded-lg">99498</span>
-      </div>
-    </div>
-
-    <!-- 9. Digital Immortality -->
-    <div class="bento-card bg-surface-container-lowest rounded-3xl p-10 editorial-shadow">
-      <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-        <span class="material-symbols-outlined text-primary text-2xl">all_inclusive</span>
-      </div>
-      <h3 class="text-2xl italic mb-3">Digital Immortality</h3>
-      <p class="text-secondary leading-relaxed">
-        Stories preserved, searchable, and shareable forever. Your legacy lives on in a format that future generations can access, explore, and add to.
-      </p>
-    </div>
-
-    <!-- 10. Heirloom Book -->
-    <div class="bento-card bg-surface-container-lowest rounded-3xl p-10 editorial-shadow">
-      <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-        <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings:'FILL' 1">menu_book</span>
-      </div>
-      <h3 class="text-2xl italic mb-3">Heirloom Book</h3>
-      <p class="text-secondary leading-relaxed mb-6">
-        A physical, leather-bound volume printed from your digital stories. Archival quality paper. A century of family history you can hold.
-      </p>
-      <div class="flex items-center gap-2 text-primary">
-        <span class="material-symbols-outlined text-sm">auto_awesome</span>
-        <span class="text-sm font-medium">Digital to physical</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Row 5: MyDirectives (wide) + MCP Integration -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-
-    <!-- 11. MyDirectives Partnership -->
-    <div class="md:col-span-2 bento-card bg-surface-container-low rounded-3xl p-10 editorial-shadow flex flex-col md:flex-row items-start md:items-center gap-8">
-      <div class="flex-1">
-        <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-          <span class="material-symbols-outlined text-primary text-2xl">share</span>
-        </div>
-        <h3 class="text-2xl italic mb-3">MyDirectives Partnership</h3>
-        <p class="text-secondary leading-relaxed">
-          Directive storage and distribution through the nationwide MyDirectives network. Your advance directive is accessible to healthcare providers when it matters most, through the A|D Vault Exchange.
-        </p>
-      </div>
-      <div class="flex-shrink-0 bg-surface-container-lowest rounded-2xl p-6 editorial-shadow text-center">
-        <span class="material-symbols-outlined text-primary text-4xl mb-2 block">verified</span>
-        <span class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">Nationwide<br/>Registry</span>
-      </div>
-    </div>
-
-    <!-- 12. MCP Integration -->
-    <div class="bento-card bg-surface-container-lowest rounded-3xl p-10 editorial-shadow">
-      <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-        <span class="material-symbols-outlined text-primary text-2xl">hub</span>
-      </div>
-      <h3 class="text-2xl italic mb-3">MCP Integration</h3>
-      <p class="text-secondary leading-relaxed mb-6">
-        223 tools via SolvingHealth. Connect CareGoals to Claude or any AI with RAG-powered conversation starters.
-      </p>
-      <div class="bg-surface-container rounded-lg p-3 font-mono text-[0.6rem] text-on-surface-variant break-all">
-        solvinghealth-mcp-production.up.railway.app/mcp
-      </div>
-    </div>
-  </div>
-
 </section>
 
-
-<!-- QUOTE -->
-<section class="py-20 flex flex-col items-center text-center max-w-4xl mx-auto mb-20">
-  <span class="material-symbols-outlined text-primary-container mb-8 text-5xl">format_quote</span>
-  <blockquote class="text-2xl md:text-4xl italic font-serif leading-snug mb-8 text-on-surface">
-    "We spent an afternoon recording Mom's stories. She told us things we'd never heard. Now those stories are preserved forever."
-  </blockquote>
-  <cite class="not-italic">
-    <span class="font-body text-sm uppercase tracking-[0.2em] font-bold text-primary">A Boulder family, 50+ stories captured</span>
-  </cite>
+<!-- Comparison table -->
+<section class="bg-surface-container-low py-16">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="text-center mb-10">
+      <h2 class="text-2xl font-extrabold tracking-tight text-on-surface mb-2">How CareGoals compares</h2>
+      <p class="text-on-surface-variant text-sm">Most people either do nothing or rely on a paper form. CareGoals is different.</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-outline-variant">
+            <th class="text-left py-3 pr-6 font-bold text-on-surface w-48">Feature</th>
+            <th class="text-center py-3 px-4 font-bold text-primary">CareGoals</th>
+            <th class="text-center py-3 px-4 font-medium text-outline">Paper directive</th>
+            <th class="text-center py-3 px-4 font-medium text-outline">Lawyer-drafted</th>
+            <th class="text-center py-3 px-4 font-medium text-outline">Five Wishes</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-outline-variant/30">
+          <tr>
+            <td class="py-3 pr-6 text-on-surface-variant">Free</td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg text-outline">cancel</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg text-outline">cancel</span></td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-6 text-on-surface-variant">Values-based</td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg text-outline">cancel</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg text-outline">cancel</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span></td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-6 text-on-surface-variant">AI-guided conversation</td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg text-outline">cancel</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg text-outline">cancel</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg text-outline">cancel</span></td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-6 text-on-surface-variant">Family sharing</td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg text-outline">cancel</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg text-outline">cancel</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg text-outline">cancel</span></td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-6 text-on-surface-variant">Physician-reviewed</td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg text-outline">cancel</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg text-outline">cancel</span></td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-6 text-on-surface-variant">Updateable over time</td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg text-outline">cancel</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg text-outline">cancel</span></td>
+            <td class="text-center py-3 px-4"><span class="material-symbols-outlined text-lg text-outline">cancel</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </section>
 
+<!-- Pricing -->
+<section class="max-w-5xl mx-auto px-6 py-16">
+  <div class="text-center mb-10">
+    <h2 class="text-2xl font-extrabold tracking-tight text-on-surface mb-2">Pricing</h2>
+    <p class="text-on-surface-variant text-sm">CareGoals is free. Advanced features come with co-op.care membership.</p>
+  </div>
+  <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+    <div class="p-8 bg-surface-container-low rounded-2xl border-2 border-outline-variant">
+      <div class="text-xs font-bold uppercase tracking-widest text-outline mb-3">Free</div>
+      <div class="text-4xl font-black text-on-surface tracking-tighter mb-4">$0</div>
+      <ul class="space-y-2 mb-6 text-sm text-on-surface-variant">
+        <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>Sage AI conversation (first session)</li>
+        <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>Care summary document</li>
+        <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>Healthcare proxy designation</li>
+        <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>Share with 2 family members</li>
+      </ul>
+      <a href="sage-onboarding.html" class="block text-center font-bold text-sm px-6 py-3 rounded-full border-2 border-primary text-primary" style="text-decoration:none;">Start Free</a>
+    </div>
+    <div class="p-8 rounded-2xl border-2" style="background:#173901;border-color:#2d5016;">
+      <div class="text-xs font-bold uppercase tracking-widest mb-3" style="color:rgba(168,211,138,0.8);">co-op.care member</div>
+      <div class="text-4xl font-black text-white tracking-tighter mb-1">$59<span class="text-lg font-medium">/mo</span></div>
+      <div class="text-xs mb-4" style="color:rgba(255,255,255,0.5);">Includes HSA/FSA-eligible care services</div>
+      <ul class="space-y-2 mb-6 text-sm" style="color:rgba(255,255,255,0.8);">
+        <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#a8d38a;font-variation-settings:'FILL' 1;">check_circle</span>Everything in Free</li>
+        <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#a8d38a;font-variation-settings:'FILL' 1;">check_circle</span>Unlimited Sage sessions</li>
+        <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#a8d38a;font-variation-settings:'FILL' 1;">check_circle</span>Full advance directive (state-specific)</li>
+        <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#a8d38a;font-variation-settings:'FILL' 1;">check_circle</span>Unlimited family sharing</li>
+        <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#a8d38a;font-variation-settings:'FILL' 1;">check_circle</span>Care team access + co-op.care caregiver</li>
+      </ul>
+      <a href="https://co-op.care" class="block text-center font-bold text-sm px-6 py-3 rounded-full" style="background:#fc6451;color:#fff;text-decoration:none;">Join co-op.care</a>
+    </div>
+  </div>
+</section>
 
-<!-- CTA -->
-<section class="mb-16">
-  <div class="bg-gradient-to-br from-primary to-primary-container rounded-[2.5rem] p-12 md:p-20 text-center text-on-primary">
-    <h2 class="text-4xl md:text-5xl italic mb-6">Every life deserves more than a dash between two dates.</h2>
-    <p class="text-on-primary/70 text-lg mb-10 max-w-xl mx-auto">Start recording. Start preserving. Start the conversation that your family will treasure for a hundred years.</p>
-    <a href="https://caregoals.com/#hero" class="inline-flex items-center gap-3 px-10 py-5 bg-white text-primary rounded-lg font-bold text-lg shadow-lg hover:bg-surface transition-all">
-      Start Your Legacy <span class="material-symbols-outlined">arrow_forward</span>
+<section class="px-6 py-14" style="background:#173901;">
+  <div class="max-w-3xl mx-auto text-center">
+    <h2 class="text-white text-2xl font-extrabold tracking-tight mb-3">Start your first conversation</h2>
+    <p class="mb-6" style="color:rgba(255,255,255,0.7);">Free, private, 20 minutes. Sage guides you the whole way.</p>
+    <a href="sage-onboarding.html" class="inline-flex items-center gap-2 font-bold text-base px-8 py-4 rounded-full" style="background:#fc6451;color:#fff;text-decoration:none;">
+      Start with Sage <span class="material-symbols-outlined text-lg">arrow_forward</span>
     </a>
   </div>
 </section>
 
-</main>
-
-<!-- FOOTER -->
-<footer class="py-12 px-6">
-<div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-  <div class="flex items-center gap-2">
-    <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">auto_stories</span>
-    <span class="font-serif italic text-primary">CareGoals</span>
+<footer style="background:#173901;color:rgba(255,255,255,0.75);padding:48px 24px 32px;border-top:1px solid rgba(255,255,255,0.08);">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:40px;">
+      <div><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:18px;color:#fff;margin-bottom:12px;">CareGoals</div>
+        <p style="font-family:'Inter',sans-serif;font-size:13px;line-height:1.7;color:rgba(255,255,255,0.65);">AI-guided advance care planning. A co-op.care product.</p></div>
+      <div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:12px;">Plan</div>
+        <a href="conversation.html" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">Conversations</a>
+        <a href="first-session.html" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">First Session</a>
+        <a href="sage-onboarding.html" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">Start with Sage</a></div>
+      <div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:12px;">Learn</div>
+        <a href="features.html" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">Features</a>
+        <a href="gallery.html" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">Stories</a></div>
+      <div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:12px;">Company</div>
+        <a href="https://co-op.care" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">co-op.care</a></div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <span style="font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.4);">© 2026 CareGoals · A co-op.care product</span>
+      <a href="https://co-op.care" style="font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.5);text-decoration:none;">co-op.care →</a>
+    </div>
   </div>
-  <div class="flex flex-wrap gap-6 text-sm text-on-surface-variant">
-    <a class="hover:text-primary transition-colors" href="https://comfortcard.org">ComfortCard</a>
-    <a class="hover:text-primary transition-colors" href="https://altru.care">Altru.care</a>
-    <a class="hover:text-primary transition-colors" href="https://co-op.care">co-op.care</a>
-    <a class="hover:text-primary transition-colors" href="https://solvinghealth.com">SolvingHealth</a>
-    <a class="hover:text-primary transition-colors" href="https://clinicalswipe.com">ClinicalSwipe</a>
-  </div>
-  <p class="text-xs text-outline">&copy; 2026 CareGoals. A co-op.care initiative.</p>
-</div>
 </footer>
-
-</body></html>
+</body>
+</html>

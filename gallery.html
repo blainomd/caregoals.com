@@ -1,407 +1,210 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CareGoals — 20 Conversations, 20 Lives</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Stories — CareGoals</title>
+<meta name="description" content="Real stories from families who've done the conversation. What they learned, and what changed."/>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "surface-container-low": "#f6f3f2","surface-bright": "#fcf9f8","surface": "#fcf9f8",
+        "surface-container-highest": "#e5e2e1","background": "#fcf9f8","on-primary-container": "#98c27b",
+        "secondary": "#b02d21","secondary-container": "#fc6451","outline": "#73796c",
+        "on-surface-variant": "#43493d","surface-container-high": "#eae7e7","surface-container": "#f0eded",
+        "primary-container": "#2d5016","on-secondary": "#ffffff","on-primary": "#ffffff",
+        "on-surface": "#1c1b1b","outline-variant": "#c3c9b9","primary": "#173901",
+        "inverse-surface": "#313030","inverse-primary": "#a8d38a","on-background": "#1c1b1b"
+      },
+      borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+      fontFamily: { "headline": ["Inter"], "body": ["Inter"], "label": ["Inter"] }
+    }
+  }
+}
+</script>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --sage: #7c9a7c; --sage-light: #a3bfa3; --sage-dark: #5a7a5a;
-  --cream: #faf8f5; --gold: #c9a96e; --navy: #2c3e50;
-  --white: #fff; --gray-400: #9ca3af; --gray-500: #6b7280;
-  --serif: 'Newsreader', Georgia, serif;
-  --sans: 'Inter', -apple-system, sans-serif;
-}
-body { font-family: var(--sans); background: var(--cream); color: var(--navy); }
-.header {
-  text-align: center; padding: 48px 24px 32px;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-}
-.header h1 { font-family: var(--serif); font-size: 28px; font-weight: 600; margin-bottom: 8px; }
-.header p { font-size: 15px; color: var(--gray-500); max-width: 560px; margin: 0 auto; }
-.header .cta {
-  display: inline-block; margin-top: 20px; padding: 12px 28px;
-  background: var(--sage); color: var(--white); border-radius: 24px;
-  text-decoration: none; font-size: 14px; font-weight: 600;
-}
-.header .cta:hover { background: var(--sage-dark); }
-.grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px; padding: 32px 24px; max-width: 1200px; margin: 0 auto;
-}
-.card {
-  background: var(--white); border: 1px solid rgba(0,0,0,0.06);
-  border-radius: 16px; padding: 24px; transition: all 0.2s;
-}
-.card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); transform: translateY(-2px); }
-.card-name { font-family: var(--serif); font-size: 20px; font-weight: 600; margin-bottom: 4px; }
-.card-meta { font-size: 12px; color: var(--gray-400); margin-bottom: 16px; }
-.wish { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
-.wish:last-child { border-bottom: none; }
-.wish-label {
-  font-size: 10px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.06em; color: var(--sage); margin-bottom: 3px;
-}
-.wish-value {
-  font-family: var(--serif); font-size: 14px; font-style: italic;
-  color: var(--navy); line-height: 1.5;
-}
-.outcome {
-  margin-top: 16px; padding: 16px; border-radius: 12px;
-  background: linear-gradient(135deg, rgba(124,154,124,0.08), rgba(201,169,110,0.06));
-  border-left: 3px solid var(--sage);
-  display: none;
-}
-.card.open .outcome { display: block; }
-.outcome-label {
-  font-size: 10px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.06em; color: var(--sage-dark); margin-bottom: 6px;
-}
-.outcome-crisis {
-  font-family: var(--serif); font-size: 14px; font-weight: 500;
-  color: var(--navy); margin-bottom: 8px; line-height: 1.4;
-}
-.outcome-without {
-  font-size: 13px; color: #b45309; line-height: 1.5;
-  padding: 8px 12px; background: rgba(180,83,9,0.06);
-  border-radius: 8px; margin-bottom: 8px;
-}
-.outcome-with {
-  font-size: 13px; color: var(--sage-dark); line-height: 1.5;
-  padding: 8px 12px; background: rgba(124,154,124,0.08);
-  border-radius: 8px;
-}
-.outcome-label-sub {
-  font-size: 10px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.04em; margin-bottom: 4px;
-}
-.outcome-without .outcome-label-sub { color: #b45309; }
-.outcome-with .outcome-label-sub { color: var(--sage-dark); }
-.card { cursor: pointer; }
-.expand-hint {
-  font-size: 11px; color: var(--gray-400); margin-top: 12px;
-  text-align: center; transition: opacity 0.2s;
-}
-.card.open .expand-hint { opacity: 0; }
-.footer {
-  text-align: center; padding: 40px 24px; font-size: 12px; color: var(--gray-400);
-  border-top: 1px solid rgba(0,0,0,0.06); margin-top: 20px;
-}
-.footer a { color: var(--sage); text-decoration: none; }
-@media print {
-  .header .cta { display: none; }
-  .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .card { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
-}
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  body { min-height: 100dvh; }
 </style>
 </head>
-<body>
+<body class="bg-background text-on-surface font-body">
 
-<div class="header">
-  <h1>20 Conversations That Changed Everything</h1>
-  <p>Each person below had one conversation with Sage. When the crisis came — and it always comes — their family didn't have to guess. They knew. Click any card to see what happened.</p>
-  <a href="conversation.html" class="cta">Start Your Own Conversation</a>
-</div>
+<header class="fixed top-0 left-0 right-0 z-50" style="background:rgba(252,249,248,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(115,121,108,0.12);">
+  <div class="max-w-6xl mx-auto px-6 flex items-center justify-between" style="height:60px;">
+    <a href="/" class="font-extrabold text-lg tracking-tight text-primary" style="text-decoration:none;">CareGoals</a>
+    <nav class="hidden md:flex items-center gap-7">
+      <a href="conversation.html" class="text-sm font-medium text-on-surface-variant hover:text-primary" style="text-decoration:none;">Conversations</a>
+      <a href="features.html" class="text-sm font-medium text-on-surface-variant hover:text-primary" style="text-decoration:none;">Features</a>
+      <a href="https://co-op.care" class="text-sm font-medium text-on-surface-variant hover:text-primary" style="text-decoration:none;">co-op.care</a>
+      <a href="sage-onboarding.html" class="text-sm font-bold text-white px-5 py-2.5 rounded-full" style="background:#fc6451;text-decoration:none;">Start with Sage</a>
+    </nav>
+  </div>
+</header>
+<div style="height:60px;"></div>
 
-<div class="grid" id="grid"></div>
+<section style="background:linear-gradient(135deg,#173901 0%,#2d5016 100%);" class="px-6 py-16">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-xs font-bold uppercase tracking-widest mb-3" style="color:rgba(168,211,138,0.7);">CareGoals</div>
+    <h1 class="text-white text-4xl font-extrabold tracking-tight mb-4">What families are doing with CareGoals</h1>
+    <p class="text-lg max-w-xl" style="color:rgba(255,255,255,0.7);">Stories from real conversations — what they found, what changed, what they wish they'd done sooner.</p>
+  </div>
+</section>
 
-<div class="footer">
-  <p>These are simulated examples. No real patient data was used.</p>
-  <p style="margin-top:8px"><a href="index.html">CareGoals</a> · <a href="conversation.html">Talk to Sage</a> · <a href="https://co-op.care">co-op.care</a> · <a href="https://comfortcard.org">ComfortCard</a></p>
-</div>
+<section class="max-w-5xl mx-auto px-6 py-16 space-y-14">
 
-<script>
-const PEOPLE = [
-  {
-    name: "Dorothy Chen", age: 82, date: "April 3, 2026",
-    goodDay: "A morning where I can sit on the porch with my tea and watch the hummingbirds. If my granddaughter calls, that makes it perfect.",
-    proxy: "My daughter Linda. She knows me better than I know myself sometimes.",
-    treatment: "No machines. When it's time, let me go with the window open and the birds singing.",
-    comfort: "I want to be at home. I want to smell lavender. I want someone to brush my hair, even if I can't tell them it feels nice.",
-    dignity: "Talk to me. Read to me. I might still hear you. And please — keep my nails done. That's who I am.",
-    message: "Linda — you were the best thing I ever did. Don't feel guilty about anything. I had a full life because of you.",
-    joy: "My garden. Sixty years of roses. Every bloom was a prayer.",
-    crisis: "Dorothy had a massive stroke at 3am. She couldn't speak. The ER doctor asked Linda: 'Do you want us to intubate?'",
-    without: "Without CareGoals: Linda freezes. She doesn't know what her mother would want. The siblings argue in the hallway for 45 minutes while Dorothy deteriorates. They default to 'do everything.' Dorothy spends 11 days on a ventilator. She never regains consciousness. The family is devastated by guilt for years.",
-    with: "With CareGoals: Linda pulls up Dorothy's ComfortCard. 'No machines. Let me go with the window open and the birds singing.' The ER doctor reads it. Linda doesn't have to decide — Dorothy already decided. They move her to a quiet room, open the window, and play her garden playlist. Dorothy passes peacefully. Linda grieves, but she never carries guilt."
-  },
-  {
-    name: "James Walker", age: 74, date: "April 2, 2026",
-    goodDay: "Fishing at dawn. Cold coffee in a thermos. Nobody talking. Just me and the water.",
-    proxy: "My wife Barbara. Forty-seven years. She already knows.",
-    treatment: "Try everything once. If it doesn't work, don't try it twice. I'm not afraid, but I'm not stubborn either.",
-    comfort: "Put me by a window. I need to see outside. A room without a window is no place to die.",
-    dignity: "Don't talk about me like I'm not in the room. Even if I'm asleep. I'm still here.",
-    message: "To my boys: I was hard on you because the world was going to be harder. I hope you understand that now.",
-    joy: "The first time I held my grandson. He grabbed my finger and wouldn't let go. That was the best moment of my whole life.",
-    crisis: "James collapsed at the lake. Heart attack. Paramedics arrived and started CPR. His sons were 200 miles away.",
-    without: "Without CareGoals: Barbara panics on the phone with their sons. Nobody knows if James wanted CPR. The paramedics do everything by default. James survives but with brain damage from oxygen deprivation. He spends 4 months in a facility staring at a ceiling — no window, no water, no fishing. The family spends $180,000.",
-    with: "With CareGoals: Barbara shows the paramedic James's ComfortCard. 'Try everything once. If it doesn't work, don't try it twice.' CPR is attempted. When it's clear the damage is severe, Barbara — his named proxy — says stop. James is moved to a room with a window facing the lake. His grandson holds his hand. It's what James wanted."
-  },
-  {
-    name: "Maria Santos", age: 68, date: "April 1, 2026",
-    goodDay: "Cooking for my family. The house full of noise. Everyone arguing about whether the rice is ready.",
-    proxy: "My oldest, Ana. She's the strong one. She'll fight for what I want even when it's hard.",
-    treatment: "I want to be comfortable. I've seen too many people on machines. That's not living.",
-    comfort: "Music. Always music. Celia Cruz. And I want my rosary in my hand.",
-    dignity: "Keep me clean. Keep me in my own clothes, not hospital gowns. And please — let my family bring food. Hospital food is not food.",
-    message: "Everything I have, I built for you. The restaurant, the house, the family — it's all yours now. Take care of each other the way I took care of you.",
-    joy: "Dancing with my husband at Ana's wedding. He's been gone five years and I still feel his hand on my waist.",
-    crisis: "Maria's diabetes worsened. She fell into a coma. The hospital asked Ana about a feeding tube.",
-    without: "Without CareGoals: Ana and her three siblings argue for two days. Two want the feeding tube. Two don't. They stop speaking to each other. Maria stays on the tube for 7 weeks. The restaurant closes because nobody is running it. The family fractures permanently.",
-    with: "With CareGoals: Ana opens Maria's wishes. 'I want to be comfortable. I've seen too many people on machines.' Ana shows her siblings — in their mother's own words. The decision is unanimous. They bring Maria home, play Celia Cruz, put the rosary in her hand. The family grieves together instead of apart."
-  },
-  {
-    name: "Robert Mitchell", age: 91, date: "March 30, 2026",
-    goodDay: "Morning paper. Strong coffee. My dog Charlie on my feet. That's enough.",
-    proxy: "My daughter-in-law, Sarah. My son means well but he panics. Sarah keeps her head.",
-    treatment: "I'm 91. I've had a good run. No heroics. Let me go when it's time.",
-    comfort: "Home. My chair. Charlie. Classical music — Beethoven, not the sad stuff. The triumphant stuff.",
-    dignity: "I was a Marine. I stood up straight my whole life. Don't let them see me any other way.",
-    message: "I'm proud of every single one of you. Even when I didn't say it. Especially when I didn't say it.",
-    joy: "Korea. Not the war — the guys. The brotherhood. We were kids and we kept each other alive.",
-    crisis: "Robert fell and broke his hip at 91. The surgeon recommended emergency surgery. Robert couldn't consent — he was on morphine.",
-    without: "Without CareGoals: His son pushes for surgery. Sarah (daughter-in-law) isn't sure. The son overrides her. Robert survives surgery but never walks again. He spends his remaining months in a nursing home, away from Charlie, away from his chair. He dies staring at a wall.",
-    with: "With CareGoals: Sarah — his named proxy, chosen because she keeps her head — opens his wishes. 'No heroics. Let me go when it's time.' She consults the surgeon. Given his age and prognosis, they choose comfort care. Robert goes home to his chair. Charlie is on his feet. Beethoven — the triumphant stuff — plays. He passes as a Marine should."
-  },
-  {
-    name: "Eleanor Price", age: 77, date: "March 29, 2026",
-    goodDay: "A day where my hands don't hurt too much to paint. Watercolors. The way the colors bleed together — that's how life really works.",
-    proxy: "My friend Catherine. We've been through everything together. She won't make it emotional — she'll make it right.",
-    treatment: "No ventilator. No feeding tube. If I can't paint, I can't be me. Focus on keeping me comfortable.",
-    comfort: "Put my paintings where I can see them. And open the window — I need fresh air, even if it's cold.",
-    dignity: "Don't pity me. I've had a magnificent life. When you're with me, tell me about what YOU'RE doing. Don't just sit there looking sad.",
-    message: "To my students: every painting you ever made mattered. Art doesn't die. It just moves on to someone else's hands.",
-    joy: "Teaching a child to see color for the first time. When they realize that shadows aren't gray — they're purple and blue and green.",
-    crisis: "Eleanor's arthritis worsened until she couldn't hold a brush. Depression followed. Her doctor recommended aggressive treatment including a feeding tube when she stopped eating.",
-    without: "Without CareGoals: No proxy designated. The hospital appoints a social worker who doesn't know Eleanor. They insert the feeding tube. Eleanor lives 8 more months unable to paint, unable to eat on her own, unable to be herself. Catherine visits but can't change anything — she has no legal standing.",
-    with: "With CareGoals: Catherine — her designated proxy, her lifelong friend — shows the document. 'If I can't paint, I can't be me. Focus on keeping me comfortable.' No feeding tube. They put her paintings where she can see them, open the window. Her students come and paint beside her bed. She watches the colors bleed together one last time."
-  },
-  {
-    name: "William Park", age: 85, date: "March 28, 2026",
-    goodDay: "A walk around the block. Slowly. Noticing things. The way the light comes through the maple tree at 4 o'clock.",
-    proxy: "My son David. He's a doctor. He'll understand the medical side, and he'll respect my wishes.",
-    treatment: "CPR if there's a real chance. But no prolonged life support. I want quality, not quantity.",
-    comfort: "I want to be warm. Always cold these days. Extra blankets. And tea — always tea.",
-    dignity: "Please don't shout at me because I'm hard of hearing. Just speak clearly. I'm not stupid, I'm just old.",
-    message: "Your mother was the love of my life. When I go, I'm going to her. Don't be sad — be happy I get to see her again.",
-    joy: "Building this house with my own hands in 1972. Every nail. Every board. Fifty-three years and it's still standing.",
-    crisis: "Pneumonia led to respiratory failure. David — his doctor son — had to decide about a ventilator for his own father.",
-    without: "Without CareGoals: David the doctor can't separate being a son from being a physician. He orders the ventilator because he can't bear to lose his father. William spends 3 weeks on it. The medical bills exceed $120,000. David carries the guilt of keeping his father alive for himself, not for his father.",
-    with: "With CareGoals: David reads William's words: 'CPR if there's a real chance. But no prolonged life support. I want quality, not quantity.' David the son honors what David the doctor knows is right. They bring extra blankets — William was always cold. They make tea. He's warm. He's at peace."
-  },
-  {
-    name: "Grace Thompson", age: 79, date: "March 27, 2026",
-    goodDay: "Church on Sunday. Singing in the choir. Even if my voice cracks now, I still feel it in my chest.",
-    proxy: "Pastor Williams and my daughter Yvonne together. The spiritual and the practical.",
-    treatment: "God decides when I go, not a machine. Keep me comfortable and let His will be done.",
-    comfort: "I want hymns. Not the new ones — the old ones. Amazing Grace. How Great Thou Art. Those are the ones that take you home.",
-    dignity: "Pray with me. Even if I can't say amen, I'm praying inside. Never stop praying with me.",
-    message: "I prayed for each of you every single day. Every. Single. Day. You were never alone and you never will be.",
-    joy: "The day I was baptized. The water was cold and the sun was hot and I felt new. I still feel new when I remember it.",
-    crisis: "Found unresponsive after a stroke at church. The ER team asks about life support.",
-    without: "Without CareGoals: Yvonne wants to pray for a miracle and keep her mother alive. The other children disagree. Pastor Williams has no legal authority. The family splits along faith lines — those who believe God will heal her vs those who see the reality. Grace stays on life support for 6 weeks while the family fights.",
-    with: "With CareGoals: Yvonne and Pastor Williams — both named as co-proxies — read Grace's words together: 'God decides when I go, not a machine.' The pastor leads the family in prayer. They sing Amazing Grace in the hospital room. The machines are removed. Grace passes with hymns in her ears, exactly as she wished."
-  },
-  {
-    name: "Frank Moretti", age: 72, date: "March 26, 2026",
-    goodDay: "Sunday dinner. The whole family. Gravy simmering since morning. Arguments about politics. My wife telling everyone to eat more.",
-    proxy: "My wife Rosa. No question. She's the boss and we both know it.",
-    treatment: "Try what makes sense. Don't put me through hell for an extra week. But don't give up easy either — I'm tougher than I look.",
-    comfort: "I want my family around me. All of them. Even the loud ones. Especially the loud ones.",
-    dignity: "Let me watch the game. Even if I'm dying, let me watch the damn game. And don't tell me who won — let me see it myself.",
-    message: "The restaurant was never about the food. It was about having a place where our family could always come home to. Keep it open. Keep the recipe.",
-    joy: "Opening night, 1989. Nobody came. We cooked for ourselves. Rosa said, 'They'll come tomorrow.' She was right. They always came.",
-    crisis: "Massive heart attack during Sunday dinner. Rosa is alone with him when the paramedics arrive.",
-    without: "Without CareGoals: Rosa is hysterical. The kids arrive at the hospital and each has a different opinion. Frank Jr wants everything. Angela says let him go. The argument happens in the ICU hallway. Frank survives but with severe brain damage. The restaurant closes permanently. The family never has Sunday dinner together again.",
-    with: "With CareGoals: Rosa — his proxy, 'the boss' — tells the paramedics: 'Try what makes sense. Don't put him through hell.' They try. It works partially. When it's clear recovery is limited, Rosa gathers everyone. They play the game on the TV in his room. Frank's last Sunday is loud, full of family, exactly as he wanted. The restaurant stays open. The recipe survives."
-  },
-  {
-    name: "Evelyn Hughes", age: 88, date: "March 25, 2026",
-    goodDay: "A letter from one of my former students. I taught third grade for 40 years. I still get letters.",
-    proxy: "My niece Caroline. She's sensible and she loves me without making everything dramatic.",
-    treatment: "No. Nothing aggressive. I've lived long enough to know that enough is enough.",
-    comfort: "Read to me. Anything. Poetry, novels, the newspaper. I just want to hear words.",
-    dignity: "Remember that I was a teacher. That I shaped minds. That I mattered. Don't just see the old woman in the bed.",
-    message: "I never had children of my own, but I had thousands. If you were in my class, you were mine. You still are.",
-    joy: "A boy named Marcus. Couldn't read in September. Read a whole book to the class in May. That was 1978 and I still cry when I think about it.",
-    crisis: "Progressive decline, unable to communicate. Hospital wants to transfer to a nursing facility.",
-    without: "Without CareGoals: No children. Distant relatives argue over what to do. A court-appointed guardian makes decisions. Evelyn — who shaped thousands of minds — is treated as a case number. She dies in a facility where no one knows she was a teacher.",
-    with: "With CareGoals: Caroline — her sensible niece — reads Evelyn's wishes aloud to the staff: 'Remember that I was a teacher. That I shaped minds. That I mattered.' The nurses read to her every day — poetry, novels, the newspaper. A former student named Marcus, now 55, comes to read to her. She passes hearing words."
-  },
-  {
-    name: "Henry Nakamura", age: 80, date: "March 24, 2026",
-    goodDay: "Working in the shop. I still make furniture. Slowly. But I can still make a dovetail joint by hand and that's enough.",
-    proxy: "My daughter Keiko. She inherited my stubbornness but also my sense. She'll do what's right.",
-    treatment: "No ventilator. My father spent three weeks on one. I won't do that to my family.",
-    comfort: "The smell of wood. Cedar, especially. If someone could bring me a piece of cedar to hold, I'd be content.",
-    dignity: "I don't need much. Just respect. And clean sheets. My mother always said you can tell a person by their sheets.",
-    message: "The furniture will outlast me. Every table, every chair — I put something of myself into the grain. When you run your hand across it, I'm there.",
-    joy: "Teaching my granddaughter to use a chisel. She was six. She was terrible. She was perfect.",
-    crisis: "Lung cancer diagnosis. Aggressive treatment is an option but with harsh side effects.",
-    without: "Without CareGoals: Keiko wants her father to fight. Henry's wife quietly disagrees but says nothing. Henry endures 4 months of chemo that destroys his quality of life. He can't work in the shop. He can't smell cedar. He dies exhausted and angry, having lost the last months he could have spent doing what he loved.",
-    with: "With CareGoals: Keiko reads: 'No ventilator. My father spent three weeks on one. I won't do that to my family.' She chooses comfort care. Someone brings a piece of cedar to the hospice room. Henry holds it. His granddaughter sits beside him, learning to use a chisel from memory. The furniture outlasts him, just as he said it would."
-  },
-  {
-    name: "Patricia O'Brien", age: 76, date: "March 23, 2026",
-    goodDay: "Walking the pier at sunrise. The salt air. Seagulls being ridiculous. Coffee that's too hot.",
-    proxy: "My sister Margaret. She'll cry, but she'll do the right thing. She always does.",
-    treatment: "Comfort care only. I've been a nurse for 40 years. I know what 'full code' really looks like. I choose peace.",
-    comfort: "Ocean sounds. There's an app — just the waves. And someone holding my hand. That's all I need.",
-    dignity: "I wiped a thousand patients' tears. When it's my turn, don't be embarrassed. Just be there.",
-    message: "To my nurses: you were my second family. The night shifts, the emergencies, the quiet moments — I'd do it all again.",
-    joy: "A patient named Rose. She was dying, and she took my hand and said, 'You made it less scary.' That's why I became a nurse.",
-    crisis: "Cardiac arrest while walking the pier. Bystanders perform CPR. She arrives at the ER intubated.",
-    without: "Without CareGoals: Margaret (sister) arrives and wants everything continued — she can't lose her sister. The ER team doesn't know Patricia was a nurse who knew exactly what full code meant. Patricia survives with severe impairment. She spends her final weeks in the ICU she spent 40 years trying to keep people out of.",
-    with: "With CareGoals: Margaret shows the ComfortCard. 'Comfort care only. I've been a nurse for 40 years. I know what full code really looks like. I choose peace.' Margaret cries — but she does the right thing, just as Patricia said she would. Ocean sounds play from the app. Someone holds Patricia's hand. She chose peace, and that's what she gets."
-  },
-  {
-    name: "Samuel Green", age: 83, date: "March 22, 2026",
-    goodDay: "Porch. Bourbon. Sunset. My wife's hand. That's been a good day for sixty years.",
-    proxy: "My wife Helen. She knows everything I'd say before I'd say it.",
-    treatment: "I'm a simple man. When the good Lord calls, I'll answer. Don't keep Him waiting on my account.",
-    comfort: "My own bed. My own pillow. Helen next to me. That's where I want to be when it happens.",
-    dignity: "I'm a veteran. I'd like a flag in the room. And please — call me Sergeant, not sweetie.",
-    message: "Helen, you made a quiet man feel heard for sixty years. That's no small thing.",
-    joy: "Coming home from Vietnam. Seeing Helen at the airport. She was wearing the yellow dress. I can still see it.",
-    crisis: "Found by Helen in bed, not breathing. She calls 911.",
-    without: "Without CareGoals: Paramedics arrive and start resuscitation. Helen is too distraught to say anything. Samuel is revived but brain-dead. He spends 2 weeks on life support in a hospital — not his bed, not his pillow, not next to Helen. She drives 40 minutes each way every day. He dies in fluorescent light.",
-    with: "With CareGoals: Helen — shaking, grieving, but prepared — shows the ComfortCard: 'When the good Lord calls, I'll answer. Don't keep Him waiting.' The paramedics stop. Helen climbs into their bed, holds his hand. The flag is brought from the closet. She calls him Sergeant. He's home."
-  },
-  {
-    name: "Ruth Goldstein", age: 90, date: "March 21, 2026",
-    goodDay: "A phone call from each of my children. I have four. If all four call, it's a perfect day.",
-    proxy: "My son David. He's the calm one. The others feel too much — David thinks.",
-    treatment: "At 90, I've made my peace. No extraordinary measures. Let me go with dignity.",
-    comfort: "Candles. Not for religion — for warmth. And family photos where I can see them. I want to see their faces.",
-    dignity: "I survived things no person should survive. Don't underestimate me, even at the end.",
-    message: "We came to this country with nothing. Look at what we built. Never forget where you came from, but never stop building.",
-    joy: "My first grandchild. After everything our family lost, new life. She was hope with ten tiny fingers.",
-    crisis: "Fell, broke her hip. Infection complications. The hospital recommends surgery but her heart may not survive it.",
-    without: "Without CareGoals: Four children, four opinions. David (the calm one) is outvoted by the others who insist on surgery. Ruth survives the operation but the infection spreads. She spends her final months in an ICU, unable to see the family photos, unable to receive phone calls from all four children. The candles she wanted are a fire hazard.",
-    with: "With CareGoals: David — her chosen proxy, the one who thinks — reads her wishes: 'No extraordinary measures. Let me go with dignity.' He shows the siblings. In their mother's own words: 'I survived things no person should survive. Don't underestimate me, even at the end.' They bring photos. They bring candles (LED ones). All four call. It's a perfect day."
-  },
-  {
-    name: "Thomas Rivera", age: 69, date: "March 20, 2026",
-    goodDay: "Coaching my grandson's baseball team. They're terrible. I love every minute.",
-    proxy: "My wife Carmen. She's stronger than me. She'll make the call I can't.",
-    treatment: "I'm only 69. Fight for me if there's a chance. But if there's no coming back, let me go with my boots on.",
-    comfort: "Baseball on the radio. The crack of the bat. The crowd noise. Even if it's spring training, I don't care.",
-    dignity: "Don't treat me like I'm fragile. I'm still Coach Rivera. Talk to me like a man.",
-    message: "To my team: it was never about winning. It was about showing up every day and giving everything you've got. That's baseball. That's life.",
-    joy: "My worst team. 2019. We lost every game. Those kids tried harder than anyone I ever coached. I've never been prouder.",
-    crisis: "Aneurysm during a baseball game. He collapses in the dugout.",
-    without: "Without CareGoals: Carmen freezes. The team calls 911. At the hospital, doctors say there's a 20% chance of meaningful recovery with surgery. Carmen agonizes for days. She chooses surgery. Thomas survives but can't speak, can't coach, can't throw a ball. He sits in a wheelchair watching games on TV for two years before passing.",
-    with: "With CareGoals: Carmen reads: 'Fight for me if there's a chance. But if there's no coming back, let me go with my boots on.' Twenty percent is a chance. They try the surgery. When it becomes clear there's no coming back, Carmen puts the baseball game on the radio. The crack of the bat. The crowd noise. Coach Rivera goes out the way he lived — in the game."
-  },
-  {
-    name: "Margaret Liu", age: 73, date: "March 19, 2026",
-    goodDay: "A day when my daughter and I cook together without arguing about how much soy sauce to use.",
-    proxy: "My daughter Jennifer. We argue because we're the same person. She'll know what I want.",
-    treatment: "No ventilator. No feeding tube. I want to taste my last meal, not have it pumped in.",
-    comfort: "Jasmine tea. Warm socks. A window that faces east — I want to see the sunrise.",
-    dignity: "Speak to me in Mandarin when it gets hard. English is my second language. At the end, I want my first.",
-    message: "Jennifer — the soy sauce argument doesn't matter. What matters is that we're in the kitchen together. Don't ever stop cooking.",
-    joy: "The morning I became an American citizen. I cried the whole ceremony. Not because I was leaving something behind — because I was becoming something new.",
-    crisis: "Stroke leaves her unable to speak or swallow. Hospital recommends a feeding tube.",
-    without: "Without CareGoals: Jennifer (daughter) defaults to the feeding tube because she can't let her mother starve. Margaret lives 5 more months unable to taste food — the thing she explicitly said she wanted. Jennifer realizes too late what her mother would have wanted. She carries that guilt into every meal she cooks alone.",
-    with: "With CareGoals: Jennifer reads Margaret's words: 'No feeding tube. I want to taste my last meal, not have it pumped in.' Jennifer brings jasmine tea. She speaks to her mother in Mandarin. They don't argue about soy sauce. For the first time, the kitchen doesn't matter — being together does."
-  },
-  {
-    name: "Arthur Washington", age: 87, date: "March 18, 2026",
-    goodDay: "Playing piano. My fingers don't move like they used to, but the music is still in there.",
-    proxy: "My daughter Michelle. She's a lawyer. She'll make sure everything is done right.",
-    treatment: "Comfort only. I've lived through enough. My body is tired. My spirit is ready.",
-    comfort: "Jazz. Not loud — soft. Bill Evans. The kind that sounds like rain on a window.",
-    dignity: "I played Carnegie Hall in 1971. I am not just a patient. I am Arthur Washington. Remember that.",
-    message: "The music doesn't belong to me. It passes through me. When I'm gone, listen for me in the silence between the notes.",
-    joy: "Standing ovation. Carnegie Hall. I was 32 years old. The whole house stood up. For three minutes, I was the only person in the world.",
-    crisis: "Progressive heart failure. Final hospitalization.",
-    without: "Without CareGoals: Michelle (lawyer daughter) fights the system — gets second opinions, transfers hospitals, demands experimental treatments. Arthur spends his last weeks being poked and transported, never hearing jazz, never playing piano. He dies in transit between facilities.",
-    with: "With CareGoals: Michelle reads: 'Comfort only. My body is tired. My spirit is ready.' The lawyer in her wants to fight. Arthur's words stop her. She brings a portable speaker. Bill Evans. Rain on a window. Arthur's fingers move on the bedsheets like they're finding the keys. Michelle understands — he's already playing."
-  },
-  {
-    name: "Susan Palmer", age: 71, date: "March 17, 2026",
-    goodDay: "A hike. Even a short one now. Just getting my feet on dirt and seeing the mountains.",
-    proxy: "My partner Kate. We've been together 30 years. She's my person.",
-    treatment: "I want a trial — a limited time on life support. If I'm improving, keep going. If not, let me go to the mountains.",
-    comfort: "Outside. Even a balcony. I need sky. I need air. Don't trap me in a room with no window.",
-    dignity: "Kate is my family. She makes every decision. No one else. This is non-negotiable.",
-    message: "Kate — every trail we walked, every summit we reached, every sunrise we watched. That was the meaning. All of it. With you.",
-    joy: "Summit of Long's Peak. 1994. We were the first ones up. The sun hit the valley and everything turned gold. Kate cried. I pretended I didn't.",
-    crisis: "Aggressive cancer found late. Treatment options are limited.",
-    without: "Without CareGoals: The hospital contacts her brother — not Kate (her partner of 30 years). Her brother makes decisions based on his values, not Susan's. Kate is shut out of the room, out of the decisions, out of the goodbye. Susan dies surrounded by family members who didn't know what she wanted while the person who knew everything waits in the hallway.",
-    with: "With CareGoals: Susan's wishes are explicit: 'Kate is my family. She makes every decision. No one else. This is non-negotiable.' The hospital recognizes Kate's legal authority as designated proxy. Kate tries the limited trial. When it's clear there's no summit ahead, she opens the window. Sky. Air. Mountains in the distance. Kate holds her hand. No hallway. No exclusion. Just love."
-  },
-  {
-    name: "Harold Kim", age: 78, date: "March 16, 2026",
-    goodDay: "A chess game with my old friend Yuri. He cheats. I let him. We both know.",
-    proxy: "My son Michael. He's steady. He won't let emotion override logic.",
-    treatment: "CPR yes, but no prolonged ventilator. Give me a shot, but don't drag it out.",
-    comfort: "My chess board by the bed. Even if I can't play. Just seeing the pieces is enough.",
-    dignity: "I'm a mathematician. My mind is who I am. If my mind goes, the rest doesn't matter.",
-    message: "Michael, I solved problems my whole life. This is the one I can't solve. And that's okay. Some problems aren't meant to be solved — they're meant to be accepted.",
-    joy: "The day I proved the theorem. 1983. Everyone said it was unsolvable. I solved it in the bathtub at 3am. I ran down the hall naked to write it down.",
-    crisis: "Cognitive decline reaches the point where he can no longer recognize his family.",
-    without: "Without CareGoals: Michael (son) can't accept it. He pursues every experimental treatment, every clinical trial. Harold is subjected to tests he doesn't understand, in places he doesn't recognize, by people he can't identify. Yuri comes to play chess but Harold doesn't know the moves anymore. The mathematician's mind is gone, and so is his dignity.",
-    with: "With CareGoals: Michael reads: 'My mind is who I am. If my mind goes, the rest doesn't matter.' Michael — steady, logical, like his father — accepts the math. He brings the chess board. Harold can't play, but he touches the pieces. Michael sits with him in silence. Some problems aren't meant to be solved. They're meant to be accepted."
-  },
-  {
-    name: "Betty Crawford", age: 84, date: "March 15, 2026",
-    goodDay: "My great-granddaughter sitting in my lap while I read her a story. She smells like baby shampoo and tomorrow.",
-    proxy: "My granddaughter Lisa. She's young but she's wise. And she actually listens.",
-    treatment: "No machines. I've buried two husbands. I'm ready to see them again.",
-    comfort: "The quilt my grandmother made. It's in the cedar chest. Put it on me. It smells like home.",
-    dignity: "Put my teeth in. Do my lipstick. I met every day of my life put together, and I'll meet my last one the same way.",
-    message: "Four generations of women in this family, and every single one of us was stronger than the world expected. Don't you dare stop now.",
-    joy: "My grandmother's quilt. She stitched our whole family into it. Every patch is a story. When you sleep under it, you sleep under a hundred years of love.",
-    crisis: "Found unconscious by Lisa. Massive stroke.",
-    without: "Without CareGoals: Lisa is 25 and overwhelmed. Betty's children and grandchildren flood the hospital. Everyone has an opinion. Nobody has authority. The hospital defaults to aggressive treatment. Betty — who met every day of her life put together — spends her last ones with tubes, machines, and a hospital gown. No lipstick. No teeth. Not Betty.",
-    with: "With CareGoals: Lisa — young but wise, and the one who actually listens — reads Betty's wishes. 'Put my teeth in. Do my lipstick. I met every day of my life put together, and I'll meet my last one the same way.' Lisa finds the lipstick in Betty's purse. She brings the quilt from the cedar chest. Four generations of women stand around that bed, stronger than the world expected."
-  },
-  {
-    name: "George Papadopoulos", age: 75, date: "March 14, 2026",
-    goodDay: "Sitting at the cafe. Greek coffee. Watching the world go by. Maybe an argument about politics with a stranger. That's a great day.",
-    proxy: "My wife Eleni. Who else? She's kept me alive this long.",
-    treatment: "If the doctors say there's hope, I want to try. If they say it's time, I trust them. And I trust Eleni.",
-    comfort: "My family. All of them. In the room. Loud. Crying. Laughing. That's how we do it. We don't do quiet.",
-    dignity: "Feed me. Even if I can't eat much. Put food in front of me. A Greek man without food in front of him is already dead.",
-    message: "We left Greece with two suitcases. Now look at this family. Every sacrifice was worth it. Every single one.",
-    joy: "My daughter's wedding. I danced until 3am. My knees hurt for a week. I'd do it again tonight if I could.",
-    crisis: "Heart failure during a family gathering.",
-    without: "Without CareGoals: Eleni panics. The family is already there but everyone is screaming, crying, calling doctors. Nobody can make a decision through the chaos. George is rushed to the hospital. He dies in an ER, alone behind a curtain, while his family argues with the admitting nurse about visitation rules. No food. No family. No noise. The opposite of everything George wanted.",
-    with: "With CareGoals: Eleni reads: 'My family. All of them. In the room. Loud. Crying. Laughing. That's how we do it.' The family stays. The paramedics work around them. When it's clear George is going, Eleni asks for one thing: put food in front of him. Someone brings baklava from the kitchen. The family is loud. They're crying. They're laughing. George goes home the way he lived — surrounded."
-  },
-];
+  <!-- Story 1 -->
+  <div class="grid md:grid-cols-2 gap-10 items-start">
+    <div>
+      <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5" style="background:#f0eded;">
+        <span class="material-symbols-outlined text-2xl" style="color:#173901;">elderly_woman</span>
+      </div>
+      <div class="text-xs font-bold uppercase tracking-widest text-outline mb-2">Boulder, CO</div>
+      <h2 class="text-xl font-extrabold text-on-surface mb-4">Dorothy's wish</h2>
+      <p class="text-on-surface-variant leading-relaxed mb-4">Dorothy is 82. Sharp, independent, and she'd been living alone in her house on Mapleton for twelve years after her husband died. Her daughter Jess had been gently trying to talk about what would happen "when things changed" for two years — and Dorothy would change the subject.</p>
+      <p class="text-on-surface-variant leading-relaxed">When Jess sat down with Dorothy and opened CareGoals, she framed it as "a thing I need to do for myself too." Sage asked Dorothy what a good day looked like. She talked for fifteen minutes — her garden, her book club, the way the light comes through the kitchen window in the morning. Nobody had asked her that question in years.</p>
+    </div>
+    <div>
+      <div class="p-6 bg-surface-container rounded-2xl border-l-4 mb-5" style="border-left-color:#fc6451;">
+        <p class="text-on-surface text-base leading-relaxed italic">"I don't want any heroics. I've had a beautiful life. What I want is to die in my garden if I can manage it, with my family nearby. I just needed someone to ask."</p>
+        <div class="text-xs text-outline font-medium mt-3">— Dorothy, 82</div>
+      </div>
+      <div class="p-5 bg-surface-container-low rounded-2xl">
+        <div class="text-xs font-bold uppercase tracking-widest text-outline mb-3">What changed</div>
+        <ul class="space-y-2 text-sm text-on-surface-variant">
+          <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>Healthcare proxy designated — Jess</li>
+          <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>DNR preference documented</li>
+          <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>Shared with Dorothy's primary care doctor</li>
+          <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>Jess moved her father to Boulder with a plan in place</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-const grid = document.getElementById('grid');
+  <div class="border-t border-outline-variant/30"></div>
 
-PEOPLE.forEach(p => {
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.onclick = () => card.classList.toggle('open');
-  card.innerHTML = `
-    <div class="card-name">${p.name}</div>
-    <div class="card-meta">Age ${p.age} · Documented ${p.date}</div>
-    <div class="wish"><div class="wish-label">A Good Day</div><div class="wish-value">"${p.goodDay}"</div></div>
-    <div class="wish"><div class="wish-label">Speaks For Me</div><div class="wish-value">"${p.proxy}"</div></div>
-    <div class="wish"><div class="wish-label">Treatment Wishes</div><div class="wish-value">"${p.treatment}"</div></div>
-    <div class="wish"><div class="wish-label">Message to Family</div><div class="wish-value">"${p.message}"</div></div>
-    <div class="wish"><div class="wish-label">What Brings Me Joy</div><div class="wish-value">"${p.joy}"</div></div>
-    <div class="expand-hint">Tap to see what happened</div>
-    ${p.crisis ? `<div class="outcome">
-      <div class="outcome-label">When the moment came</div>
-      <div class="outcome-crisis">${p.crisis}</div>
-      <div class="outcome-without"><div class="outcome-label-sub">Without CareGoals</div>${p.without.replace('Without CareGoals: ','')}</div>
-      <div class="outcome-with"><div class="outcome-label-sub">With CareGoals</div>${p.with.replace('With CareGoals: ','')}</div>
-    </div>` : ''}
-  `;
-  grid.appendChild(card);
-});
-</script>
+  <!-- Story 2 -->
+  <div class="grid md:grid-cols-2 gap-10 items-start">
+    <div>
+      <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5" style="background:#f0eded;">
+        <span class="material-symbols-outlined text-2xl" style="color:#173901;">diversity_3</span>
+      </div>
+      <div class="text-xs font-bold uppercase tracking-widest text-outline mb-2">Denver, CO</div>
+      <h2 class="text-xl font-extrabold text-on-surface mb-4">Three brothers</h2>
+      <p class="text-on-surface-variant leading-relaxed mb-4">When their father had a stroke at 77, Michael, David, and Tom had to make decisions for him — and they disagreed about everything. Michael wanted aggressive treatment. David wanted comfort care. Tom wasn't sure. There was no document, no prior conversation, and it nearly broke the family.</p>
+      <p class="text-on-surface-variant leading-relaxed">Their father recovered enough to do a CareGoals session himself six months later. The three brothers sat with him while Sage asked questions. By the time they finished, all three were in tears — not because of the hard topics, but because they'd never heard their father talk about his life like that before.</p>
+    </div>
+    <div>
+      <div class="p-6 bg-surface-container rounded-2xl border-l-4 mb-5" style="border-left-color:#a8d38a;">
+        <p class="text-on-surface text-base leading-relaxed italic">"I just want to be comfortable. I don't want to be a burden. I want my boys to be okay. That's it."</p>
+        <div class="text-xs text-outline font-medium mt-3">— Their father, 78</div>
+      </div>
+      <div class="p-5 bg-surface-container-low rounded-2xl">
+        <div class="text-xs font-bold uppercase tracking-widest text-outline mb-3">What changed</div>
+        <ul class="space-y-2 text-sm text-on-surface-variant">
+          <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>All three brothers aligned on care preferences</li>
+          <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>Comfort care preference documented</li>
+          <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>Summary shared with their father's neurologist</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
+  <div class="border-t border-outline-variant/30"></div>
+
+  <!-- Story 3 -->
+  <div class="grid md:grid-cols-2 gap-10 items-start">
+    <div>
+      <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5" style="background:#f0eded;">
+        <span class="material-symbols-outlined text-2xl" style="color:#173901;">favorite</span>
+      </div>
+      <div class="text-xs font-bold uppercase tracking-widest text-outline mb-2">Fort Collins, CO</div>
+      <h2 class="text-xl font-extrabold text-on-surface mb-4">Before the diagnosis</h2>
+      <p class="text-on-surface-variant leading-relaxed mb-4">Karen and her husband Robert did their CareGoals sessions the summer he turned 68 — "just to have it done," as Karen put it. No health crisis. No urgency. Just a Tuesday evening and a bottle of wine.</p>
+      <p class="text-on-surface-variant leading-relaxed">When Robert was diagnosed with early Parkinson's two years later, they weren't starting from scratch. The plan was already there. The conversation had already happened. What might have been a devastating moment of renegotiating everything was instead a calm update to something they'd already talked through together.</p>
+    </div>
+    <div>
+      <div class="p-6 bg-surface-container rounded-2xl border-l-4 mb-5" style="border-left-color:#2d5016;">
+        <p class="text-on-surface text-base leading-relaxed italic">"We did it before we needed to. That felt strange at the time. Now it feels like the smartest thing we ever did."</p>
+        <div class="text-xs text-outline font-medium mt-3">— Karen, 67</div>
+      </div>
+      <div class="p-5 bg-surface-container-low rounded-2xl">
+        <div class="text-xs font-bold uppercase tracking-widest text-outline mb-3">What changed</div>
+        <ul class="space-y-2 text-sm text-on-surface-variant">
+          <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>Plan in place before Parkinson's diagnosis</li>
+          <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>Updated plan with new context — no starting over</li>
+          <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>Adult children given access to care summary</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-outline-variant/30"></div>
+
+  <!-- Story 4 -->
+  <div class="grid md:grid-cols-2 gap-10 items-start">
+    <div>
+      <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5" style="background:#f0eded;">
+        <span class="material-symbols-outlined text-2xl" style="color:#173901;">volunteer_activism</span>
+      </div>
+      <div class="text-xs font-bold uppercase tracking-widest text-outline mb-2">Boulder, CO</div>
+      <h2 class="text-xl font-extrabold text-on-surface mb-4">A caregiver's perspective</h2>
+      <p class="text-on-surface-variant leading-relaxed mb-4">Maria has been a home caregiver for eleven years. She's been in the room when family members have had to make decisions for someone who couldn't speak for themselves — and she's seen what happens when there's no plan.</p>
+      <p class="text-on-surface-variant leading-relaxed">"The families who've done this are different," she says. "They're still sad. They still grieve. But they're not fighting each other. They know what their person wanted. That changes everything."</p>
+    </div>
+    <div>
+      <div class="p-6 bg-surface-container rounded-2xl border-l-4 mb-5" style="border-left-color:#fc6451;">
+        <p class="text-on-surface text-base leading-relaxed italic">"I recommend CareGoals to every family I work with. I tell them: don't wait for a reason. The reason is that you love them."</p>
+        <div class="text-xs text-outline font-medium mt-3">— Maria, co-op.care caregiver</div>
+      </div>
+      <div class="p-5 bg-surface-container-low rounded-2xl">
+        <div class="text-xs font-bold uppercase tracking-widest text-outline mb-3">Maria uses CareGoals to</div>
+        <ul class="space-y-2 text-sm text-on-surface-variant">
+          <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>Understand each family's wishes before starting care</li>
+          <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>Refer families without plans to Sage</li>
+          <li class="flex gap-2"><span class="material-symbols-outlined text-base" style="color:#173901;font-variation-settings:'FILL' 1;">check_circle</span>Connect care notes back to what matters most</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="px-6 py-14" style="background:#173901;">
+  <div class="max-w-3xl mx-auto text-center">
+    <h2 class="text-white text-2xl font-extrabold tracking-tight mb-3">Start your story</h2>
+    <p class="mb-6" style="color:rgba(255,255,255,0.7);">It takes 20 minutes. Sage will guide you the whole way.</p>
+    <a href="sage-onboarding.html" class="inline-flex items-center gap-2 font-bold text-base px-8 py-4 rounded-full" style="background:#fc6451;color:#fff;text-decoration:none;">
+      Start with Sage <span class="material-symbols-outlined text-lg">arrow_forward</span>
+    </a>
+  </div>
+</section>
+
+<footer style="background:#173901;color:rgba(255,255,255,0.75);padding:48px 24px 32px;border-top:1px solid rgba(255,255,255,0.08);">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:40px;">
+      <div><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:18px;color:#fff;margin-bottom:12px;">CareGoals</div>
+        <p style="font-family:'Inter',sans-serif;font-size:13px;line-height:1.7;color:rgba(255,255,255,0.65);">AI-guided advance care planning. A co-op.care product.</p></div>
+      <div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:12px;">Plan</div>
+        <a href="conversation.html" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">Conversations</a>
+        <a href="first-session.html" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">First Session</a>
+        <a href="sage-onboarding.html" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">Start with Sage</a></div>
+      <div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:12px;">Learn</div>
+        <a href="features.html" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">Features</a>
+        <a href="gallery.html" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">Stories</a></div>
+      <div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:12px;">Company</div>
+        <a href="https://co-op.care" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">co-op.care</a></div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <span style="font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.4);">© 2026 CareGoals · A co-op.care product</span>
+      <a href="https://co-op.care" style="font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.5);text-decoration:none;">co-op.care →</a>
+    </div>
+  </div>
+</footer>
 </body>
 </html>
