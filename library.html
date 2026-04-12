@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resilient Sanctuary | Resource Library</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#410000",
+                        "primary-container": "#173901",
+                        "on-secondary-fixed-variant": "#8e130b",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#f8faf1",
+                        "tertiary-fixed-dim": "#a8d38a",
+                        "secondary-container": "#fc6451",
+                        "outline-variant": "#c3c9b9",
+                        "on-primary-fixed": "#0a2100",
+                        "secondary": "#b02d21",
+                        "tertiary-fixed": "#c3efa4",
+                        "primary-fixed-dim": "#a8d389",
+                        "tertiary-container": "#173902",
+                        "surface-dim": "#d9dbd2",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#092100",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e1e3db",
+                        "inverse-on-surface": "#f0f2e9",
+                        "outline": "#73796c",
+                        "on-surface-variant": "#43493d",
+                        "surface-container-highest": "#e1e3db",
+                        "on-tertiary-fixed-variant": "#2c4f16",
+                        "surface-container-high": "#e7e9e0",
+                        "primary-fixed": "#c3efa3",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#7ca561",
+                        "on-secondary-container": "#650001",
+                        "tertiary": "#0a2200",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#ffdad5",
+                        "on-background": "#191c17",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#2c4f15",
+                        "inverse-primary": "#a8d389",
+                        "background": "#f8faf1",
+                        "secondary-fixed-dim": "#ffb4a8",
+                        "primary": "#0a2200",
+                        "surface": "#f8faf1",
+                        "surface-tint": "#43682b",
+                        "surface-container-low": "#f3f4ec",
+                        "inverse-surface": "#2e312c",
+                        "surface-container": "#edefe6",
+                        "on-surface": "#191c17",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#7ca560"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .headline { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased mb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full flex justify-between items-center px-6 py-4 bg-[#f8faf1]/80 backdrop-blur-xl z-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="professional male portrait with soft natural lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKIq9fpjrTxQP-GnFlMgRDFSQncZCrEPqNTrQENSlIw89U_pfK1bVkZH6PfrgX9gNU6rVPYTK88NDQQUuZVAcy0xbnq7Z-KVl2vn6FA0w0sU76UhRrx_iF7rKwJY88KV4lwW-_fyKEc_xhDIBlskS1DKk0AALeNwKTD5AbwI0_4UnnoQF_IRVk25FAws2pYKITVQAvTH4BU_CeI-6doVf0Rm7lBYr7iK38Zu448y7kicXZbiKRTN4L0o_i4dX65qNPxFjroi60Ilw"/>
+</div>
+<span class="font-['Plus_Jakarta_Sans'] font-black text-[#0a2200] tracking-tighter text-lg">Resilient Sanctuary</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#0a2200] hover:opacity-80 transition-opacity">search</button>
+<button class="material-symbols-outlined text-[#0a2200] hover:opacity-80 transition-opacity">settings</button>
+</div>
+</header>
+<main class="pt-24 px-6 md:px-12 max-w-7xl mx-auto">
+<!-- Hero Section: Editorial Header -->
+<section class="mb-16">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+<div class="md:col-span-8">
+<span class="text-secondary font-semibold tracking-widest text-sm uppercase">Curated Wisdom</span>
+<h1 class="text-5xl md:text-7xl font-extrabold text-primary tracking-tighter mt-4 leading-tight">
+                        The Library <br/>of Quiet Guidance.
+                    </h1>
+</div>
+<div class="md:col-span-4 pb-2">
+<p class="text-on-surface-variant text-lg leading-relaxed">
+                        Thoughtful resources designed to help you navigate the complexities of care with dignity, clarity, and peace.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Featured Section (Asymmetric Bento) -->
+<section class="mb-20">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Main Featured Card -->
+<div class="md:col-span-2 lg:row-span-2 relative group overflow-hidden rounded-xl bg-surface-container-low min-h-[500px]">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="serene morning sunlight filtering through forest trees with soft misty atmosphere and warm tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_nK-SkxVfTfPHW1cPQeGMEpmxX0odcnKSjvQuxNYzHqCSZgn6JDp1TNQ3cfAVZtljCb_pELQNzZQqGMU37g291-FHmzZdXtn5GRatOIj88x4OwbUgRyo1jotgRbmvT0FmGebApgFKVn5JmKYIS0ClvZVxZ-yRpzYBcaT-E83cQj5eH_ttpXrI_E94mY5OKH7bYY8bool1pl7QoF7H5dMg0c8dNnaJA2OICtE8ejxxkBMkSW8TcYOmQe9Cstyah84RoTG_kFZ2RvM"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent"></div>
+<div class="absolute bottom-0 p-10">
+<div class="bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full text-xs font-bold w-fit mb-4">ESSENTIAL READING</div>
+<h2 class="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">The Art of Difficult Conversations</h2>
+<p class="text-white/80 text-lg mb-8 max-w-xl">How to approach end-of-life planning with family members using empathy and structured communication.</p>
+<button class="bg-surface-container-lowest text-primary px-8 py-3 rounded-full font-bold flex items-center gap-2 group-hover:bg-secondary-container group-hover:text-white transition-colors">
+                            Read Article <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Secondary Featured -->
+<div class="bg-surface-container-highest p-8 rounded-xl flex flex-col justify-between border-l-4 border-secondary-container">
+<div>
+<span class="text-on-surface-variant text-xs font-bold uppercase tracking-widest">Practicality</span>
+<h3 class="text-2xl font-bold text-primary mt-4 tracking-tight leading-tight">Advanced Care Planning Checklist</h3>
+</div>
+<p class="text-on-surface-variant mt-4">A step-by-step guide to documenting your wishes clearly for legal and medical peace of mind.</p>
+<div class="mt-8 flex items-center text-primary font-bold gap-2">
+                        View Checklist <span class="material-symbols-outlined">description</span>
+</div>
+</div>
+<!-- Tertiary Featured -->
+<div class="bg-primary text-white p-8 rounded-xl flex flex-col justify-between">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary-container" style="font-variation-settings: 'FILL' 1;">volunteer_activism</span>
+</div>
+<div>
+<h3 class="text-2xl font-bold tracking-tight">Support Circle</h3>
+<p class="text-white/70 mt-2">Connecting you with specialized counselors for emotional resilience during caregiving.</p>
+</div>
+<div class="mt-8">
+<button class="text-secondary-container font-bold flex items-center gap-2 hover:translate-x-2 transition-transform">
+                            Join Community <span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Categories Filter -->
+<section class="mb-12">
+<div class="flex flex-wrap gap-4 overflow-x-auto pb-4 scrollbar-hide">
+<button class="bg-primary text-white px-8 py-3 rounded-full font-bold whitespace-nowrap">All Resources</button>
+<button class="bg-surface-container text-on-surface-variant hover:bg-surface-container-high px-8 py-3 rounded-full font-bold whitespace-nowrap transition-colors">Getting Started</button>
+<button class="bg-surface-container text-on-surface-variant hover:bg-surface-container-high px-8 py-3 rounded-full font-bold whitespace-nowrap transition-colors">Legal &amp; Financial</button>
+<button class="bg-surface-container text-on-surface-variant hover:bg-surface-container-high px-8 py-3 rounded-full font-bold whitespace-nowrap transition-colors">Emotional Support</button>
+<button class="bg-surface-container text-on-surface-variant hover:bg-surface-container-high px-8 py-3 rounded-full font-bold whitespace-nowrap transition-colors">Hospice Care</button>
+</div>
+</section>
+<!-- Editorial Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-24">
+<!-- Article 1 -->
+<div class="group cursor-pointer">
+<div class="overflow-hidden rounded-lg mb-6 bg-surface-container-low aspect-[4/3]">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="tranquil still life of a single blooming flower in a minimalist ceramic vase against a soft neutral wall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF6IisryEaqI5sJ56sMumOYilJDYzr9SK87SXM1Gt1GrlUOWFui5YagBm4AYGbZCcW-9cBbTPwgiqAIH5u8P9UdzOHwZM7PcVoF25OMv1ZZL9xYTUwM42Em7ZQK21UTYrmQ2_QZmDMCeM97n1ntLERnuFNa5rkDF90BgWx91zGo0jurIkZmplH-KvHiLEkatMbF_kiVB_RPnIm_0JzlTjEX4dh2WNve_wlzOg2HGt4CPTsxXkeYD_Zjiy2yD0qKtSgQVZxP8pUNzs"/>
+</div>
+<div class="flex items-center gap-4 mb-3">
+<span class="text-xs font-bold text-secondary uppercase tracking-widest">Getting Started</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-xs text-on-surface-variant">8 min read</span>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-3 leading-snug group-hover:text-secondary-container transition-colors">Defining Your Legacy: Beyond Wills</h3>
+<p class="text-on-surface-variant leading-relaxed line-clamp-3">Understanding the emotional legacy you want to leave behind is as vital as the legal frameworks you put in place.</p>
+</div>
+<!-- Article 2 -->
+<div class="group cursor-pointer">
+<div class="overflow-hidden rounded-lg mb-6 bg-surface-container-low aspect-[4/3]">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="close-up of elegant fountain pen resting on high-quality cream colored paper with soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9aKBQfC0plEli8L6iT0rlDePT1sACcf012iDdiL6cTdCBKN0rIAbLZKEzRMy4muCJTEDzhfhoVZ3SaNdmIKg9jq7gCDH28aox7ggJ267WtNlPeWv36gQLhtvzubSW2QIELdFXp_06Kw7wwBDY5xa7eDwOTUdw15G4k47otTVft3Kudc_S6qD-yP6zX1ZlmqEPrwemioeo1kFyOiPXBgu2Xggg_EBHFEZ90ipbbXDuTWGCDNqpxrdNgnrr6e3bGbvKbBwiLgY6340"/>
+</div>
+<div class="flex items-center gap-4 mb-3">
+<span class="text-xs font-bold text-secondary uppercase tracking-widest">Legal &amp; Financial</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-xs text-on-surface-variant">12 min read</span>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-3 leading-snug group-hover:text-secondary-container transition-colors">Understanding Living Wills &amp; Trusts</h3>
+<p class="text-on-surface-variant leading-relaxed line-clamp-3">A clear-eyed look at the legal mechanisms that ensure your medical wishes are respected when you cannot speak for yourself.</p>
+</div>
+<!-- Article 3 -->
+<div class="group cursor-pointer">
+<div class="overflow-hidden rounded-lg mb-6 bg-surface-container-low aspect-[4/3]">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="two people holding hands on a wooden table with warm ambient lighting and soft focus background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2aOzW6hGv9w2U3kY75-lRVXXsXEPvac0yq6WjNLQo0UoIFc4gxTkwQD36y_LFp523wxvT36sBPjAvMRco2wEz0pDtDnPrBFc8FJS6hFZoxLVn9Zozx0310JpyUos0mi9Y-3i__qzvqH_KtDkn3R_GUKHLdokJ0sBtKUSXitRr_JORT3oVefCjqZkSKzQsECMayX2OPWGvvhjoi7nz3DQq6nbWqP3EtoqrYDm9TmVjUE73UuodIn6oWWKhWuR47eAe5K9CM7MX-CI"/>
+</div>
+<div class="flex items-center gap-4 mb-3">
+<span class="text-xs font-bold text-secondary uppercase tracking-widest">Emotional Support</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-xs text-on-surface-variant">5 min read</span>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-3 leading-snug group-hover:text-secondary-container transition-colors">Finding Stillness in the Caregiving Storm</h3>
+<p class="text-on-surface-variant leading-relaxed line-clamp-3">Practical mindfulness techniques for families navigating the high-stress environment of hospice care and long-term illness.</p>
+</div>
+</section>
+<!-- The Gentle Quote (Signature Component) -->
+<section class="mb-24">
+<div class="bg-surface-container-low rounded-lg p-12 md:p-20 relative overflow-hidden flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-secondary-container text-6xl opacity-30 absolute top-10 left-10">format_quote</span>
+<h2 class="text-3xl md:text-4xl font-headline font-bold text-primary max-w-3xl leading-tight mb-8">
+                    "Planning for the end is not about losing hope, it's about gaining peace of mind for the journey ahead."
+                </h2>
+<div class="w-16 h-1 bg-secondary-container mb-6"></div>
+<p class="text-on-surface font-bold uppercase tracking-[0.2em] text-sm">Dr. Elena Thorne, Palliative Consultant</p>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#f8faf1]/90 backdrop-blur-2xl rounded-t-[3rem] shadow-[0_-10px_40px_rgba(25,28,23,0.05)]">
+<div class="flex flex-col items-center justify-center text-[#43493d] opacity-60 hover:opacity-100 transition-all cursor-pointer">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#43493d] opacity-60 hover:opacity-100 transition-all cursor-pointer">
+<span class="material-symbols-outlined mb-1">dashboard_customize</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide">Dashboard</span>
+</div>
+<!-- Active Tab: Library -->
+<div class="flex flex-col items-center justify-center bg-[#f3f4ec] text-[#fc6451] rounded-full px-5 py-2 active:scale-90 duration-300 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide">Library</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#43493d] opacity-60 hover:opacity-100 transition-all cursor-pointer">
+<span class="material-symbols-outlined mb-1">group</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide">Team</span>
+</div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SAGE PERSISTENT BAR — unified voice + chat input
+     Voice and text share one panel; mic transcribes into the text field.
+═══════════════════════════════════════════════════════════════ -->
+<style>
+body { padding-bottom: 62px; }
+#sage-bar {
+  position:fixed;bottom:0;left:0;right:0;z-index:9998;
+  background:#173901;border-top:1px solid rgba(255,255,255,0.07);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+#sage-panel {
+  position:fixed;bottom:62px;left:0;right:0;z-index:9997;
+  background:#ffffff;border-top:2px solid #a8d38a;
+  box-shadow:0 -8px 40px rgba(0,0,0,0.18);
+  transform:translateY(100%);transition:transform 0.3s cubic-bezier(.4,0,.2,1);
+  max-height:420px;display:flex;flex-direction:column;
+}
+#sage-panel.sp-open { transform:translateY(0); }
+#sage-msgs {
+  flex:1;overflow-y:auto;padding:16px 20px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.sp-row { display:flex; }
+.sp-bubble {
+  max-width:78%;padding:9px 13px;border-radius:10px;
+  font-size:13.5px;line-height:1.55;font-family:Inter,sans-serif;
+  color:#1c1b1b;
+}
+.sp-bubble.sage { background:#eaf4e0; }
+.sp-bubble.user { background:#a8d38a;color:#fff;margin-left:auto; }
+#sage-inp-row {
+  border-top:1px solid #c3c9b9;padding:10px 14px;
+  display:flex;gap:8px;align-items:center;flex-shrink:0;
+}
+#sage-text {
+  flex:1;border:1px solid #c3c9b9;border-radius:22px;
+  padding:8px 15px;font-size:13.5px;font-family:Inter,sans-serif;
+  outline:none;background:#fcf9f8;color:#1c1b1b;
+}
+#sage-text:focus { border-color:#173901; }
+#sp-send {
+  background:#a8d38a;color:#fff;border:none;border-radius:50%;
+  width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+#sp-mic {
+  background:none;border:1px solid #c3c9b9;border-radius:50%;
+  width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  color:#1c1b1b;flex-shrink:0;transition:all .2s;
+}
+#sp-mic.listening {
+  background:#a8d38a;border-color:#a8d38a;color:#fff;
+  animation:sp-pulse 1s infinite;
+}
+@keyframes sp-pulse { 0%,100%{opacity:1} 50%{opacity:.55} }
+.sp-typing { display:flex;gap:4px;align-items:center;padding:9px 13px; }
+.sp-typing span {
+  width:6px;height:6px;background:#a8d38a;border-radius:50%;
+  animation:sp-bounce 1.2s infinite;
+}
+.sp-typing span:nth-child(2) { animation-delay:.2s }
+.sp-typing span:nth-child(3) { animation-delay:.4s }
+@keyframes sp-bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+#sage-bar-fake-input {
+  flex:1;cursor:pointer;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);border-radius:26px;
+  padding:7px 14px;display:flex;align-items:center;gap:8px;max-width:480px;
+}
+</style>
+
+<!-- BAR -->
+<div id="sage-bar">
+  <div style="max-width:1180px;margin:0 auto;padding:0 16px;height:62px;display:flex;align-items:center;gap:10px;">
+    <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
+      <div style="width:7px;height:7px;background:#a8d38a;border-radius:50%;box-shadow:0 0 6px #a8d38a66;"></div>
+      <span style="font-family:Inter,sans-serif;font-size:11px;font-weight:800;color:rgba(255,255,255,.55);letter-spacing:.08em;">SAGE</span>
+    </div>
+    <div id="sage-bar-fake-input" onclick="spOpen()">
+      <span style="font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.32);flex:1;">Ask anything about Care Goals…</span>
+      <button id="sp-bar-mic" onclick="event.stopPropagation();spVoice()" title="Voice" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;padding:0;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.38)" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      </button>
+    </div>
+    <a href="https://co-op.care" target="_blank" style="text-decoration:none;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:6px;padding:5px 11px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.6);white-space:nowrap;">co-op.care →</a>
+  </div>
+</div>
+
+<!-- SLIDE-UP PANEL -->
+<div id="sage-panel">
+  <div style="padding:10px 16px;border-bottom:1px solid #c3c9b9;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="width:7px;height:7px;background:#a8d38a;border-radius:50%;"></div>
+      <span style="font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#1c1b1b;">Sage AI</span>
+      <span style="font-family:Inter,sans-serif;font-size:11px;color:#2d5016;background:#eaf4e0;padding:2px 8px;border-radius:10px;">Care Goals</span>
+    </div>
+    <button onclick="spClose()" style="background:none;border:none;cursor:pointer;font-size:20px;color:#2d5016;line-height:1;padding:2px 6px;">×</button>
+  </div>
+  <div id="sage-msgs">
+    <div class="sp-row"><div class="sp-bubble sage">Hi, I'm Sage. I help with advance care planning, family conversations, and co-op.care. Type your question or tap the mic to speak.</div></div>
+  </div>
+  <div id="sage-inp-row">
+    <button id="sp-mic" onclick="spVoice()" title="Voice input">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+    </button>
+    <input id="sage-text" type="text" placeholder="Type or speak…" onkeydown="if(event.key==='Enter')spSend()">
+    <button id="sp-send" onclick="spSend()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* ── RESPONSES ─────────────────────────────────────────────── */
+  const R = {
+  'directive': 'Advance directives through CareGoals are conversational — Sage asks questions over time rather than presenting a form all at once. Most people complete theirs across 2–3 conversations.',
+  'advance': 'Advance directives through CareGoals are conversational — Sage asks questions over time. Most people complete theirs across 2–3 conversations.',
+  'family': 'Family members can be added to your care circle with read-only access to your preferences. In an emergency, everyone knows what matters most to you.',
+  'dnr': 'DNR decisions are one part of advance planning. Sage explores the full picture: what comfort-focused care means to you, and which interventions you do or don\'t want — across many scenarios.',
+  'hsa': 'A Letter of Medical Necessity from Sage unlocks HSA and FSA dollars for home care. A single letter typically unlocks about $936/year in tax-free spending.',
+  'cost': 'CareGoals is free. co-op.care companion care starts at $59/month — most of which is HSA-eligible with an LMN from Sage.',
+  'proxy': 'A healthcare proxy is the person who speaks for you when you can\'t. CareGoals walks you through choosing this person and produces a shareable designation.',
+  'memory': 'Sage builds a persistent care profile across every conversation — so you never repeat yourself. Your preferences compound over time.',
+  'hospital': 'Your CareGoals summary can be shared with any hospital as a one-page PDF: your values, medical preferences, proxy, and what matters most.',
+  '_default': 'Sage is here for care planning, advance directives, family communication, and HSA/FSA guidance. What\'s on your mind right now?'
+};
+
+  /* ── STATE ─────────────────────────────────────────────────── */
+  let open = false, listening = false, rec = null;
+
+  /* ── PANEL ─────────────────────────────────────────────────── */
+  function spOpen() {
+    open = true;
+    document.getElementById('sage-panel').classList.add('sp-open');
+    document.getElementById('sage-text').focus();
+  }
+  window.spOpen = spOpen;
+
+  function spClose() {
+    open = false;
+    document.getElementById('sage-panel').classList.remove('sp-open');
+    stopRec();
+  }
+  window.spClose = spClose;
+  const chatHistory = [];
+
+  async function spSend() {{
+    const inp = document.getElementById('sage-text');
+    const txt = inp.value.trim();
+    if (!txt) return;
+    inp.value = '';
+    addBubble(txt, 'user');
+    addTyping();
+    chatHistory.push({{ role: 'user', content: txt }});
+
+    try {{
+      const resp = await fetch('/api/sage', {{
+        method: 'POST',
+        headers: {{ 'Content-Type': 'application/json' }},
+        body: JSON.stringify({{
+          message: txt,
+          site: 'caregoals',
+          history: chatHistory.slice(-8)
+        }})
+      }});
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const data = await resp.json();
+      removeTyping();
+      const reply = data.response || getReply(txt);
+      addBubble(reply, 'sage');
+      chatHistory.push({{ role: 'assistant', content: reply }});
+    }} catch(e) {{
+      removeTyping();
+      const fallback = getReply(txt);
+      addBubble(fallback, 'sage');
+      chatHistory.push({{ role: 'assistant', content: fallback }});
+    }}
+  }}, 900 + Math.random() * 700);
+  }
+  window.spSend = spSend;
+
+  function addBubble(text, who) {
+    const msgs = document.getElementById('sage-msgs');
+    const row = document.createElement('div');
+    row.className = 'sp-row';
+    const b = document.createElement('div');
+    b.className = 'sp-bubble ' + who;
+    b.textContent = text;
+    if (who === 'user') row.style.justifyContent = 'flex-end';
+    row.appendChild(b);
+    msgs.appendChild(row);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function addTyping() {
+    const msgs = document.getElementById('sage-msgs');
+    const row = document.createElement('div');
+    row.id = 'sp-typing';
+    row.className = 'sp-row';
+    row.innerHTML = '<div class="sp-typing"><span></span><span></span><span></span></div>';
+    msgs.appendChild(row);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function removeTyping() {
+    const t = document.getElementById('sp-typing');
+    if (t) t.remove();
+  }
+
+  function getReply(text) {
+    const t = text.toLowerCase();
+    for (const [k, v] of Object.entries(R)) {
+      if (k !== '_default' && t.includes(k)) return v;
+    }
+    return R._default || "I'm here to help — can you tell me more?";
+  }
+
+  /* ── VOICE ─────────────────────────────────────────────────── */
+  function initRec() {
+    if (rec) return true;
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) return false;
+    rec = new SR();
+    rec.continuous = false;
+    rec.interimResults = true;
+    rec.onresult = (e) => {
+      const t = Array.from(e.results).map(r => r[0].transcript).join('');
+      document.getElementById('sage-text').value = t;
+      if (e.results[e.results.length - 1].isFinal) {
+        stopRec();
+        if (!open) spOpen();
+        setTimeout(spSend, 80);
+      }
+    };
+    rec.onend = stopRec;
+    return true;
+  }
+
+  function spVoice() {
+    if (!initRec()) { alert('Voice input is not supported in this browser. Try Chrome.'); return; }
+    if (listening) { stopRec(); return; }
+    listening = true;
+    document.getElementById('sp-mic').classList.add('listening');
+    const bm = document.getElementById('sp-bar-mic');
+    if (bm) bm.querySelector('svg').setAttribute('stroke', '#a8d38a');
+    if (!open) spOpen();
+    try { rec.start(); } catch(e) {}
+  }
+  window.spVoice = spVoice;
+
+  function stopRec() {
+    listening = false;
+    if (rec) try { rec.stop(); } catch(e) {}
+    document.getElementById('sp-mic').classList.remove('listening');
+    const bm = document.getElementById('sp-bar-mic');
+    if (bm) bm.querySelector('svg').setAttribute('stroke', 'rgba(255,255,255,.38)');
+  }
+})();
+</script>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<!-- co-op.care ecosystem footer -->
+<footer style="background:#1B2A4A;padding:48px 24px 32px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+<div style="max-width:800px;margin:0 auto;">
+<div style="text-align:center;margin-bottom:24px;">
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-bottom:16px;">
+<a href="https://co-op.care" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">co-op.care</a>
+<a href="https://surgeonvalue.com" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">SurgeonValue</a>
+<a href="https://caregoals.com" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">CareGoals</a>
+<a href="https://comfortcard.org" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">ComfortCard</a>
+<a href="https://clinicalswipe.com" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">ClinicalSwipe</a>
+<a href="https://solvinghealth.com" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">SolvingHealth</a>
+</div>
+<p style="font-size:14px;color:rgba(255,255,255,0.5);font-style:italic;margin:0 0 20px;">The health system that works for you — instead of you working for it.</p>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:24px;">
+<a href="https://comfortcard.org" style="font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:8px 20px;border-radius:100px;text-decoration:none;">Get a ComfortCard</a>
+<a href="https://co-op.care" style="font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:8px 20px;border-radius:100px;text-decoration:none;">Start a co-op near you</a>
+<a href="https://solvinghealth.com/afhm" style="font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:8px 20px;border-radius:100px;text-decoration:none;">For Health Systems</a>
+</div>
+</div>
+<p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.15);margin:0;">Physician-governed AI. HIPAA compliant. SolvingHealth LLC.</p>
+</div>
+</footer>
+
+<script src="https://harnesshealth.ai/harness.js"></script>
+</body></html>

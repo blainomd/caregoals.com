@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Care Team Coordination | Resilient Sanctuary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#410000",
+                    "primary-container": "#173901",
+                    "on-secondary-fixed-variant": "#8e130b",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface-bright": "#f8faf1",
+                    "tertiary-fixed-dim": "#a8d38a",
+                    "secondary-container": "#fc6451",
+                    "outline-variant": "#c3c9b9",
+                    "on-primary-fixed": "#0a2100",
+                    "secondary": "#b02d21",
+                    "tertiary-fixed": "#c3efa4",
+                    "primary-fixed-dim": "#a8d389",
+                    "tertiary-container": "#173902",
+                    "surface-dim": "#d9dbd2",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#092100",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#e1e3db",
+                    "inverse-on-surface": "#f0f2e9",
+                    "outline": "#73796c",
+                    "on-surface-variant": "#43493d",
+                    "surface-container-highest": "#e1e3db",
+                    "on-tertiary-fixed-variant": "#2c4f16",
+                    "surface-container-high": "#e7e9e0",
+                    "primary-fixed": "#c3efa3",
+                    "error": "#ba1a1a",
+                    "on-tertiary-container": "#7ca561",
+                    "on-secondary-container": "#650001",
+                    "tertiary": "#0a2200",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#ffdad5",
+                    "on-background": "#191c17",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed-variant": "#2c4f15",
+                    "inverse-primary": "#a8d389",
+                    "background": "#f8faf1",
+                    "secondary-fixed-dim": "#ffb4a8",
+                    "primary": "#0a2200",
+                    "surface": "#f8faf1",
+                    "surface-tint": "#43682b",
+                    "surface-container-low": "#f3f4ec",
+                    "inverse-surface": "#2e312c",
+                    "surface-container": "#edefe6",
+                    "on-surface": "#191c17",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#7ca560"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full flex justify-between items-center px-6 py-4 bg-[#f8faf1]/80 backdrop-blur-xl z-50">
+<div class="flex items-center gap-3">
+<img alt="User Profile" class="w-10 h-10 rounded-full object-cover" data-alt="close-up portrait of a mature man with a kind smile, natural outdoor lighting, soft focus greenery background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxgeHvn-fvMVXBW7m06spo6ZLFIFKyzm2MDNJuNyB8chXtz-vvtS91nYYPl9hSsnERNzMqRxo1W1DHF8AiPo4XmBJREolKwT3xo7E6N-L4jknFY11Gyjho7RXKygosskNEZSR0XCQ9RzkT1Fqdf2WBqW4zOoSujR-OzkXQzp_twZctxWkdQDPTLd_tlxempC1bORwOjlc_lrEXQ1rGEyQGGBAP1IhmMo2O3aC6JyVGMYMI2s5DrQ9V_DbRow7yyF4BYbOfvjeJl4U"/>
+<span class="font-headline font-black text-[#0a2200] tracking-tighter text-lg">Resilient Sanctuary</span>
+</div>
+<button class="text-[#0a2200] hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</header>
+<main class="pt-24 px-6 max-w-7xl mx-auto">
+<!-- Editorial Header Section -->
+<section class="mb-12">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+<div class="md:col-span-7">
+<h1 class="text-5xl md:text-6xl font-headline font-extrabold tracking-tight text-primary leading-[1.1]">
+                        Our Circle of <br/><span class="text-secondary-container">Gentle Support.</span>
+</h1>
+</div>
+<div class="md:col-span-5 pb-2">
+<p class="text-on-surface-variant text-lg leading-relaxed">
+                        Coordinating care shouldn't feel like a chore. Here is the sanctuary of people dedicated to your well-being, organized for clarity and peace of mind.
+                    </p>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Column: Care Team Members (Bento Style) -->
+<div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Member Card: Primary Caregiver -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0_4px_20px_rgba(25,28,23,0.03)] flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<img alt="Member" class="w-20 h-20 rounded-lg object-cover" data-alt="portrait of a middle-aged woman with warm expression, wearing a soft cream sweater, natural light from a window" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzfTKOyOYwHAQYxKbXyX5HfQJTZkxwt_BYHdkMwCQwgwl3X_7njqtO0GFfTZ4Ltl9VaNBidvR9PGz5jqKozofo4rGfmhhtpAmdA4bqSWOszY9XZTOnm0zXJMQtPcdF-3C_B24pgIsR-MfUqJbmdU1EswkMAIPOY8P1nO-R1aWXlSEmOmzwLSMiZVdwArtpAd_nLUl7Rzif1rMl7Qr0p3UP_VamRbvPaiE_JI-JydHGBdNOX8Mc9PzgJt2xPjY8TQRCR_tUZbjgjAw"/>
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Primary Caregiver</span>
+</div>
+<div>
+<h3 class="text-2xl font-headline font-bold text-primary">Sarah Jenkins</h3>
+<p class="text-on-surface-variant italic">Daughter &amp; Healthcare Proxy</p>
+</div>
+<div class="flex gap-2">
+<button class="bg-primary text-white w-full py-3 rounded-full font-bold hover:opacity-90 transition-opacity">Message</button>
+<button class="bg-surface-container-low text-primary w-14 h-14 flex items-center justify-center rounded-full">
+<span class="material-symbols-outlined" data-icon="call">call</span>
+</button>
+</div>
+</div>
+<!-- Member Card: Medical Professional -->
+<div class="bg-surface-container-low p-8 rounded-xl flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<img alt="Doctor" class="w-20 h-20 rounded-lg object-cover" data-alt="professional portrait of a male doctor in a light blue shirt, calm and reassuring expression, minimalist medical office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkVkJoq9b2L5nsatx6OpSIjw5ioenpyIYk_hfQ2V_3vXdZZETfI_B_k_-OsRRcYGa7YCXq6o_34kAVbw699YANXXMy7nn8i9ISbDQhkYmIJaGKGEoPksJjh7MjlkVKP2N3FJJh7wxfnpJnSqYT-O2IlN4fC0awXXXYwlToPM9SHvH3pLPkU9W0skqOts98jhW9gZmoK98ln4d2pY9N1hovwSGv-lYlYdc8giFVdvkInddF4UUCqDwFbJU_SkBMFC1PxdwiJdHfhHM"/>
+<span class="bg-surface-container-highest text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Medical Lead</span>
+</div>
+<div>
+<h3 class="text-2xl font-headline font-bold text-primary">Dr. Elias Thorne</h3>
+<p class="text-on-surface-variant">Palliative Care Specialist</p>
+</div>
+<div class="pt-2 border-t border-outline-variant/20">
+<p class="text-sm flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+                            Available: Mon - Thu, 9am - 4pm
+                        </p>
+</div>
+</div>
+<!-- Chat Preview Section (Spans 2 columns on tablet+) -->
+<div class="md:col-span-2 bg-primary text-white rounded-xl overflow-hidden relative min-h-[300px]">
+<div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]"></div>
+<div class="p-8 relative z-10 h-full flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-2xl font-headline font-bold">Family Care Circle</h3>
+<div class="flex -space-x-3">
+<div class="w-8 h-8 rounded-full border-2 border-primary bg-slate-400"></div>
+<div class="w-8 h-8 rounded-full border-2 border-primary bg-emerald-400"></div>
+<div class="w-8 h-8 rounded-full border-2 border-primary bg-rose-400"></div>
+<div class="w-8 h-8 rounded-full border-2 border-primary bg-surface-container flex items-center justify-center text-[10px] text-primary font-bold">+4</div>
+</div>
+</div>
+<div class="space-y-4 flex-grow">
+<div class="bg-primary-container/50 p-4 rounded-lg rounded-tl-none max-w-[80%]">
+<p class="text-xs font-bold text-tertiary-fixed mb-1">Sarah Jenkins</p>
+<p class="text-sm">I've updated the weekend schedule. Who can take the Saturday afternoon shift for reading?</p>
+</div>
+<div class="bg-white/10 p-4 rounded-lg rounded-tr-none max-w-[80%] ml-auto backdrop-blur-sm">
+<p class="text-xs font-bold text-secondary-container mb-1">Michael (You)</p>
+<p class="text-sm">I'm free from 2pm onwards. I'll bring the new poetry book.</p>
+</div>
+</div>
+<div class="mt-6 flex gap-3">
+<div class="flex-grow bg-white/10 rounded-full px-5 py-3 flex items-center backdrop-blur-md">
+<span class="text-white/60 text-sm">Type a message...</span>
+</div>
+<button class="bg-secondary-container text-white p-3 rounded-full active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Delegated Tasks & Summary -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Gentle Quote Signature Component -->
+<div class="bg-surface-container-highest p-8 rounded-lg relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary-container"></div>
+<p class="text-primary font-headline font-semibold text-lg leading-snug">
+                        "Care is not a burden to be carried alone, but a tapestry to be woven together."
+                    </p>
+</div>
+<!-- Delegated Tasks List -->
+<div class="bg-surface-container p-6 rounded-xl space-y-6">
+<div class="flex justify-between items-center">
+<h4 class="font-headline font-bold text-primary text-xl">Active Tasks</h4>
+<span class="text-xs font-bold text-on-surface-variant bg-surface-variant px-2 py-1 rounded">8 DELEGATED</span>
+</div>
+<div class="space-y-4">
+<!-- Task Item -->
+<div class="bg-surface-container-lowest p-4 rounded-lg flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container/10 flex items-center justify-center text-secondary-container">
+<span class="material-symbols-outlined" data-icon="medication">medication</span>
+</div>
+<div class="flex-grow">
+<p class="font-bold text-primary text-sm">Organize Meds</p>
+<p class="text-xs text-on-surface-variant">Assigned to Sarah</p>
+</div>
+<span class="material-symbols-outlined text-on-tertiary-container" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<!-- Task Item -->
+<div class="bg-surface-container-lowest p-4 rounded-lg flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" data-icon="shopping_basket">shopping_basket</span>
+</div>
+<div class="flex-grow">
+<p class="font-bold text-primary text-sm">Grocery Run</p>
+<p class="text-xs text-on-surface-variant">Assigned to David</p>
+</div>
+<div class="w-2 h-2 rounded-full bg-secondary-container"></div>
+</div>
+<!-- Task Item -->
+<div class="bg-surface-container-lowest p-4 rounded-lg flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<div class="flex-grow">
+<p class="font-bold text-primary text-sm">Review Legal Docs</p>
+<p class="text-xs text-on-surface-variant">Assigned to Mark (Legal)</p>
+</div>
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+</div>
+</div>
+<button class="w-full py-4 border-2 border-dashed border-outline-variant rounded-lg text-on-surface-variant font-bold text-sm hover:bg-surface-variant/30 transition-colors">
+                        + Delegate New Task
+                    </button>
+</div>
+<!-- Coordination Map Placeholder -->
+<div class="rounded-xl overflow-hidden h-48 relative bg-surface-dim">
+<img alt="Map" class="w-full h-full object-cover grayscale opacity-50" data-alt="minimalist overhead map view of a suburban neighborhood with soft muted green and grey tones" data-location="Seattle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyFIP8_89jfzDZvTaIQSZZyVqttlKjsxq1CtcpQklDEvW2JzMZHTcJZyL57PUFpywoKL4p5-mjPJVXdax63ZErY92ZLEtdGXewriZWgrRrL1iXl4HjwRIMY-Q9DJTekIDVWWCI_kXNM2nCSAg0ie8aqF_IRTav9M7-yLe8nFoxYuyIZ2nHsRcqljtDnkxYKvUqPUb8cJgLkiEtPAo8p4bnaaLj40jHKZZXXXKHL5QPRvBUm3DuT0VQgLq9LPvZzsTdyTnaI5s_1VU"/>
+<div class="absolute inset-0 flex flex-col items-center justify-center bg-primary/20 backdrop-blur-[2px] p-6 text-center">
+<span class="material-symbols-outlined text-white mb-2" data-icon="location_on">location_on</span>
+<p class="text-white font-bold text-sm">4 Team Members Nearby</p>
+<p class="text-white/80 text-xs">Averaging 15m response time</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB for adding new team member -->
+<button class="fixed right-8 bottom-32 bg-secondary-container text-white w-16 h-16 rounded-full shadow-xl flex items-center justify-center active:scale-90 transition-transform z-40">
+<span class="material-symbols-outlined scale-125" data-icon="person_add">person_add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#f8faf1]/90 backdrop-blur-2xl rounded-t-[3rem] shadow-[0_-10px_40px_rgba(25,28,23,0.05)]">
+<a class="flex flex-col items-center justify-center text-[#43493d] opacity-60 hover:opacity-100 transition-all active:scale-90 duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-body text-[11px] font-medium tracking-wide mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43493d] opacity-60 hover:opacity-100 transition-all active:scale-90 duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard_customize">dashboard_customize</span>
+<span class="font-body text-[11px] font-medium tracking-wide mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43493d] opacity-60 hover:opacity-100 transition-all active:scale-90 duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+<span class="font-body text-[11px] font-medium tracking-wide mt-1">Library</span>
+</a>
+<!-- Active Tab: Team -->
+<a class="flex flex-col items-center justify-center bg-[#f3f4ec] text-[#fc6451] rounded-full px-5 py-2 active:scale-90 duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="font-body text-[11px] font-medium tracking-wide mt-1">Team</span>
+</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SAGE PERSISTENT BAR — unified voice + chat input
+     Voice and text share one panel; mic transcribes into the text field.
+═══════════════════════════════════════════════════════════════ -->
+<style>
+body { padding-bottom: 62px; }
+#sage-bar {
+  position:fixed;bottom:0;left:0;right:0;z-index:9998;
+  background:#173901;border-top:1px solid rgba(255,255,255,0.07);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+#sage-panel {
+  position:fixed;bottom:62px;left:0;right:0;z-index:9997;
+  background:#ffffff;border-top:2px solid #a8d38a;
+  box-shadow:0 -8px 40px rgba(0,0,0,0.18);
+  transform:translateY(100%);transition:transform 0.3s cubic-bezier(.4,0,.2,1);
+  max-height:420px;display:flex;flex-direction:column;
+}
+#sage-panel.sp-open { transform:translateY(0); }
+#sage-msgs {
+  flex:1;overflow-y:auto;padding:16px 20px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.sp-row { display:flex; }
+.sp-bubble {
+  max-width:78%;padding:9px 13px;border-radius:10px;
+  font-size:13.5px;line-height:1.55;font-family:Inter,sans-serif;
+  color:#1c1b1b;
+}
+.sp-bubble.sage { background:#eaf4e0; }
+.sp-bubble.user { background:#a8d38a;color:#fff;margin-left:auto; }
+#sage-inp-row {
+  border-top:1px solid #c3c9b9;padding:10px 14px;
+  display:flex;gap:8px;align-items:center;flex-shrink:0;
+}
+#sage-text {
+  flex:1;border:1px solid #c3c9b9;border-radius:22px;
+  padding:8px 15px;font-size:13.5px;font-family:Inter,sans-serif;
+  outline:none;background:#fcf9f8;color:#1c1b1b;
+}
+#sage-text:focus { border-color:#173901; }
+#sp-send {
+  background:#a8d38a;color:#fff;border:none;border-radius:50%;
+  width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+#sp-mic {
+  background:none;border:1px solid #c3c9b9;border-radius:50%;
+  width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  color:#1c1b1b;flex-shrink:0;transition:all .2s;
+}
+#sp-mic.listening {
+  background:#a8d38a;border-color:#a8d38a;color:#fff;
+  animation:sp-pulse 1s infinite;
+}
+@keyframes sp-pulse { 0%,100%{opacity:1} 50%{opacity:.55} }
+.sp-typing { display:flex;gap:4px;align-items:center;padding:9px 13px; }
+.sp-typing span {
+  width:6px;height:6px;background:#a8d38a;border-radius:50%;
+  animation:sp-bounce 1.2s infinite;
+}
+.sp-typing span:nth-child(2) { animation-delay:.2s }
+.sp-typing span:nth-child(3) { animation-delay:.4s }
+@keyframes sp-bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+#sage-bar-fake-input {
+  flex:1;cursor:pointer;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);border-radius:26px;
+  padding:7px 14px;display:flex;align-items:center;gap:8px;max-width:480px;
+}
+</style>
+
+<!-- BAR -->
+<div id="sage-bar">
+  <div style="max-width:1180px;margin:0 auto;padding:0 16px;height:62px;display:flex;align-items:center;gap:10px;">
+    <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
+      <div style="width:7px;height:7px;background:#a8d38a;border-radius:50%;box-shadow:0 0 6px #a8d38a66;"></div>
+      <span style="font-family:Inter,sans-serif;font-size:11px;font-weight:800;color:rgba(255,255,255,.55);letter-spacing:.08em;">SAGE</span>
+    </div>
+    <div id="sage-bar-fake-input" onclick="spOpen()">
+      <span style="font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.32);flex:1;">Ask anything about Care Goals…</span>
+      <button id="sp-bar-mic" onclick="event.stopPropagation();spVoice()" title="Voice" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;padding:0;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.38)" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      </button>
+    </div>
+    <a href="https://co-op.care" target="_blank" style="text-decoration:none;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:6px;padding:5px 11px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.6);white-space:nowrap;">co-op.care →</a>
+  </div>
+</div>
+
+<!-- SLIDE-UP PANEL -->
+<div id="sage-panel">
+  <div style="padding:10px 16px;border-bottom:1px solid #c3c9b9;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="width:7px;height:7px;background:#a8d38a;border-radius:50%;"></div>
+      <span style="font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#1c1b1b;">Sage AI</span>
+      <span style="font-family:Inter,sans-serif;font-size:11px;color:#2d5016;background:#eaf4e0;padding:2px 8px;border-radius:10px;">Care Goals</span>
+    </div>
+    <button onclick="spClose()" style="background:none;border:none;cursor:pointer;font-size:20px;color:#2d5016;line-height:1;padding:2px 6px;">×</button>
+  </div>
+  <div id="sage-msgs">
+    <div class="sp-row"><div class="sp-bubble sage">Hi, I'm Sage. I help with advance care planning, family conversations, and co-op.care. Type your question or tap the mic to speak.</div></div>
+  </div>
+  <div id="sage-inp-row">
+    <button id="sp-mic" onclick="spVoice()" title="Voice input">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+    </button>
+    <input id="sage-text" type="text" placeholder="Type or speak…" onkeydown="if(event.key==='Enter')spSend()">
+    <button id="sp-send" onclick="spSend()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* ── RESPONSES ─────────────────────────────────────────────── */
+  const R = {
+  'directive': 'Advance directives through CareGoals are conversational — Sage asks questions over time rather than presenting a form all at once. Most people complete theirs across 2–3 conversations.',
+  'advance': 'Advance directives through CareGoals are conversational — Sage asks questions over time. Most people complete theirs across 2–3 conversations.',
+  'family': 'Family members can be added to your care circle with read-only access to your preferences. In an emergency, everyone knows what matters most to you.',
+  'dnr': 'DNR decisions are one part of advance planning. Sage explores the full picture: what comfort-focused care means to you, and which interventions you do or don\'t want — across many scenarios.',
+  'hsa': 'A Letter of Medical Necessity from Sage unlocks HSA and FSA dollars for home care. A single letter typically unlocks about $936/year in tax-free spending.',
+  'cost': 'CareGoals is free. co-op.care companion care starts at $59/month — most of which is HSA-eligible with an LMN from Sage.',
+  'proxy': 'A healthcare proxy is the person who speaks for you when you can\'t. CareGoals walks you through choosing this person and produces a shareable designation.',
+  'memory': 'Sage builds a persistent care profile across every conversation — so you never repeat yourself. Your preferences compound over time.',
+  'hospital': 'Your CareGoals summary can be shared with any hospital as a one-page PDF: your values, medical preferences, proxy, and what matters most.',
+  '_default': 'Sage is here for care planning, advance directives, family communication, and HSA/FSA guidance. What\'s on your mind right now?'
+};
+
+  /* ── STATE ─────────────────────────────────────────────────── */
+  let open = false, listening = false, rec = null;
+
+  /* ── PANEL ─────────────────────────────────────────────────── */
+  function spOpen() {
+    open = true;
+    document.getElementById('sage-panel').classList.add('sp-open');
+    document.getElementById('sage-text').focus();
+  }
+  window.spOpen = spOpen;
+
+  function spClose() {
+    open = false;
+    document.getElementById('sage-panel').classList.remove('sp-open');
+    stopRec();
+  }
+  window.spClose = spClose;
+  const chatHistory = [];
+
+  async function spSend() {{
+    const inp = document.getElementById('sage-text');
+    const txt = inp.value.trim();
+    if (!txt) return;
+    inp.value = '';
+    addBubble(txt, 'user');
+    addTyping();
+    chatHistory.push({{ role: 'user', content: txt }});
+
+    try {{
+      const resp = await fetch('/api/sage', {{
+        method: 'POST',
+        headers: {{ 'Content-Type': 'application/json' }},
+        body: JSON.stringify({{
+          message: txt,
+          site: 'caregoals',
+          history: chatHistory.slice(-8)
+        }})
+      }});
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const data = await resp.json();
+      removeTyping();
+      const reply = data.response || getReply(txt);
+      addBubble(reply, 'sage');
+      chatHistory.push({{ role: 'assistant', content: reply }});
+    }} catch(e) {{
+      removeTyping();
+      const fallback = getReply(txt);
+      addBubble(fallback, 'sage');
+      chatHistory.push({{ role: 'assistant', content: fallback }});
+    }}
+  }}, 900 + Math.random() * 700);
+  }
+  window.spSend = spSend;
+
+  function addBubble(text, who) {
+    const msgs = document.getElementById('sage-msgs');
+    const row = document.createElement('div');
+    row.className = 'sp-row';
+    const b = document.createElement('div');
+    b.className = 'sp-bubble ' + who;
+    b.textContent = text;
+    if (who === 'user') row.style.justifyContent = 'flex-end';
+    row.appendChild(b);
+    msgs.appendChild(row);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function addTyping() {
+    const msgs = document.getElementById('sage-msgs');
+    const row = document.createElement('div');
+    row.id = 'sp-typing';
+    row.className = 'sp-row';
+    row.innerHTML = '<div class="sp-typing"><span></span><span></span><span></span></div>';
+    msgs.appendChild(row);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function removeTyping() {
+    const t = document.getElementById('sp-typing');
+    if (t) t.remove();
+  }
+
+  function getReply(text) {
+    const t = text.toLowerCase();
+    for (const [k, v] of Object.entries(R)) {
+      if (k !== '_default' && t.includes(k)) return v;
+    }
+    return R._default || "I'm here to help — can you tell me more?";
+  }
+
+  /* ── VOICE ─────────────────────────────────────────────────── */
+  function initRec() {
+    if (rec) return true;
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) return false;
+    rec = new SR();
+    rec.continuous = false;
+    rec.interimResults = true;
+    rec.onresult = (e) => {
+      const t = Array.from(e.results).map(r => r[0].transcript).join('');
+      document.getElementById('sage-text').value = t;
+      if (e.results[e.results.length - 1].isFinal) {
+        stopRec();
+        if (!open) spOpen();
+        setTimeout(spSend, 80);
+      }
+    };
+    rec.onend = stopRec;
+    return true;
+  }
+
+  function spVoice() {
+    if (!initRec()) { alert('Voice input is not supported in this browser. Try Chrome.'); return; }
+    if (listening) { stopRec(); return; }
+    listening = true;
+    document.getElementById('sp-mic').classList.add('listening');
+    const bm = document.getElementById('sp-bar-mic');
+    if (bm) bm.querySelector('svg').setAttribute('stroke', '#a8d38a');
+    if (!open) spOpen();
+    try { rec.start(); } catch(e) {}
+  }
+  window.spVoice = spVoice;
+
+  function stopRec() {
+    listening = false;
+    if (rec) try { rec.stop(); } catch(e) {}
+    document.getElementById('sp-mic').classList.remove('listening');
+    const bm = document.getElementById('sp-bar-mic');
+    if (bm) bm.querySelector('svg').setAttribute('stroke', 'rgba(255,255,255,.38)');
+  }
+})();
+</script>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<!-- co-op.care ecosystem footer -->
+<footer style="background:#1B2A4A;padding:48px 24px 32px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+<div style="max-width:800px;margin:0 auto;">
+<div style="text-align:center;margin-bottom:24px;">
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-bottom:16px;">
+<a href="https://co-op.care" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">co-op.care</a>
+<a href="https://surgeonvalue.com" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">SurgeonValue</a>
+<a href="https://caregoals.com" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">CareGoals</a>
+<a href="https://comfortcard.org" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">ComfortCard</a>
+<a href="https://clinicalswipe.com" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">ClinicalSwipe</a>
+<a href="https://solvinghealth.com" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">SolvingHealth</a>
+</div>
+<p style="font-size:14px;color:rgba(255,255,255,0.5);font-style:italic;margin:0 0 20px;">The health system that works for you — instead of you working for it.</p>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:24px;">
+<a href="https://comfortcard.org" style="font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:8px 20px;border-radius:100px;text-decoration:none;">Get a ComfortCard</a>
+<a href="https://co-op.care" style="font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:8px 20px;border-radius:100px;text-decoration:none;">Start a co-op near you</a>
+<a href="https://solvinghealth.com/afhm" style="font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:8px 20px;border-radius:100px;text-decoration:none;">For Health Systems</a>
+</div>
+</div>
+<p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.15);margin:0;">Physician-governed AI. HIPAA compliant. SolvingHealth LLC.</p>
+</div>
+</footer>
+
+<script src="https://harnesshealth.ai/harness.js"></script>
+</body></html>
