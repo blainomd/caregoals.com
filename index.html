@@ -31,7 +31,81 @@ tailwind.config={theme:{extend:{
 .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
 body{background:#fcf9f4;color:#1c1c19;font-family:'Inter',sans-serif}
 h1,h2,h3,.font-serif{font-family:'Newsreader',serif}
+.faq-item details summary{cursor:pointer;list-style:none}
+.faq-item details summary::-webkit-details-marker{display:none}
+.faq-icon{transition:transform 0.2s ease}
+.faq-item details[open] summary .faq-icon{transform:rotate(45deg)}
 </style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "CareGoals",
+  "url": "https://caregoals.com",
+  "description": "Record family stories. Generate advance directives through conversation. Share Legacy Cards. Connected to co-op.care for full family care.",
+  "publisher": { "@type": "Organization", "name": "SolvingHealth LLC", "url": "https://solvinghealth.com" }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I change my advance directive later?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, at any time while you have decision-making capacity. To revoke, notify your healthcare providers in writing, destroy existing copies, and document the change. Provide updated copies to your physician, hospital, and healthcare proxy. CareGoals makes updating as simple as continuing the conversation — the platform stores version history so you can see how your wishes have evolved." }
+    },
+    {
+      "@type": "Question",
+      "name": "How is an advance directive different from a will?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A will (or last will and testament) governs the distribution of your property after death — it has no effect during your lifetime. An advance directive governs medical decisions during your lifetime when you cannot speak for yourself. They address completely different domains: one is an estate document, the other is a healthcare document. Both are important components of comprehensive life planning." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a Legacy Card?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A Legacy Card is a shareable summary of a person's life story, values, and meaningful memories — generated from a CareGoals conversation. Legacy Cards can be shared on social media, printed, or embedded in the ComfortCard digital wallet. They serve as a living memorial that families can access before and after a loved one's passing. The content also informs the advance directive by surfacing the values that underlie medical preferences." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does CareGoals produce a legally binding advance directive?",
+      "acceptedAnswer": { "@type": "Answer", "text": "CareGoals generates a properly structured advance directive document tailored to your state's requirements. Legal validity requires proper execution: typically two witnesses who are not healthcare providers or beneficiaries, or notarization. co-op.care supports remote online notarization (RON) in 35–40 states. The resulting document is your legally binding advance directive when properly executed." }
+    },
+    {
+      "@type": "Question",
+      "name": "Who should I name as my healthcare proxy?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Your healthcare proxy (also called healthcare agent or durable power of attorney for healthcare) should be someone who will honor your wishes even under emotional pressure. They should be geographically accessible in an emergency, willing to advocate with medical teams, familiar with your values, and able to tolerate medical uncertainty. Crucially, you must have an explicit conversation with them about your wishes before a crisis — a proxy who does not know your preferences is limited in their effectiveness." }
+    },
+    {
+      "@type": "Question",
+      "name": "How does CareGoals connect to the rest of the co-op.care ecosystem?",
+      "acceptedAnswer": { "@type": "Answer", "text": "CareGoals is the life story and advance directive layer of co-op.care. Your completed directive and life story are stored in the ComfortCard digital wallet, accessible to first responders and hospital staff. co-op.care caregivers are trained to support ACP conversations during home visits. The co-op.care $59/month membership includes CareGoals, ComfortCard, and access to physician-reviewed LMNs for HSA/FSA reimbursement." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my health information private on CareGoals?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. CareGoals is HIPAA-compliant. Your information is encrypted at rest and in transit. You control who can access your advance directive — it is not shared without your explicit consent. The co-op.care platform uses Supabase with row-level security and is hosted on HIPAA-eligible infrastructure." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can family members access each other's CareGoals?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, with explicit permission. CareGoals supports a family circle model where a designated family coordinator can view and help update a family member's care preferences — useful when an older adult benefits from support completing the process. Access is granted by the primary account holder and can be revoked at any time. CaresCircle family coordination integrates with CareGoals for shared care planning." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Medicare cover advance care planning?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Medicare covers Advance Care Planning under CPT codes 99497 (first 30 minutes, approximately $86) and 99498 (each additional 30 minutes). This can be billed at an Annual Wellness Visit or as a standalone service. The conversation must be face-to-face with a qualified clinician. co-op.care's physician partner can facilitate Medicare-billable ACP conversations via telehealth." }
+    },
+    {
+      "@type": "Question",
+      "name": "What if my family member has dementia — can they still complete an advance directive?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Decision-making capacity is not all-or-nothing and does not depend on a dementia diagnosis. Many individuals with early or moderate dementia retain capacity to express healthcare preferences. A physician can assess capacity at the time of signing. For individuals who lack capacity, a previously completed advance directive or a court-appointed guardian are the mechanisms for protecting their wishes. Acting early — before significant cognitive decline — provides the greatest protection." }
+    }
+  ]
+}
+</script>
 </head>
 <body class="bg-surface text-on-surface">
 
@@ -43,12 +117,12 @@ h1,h2,h3,.font-serif{font-family:'Newsreader',serif}
     <span class="text-xl font-serif italic text-primary">CareGoals</span>
   </a>
   <div class="hidden md:flex items-center gap-8">
-    <a class="text-primary font-semibold text-xs tracking-[0.15em] uppercase" href="#">Home</a>
+    <a class="text-primary font-semibold text-xs tracking-[0.15em] uppercase" href="/">Home</a>
     <a class="text-on-surface-variant hover:text-primary transition-colors text-xs tracking-[0.15em] uppercase" href="#pillars">The Gift</a>
     <a class="text-on-surface-variant hover:text-primary transition-colors text-xs tracking-[0.15em] uppercase" href="#record">Record</a>
     <a class="text-on-surface-variant hover:text-primary transition-colors text-xs tracking-[0.15em] uppercase" href="#connect">Connect</a>
   </div>
-  <a href="#gift" class="bg-primary text-on-primary px-5 py-2 rounded-lg text-sm font-medium hover:bg-primary-container transition-all">Gift This</a>
+  <a href="/onboarding" class="bg-primary text-on-primary px-5 py-2 rounded-lg text-sm font-medium hover:bg-primary-container transition-all">Start Recording</a>
 </div>
 </nav>
 
@@ -254,6 +328,199 @@ h1,h2,h3,.font-serif{font-family:'Newsreader',serif}
 </section>
 
 </main>
+
+<!-- Deep-dive articles + FAQ -->
+<section class="max-w-4xl mx-auto px-6 py-16 space-y-12">
+
+  <!-- Trust signal -->
+  <div class="bg-white border border-outline-variant/30 rounded-2xl p-6 flex items-start gap-4">
+    <span class="material-symbols-outlined text-primary text-2xl mt-0.5">verified</span>
+    <div>
+      <p class="text-sm font-semibold text-on-surface">Reviewed by a physician</p>
+      <p class="text-xs text-on-surface-variant mt-1 leading-relaxed">Content reviewed by Josh Emdur, DO — Board-Certified Hospitalist, 50-state licensed. Last reviewed April 2026. Sources: Institute for Healthcare Improvement, The Conversation Project, CDC NCHS 2022, JAGS, CMS Physician Fee Schedule 2024.</p>
+    </div>
+  </div>
+
+  <!-- Articles -->
+  <div>
+    <h2 class="text-3xl italic mb-8">Understanding Advance Directives &amp; Life Story Planning</h2>
+    <div class="space-y-6">
+
+      <div class="bg-white rounded-2xl p-8 shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
+        <h3 class="text-xl italic mb-4 text-primary">Why Conversation Beats Forms</h3>
+        <p class="text-sm text-on-surface-variant leading-relaxed mb-4">Research consistently shows that standard advance directive forms are rarely completed — and when they are, they often fail to capture what matters most. A 2022 study in JAMA Network Open found that over half of adults over 65 had never discussed their end-of-life preferences with a physician, despite saying they wanted to. The barrier is not unwillingness — it is the clinical detachment of a form with checkboxes for "intubation: yes/no."</p>
+        <p class="text-sm text-on-surface-variant leading-relaxed">CareGoals uses conversation instead. Sage asks questions like "What would a good day look like for you?" and "What are you most afraid of happening medically?" The answers reveal values — and values are what guide good medical decision-making when a checklist cannot. The advance directive emerges as a natural byproduct. The life story is preserved alongside it, for the family as much as for the medical team.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-8 shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
+        <h3 class="text-xl italic mb-4 text-primary">The Three Documents That Protect Your Wishes</h3>
+        <p class="text-sm text-on-surface-variant leading-relaxed mb-4">Complete protection requires three documents working together. A <strong>living will</strong> states which treatments you want or do not want — but it cannot anticipate every clinical scenario. A <strong>healthcare proxy</strong> (durable power of attorney for healthcare) designates a person to make real-time decisions in the gaps. A <strong>POLST</strong> (Physician Orders for Life-Sustaining Treatment) converts your preferences into immediately actionable medical orders, signed by a physician, that travel with you across all care settings.</p>
+        <p class="text-sm text-on-surface-variant leading-relaxed">Most adults have none of these. CareGoals helps you build all three through a single guided conversation. The physician co-founder of <a href="https://co-op.care" class="text-primary underline">co-op.care</a> reviews each document before it is finalized, and remote online notarization is available in 35–40 states through the platform.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-8 shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
+        <h3 class="text-xl italic mb-4 text-primary">Legacy Cards: The Gift That Outlasts the Directive</h3>
+        <p class="text-sm text-on-surface-variant leading-relaxed mb-4">An advance directive protects medical decisions. A Legacy Card preserves the person behind them. Legacy Cards are shareable summaries of a person's life story, values, meaningful memories, and the things that made them who they are — generated from the CareGoals conversation. They can be shared on social media, printed for a family gathering, or embedded in the <a href="https://comfortcard.org" class="text-primary underline">ComfortCard digital health wallet</a>.</p>
+        <p class="text-sm text-on-surface-variant leading-relaxed">Families who have used Legacy Cards report that the process of creating them — sitting together, asking questions, recording answers — is often more valuable than the card itself. "She told us things we'd never heard." That afternoon becomes an irreplaceable family asset. Every life deserves more than a dash between two dates.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-8 shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
+        <h3 class="text-xl italic mb-4 text-primary">When to Start — and What Happens If You Don't</h3>
+        <p class="text-sm text-on-surface-variant leading-relaxed mb-4">The American Bar Association recommends completing a healthcare proxy designation at age 18 — the moment parents lose automatic legal authority over their children's medical decisions. For most people, the conversation becomes more urgent after a hospitalization, a serious diagnosis, or a significant decline in function. But urgency is the worst time to start.</p>
+        <p class="text-sm text-on-surface-variant leading-relaxed">Without an advance directive, medical decisions default to family consensus — which often means the most aggressive intervention, the longest hospitalization, and the most suffering, because no one wants to be the person who "gave up." Families of patients who had completed advance care planning report significantly less grief, less guilt, and less decisional conflict (JAGS, 2010). The document is a gift to the people left behind. Connect it to <a href="https://carescircle.com" class="text-primary underline">CaresCircle family coordination</a> so everyone is on the same page.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-8 shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
+        <h3 class="text-xl italic mb-4 text-primary">HSA/FSA and Medicare Coverage for Advance Care Planning</h3>
+        <p class="text-sm text-on-surface-variant leading-relaxed mb-4">Medicare covers Advance Care Planning as a separately billable service under CPT 99497 (first 30 minutes, approximately $86) and 99498 (each additional 30 minutes). This can be billed at an Annual Wellness Visit or as a standalone service. The conversation must be face-to-face — or via telehealth — with a qualified clinician. co-op.care's physician partner facilitates Medicare-billable ACP conversations via telehealth as part of the platform.</p>
+        <p class="text-sm text-on-surface-variant leading-relaxed">For non-Medicare patients, advance care planning services may be reimbursable from an HSA or FSA with a physician's Letter of Medical Necessity. The <a href="https://comfortcard.org" class="text-primary underline">ComfortCard HSA/FSA tracker</a> automatically identifies eligible expenses and calculates annual tax savings.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div>
+    <h2 class="text-3xl italic mb-8">Frequently Asked Questions</h2>
+    <div class="space-y-3">
+
+      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
+        <details>
+          <summary class="flex justify-between items-center p-6 gap-4">
+            <span class="text-base font-semibold text-on-surface">Can I change my advance directive later?</span>
+            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
+          </summary>
+          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
+            Yes, at any time while you have decision-making capacity. Notify your healthcare providers in writing, destroy existing copies, and document the change. Provide updated copies to your physician, hospital, and proxy. CareGoals stores version history — updating is as simple as continuing the conversation.
+          </div>
+        </details>
+      </div>
+
+      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
+        <details>
+          <summary class="flex justify-between items-center p-6 gap-4">
+            <span class="text-base font-semibold text-on-surface">How is an advance directive different from a will?</span>
+            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
+          </summary>
+          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
+            A will governs distribution of property after death. An advance directive governs medical decisions during your lifetime when you cannot speak for yourself. They address completely different domains — one is an estate document, the other is a healthcare document. Both are important components of comprehensive life planning.
+          </div>
+        </details>
+      </div>
+
+      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
+        <details>
+          <summary class="flex justify-between items-center p-6 gap-4">
+            <span class="text-base font-semibold text-on-surface">What is a Legacy Card?</span>
+            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
+          </summary>
+          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
+            A shareable summary of a person's life story, values, and meaningful memories — generated from a CareGoals conversation. Legacy Cards can be shared on social media, printed, or stored in the ComfortCard digital wallet. They serve as a living memorial and also inform the advance directive by surfacing the values that underlie medical preferences.
+          </div>
+        </details>
+      </div>
+
+      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
+        <details>
+          <summary class="flex justify-between items-center p-6 gap-4">
+            <span class="text-base font-semibold text-on-surface">Does CareGoals produce a legally binding advance directive?</span>
+            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
+          </summary>
+          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
+            CareGoals generates a properly structured document tailored to your state's requirements. Legal validity requires proper execution: typically two witnesses (not healthcare providers or beneficiaries) or notarization. co-op.care supports remote online notarization in 35–40 states.
+          </div>
+        </details>
+      </div>
+
+      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
+        <details>
+          <summary class="flex justify-between items-center p-6 gap-4">
+            <span class="text-base font-semibold text-on-surface">Who should I name as my healthcare proxy?</span>
+            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
+          </summary>
+          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
+            Someone who will honor your wishes even under emotional pressure — not necessarily the closest family member. They should be geographically accessible, willing to advocate with medical teams, and genuinely familiar with your values. Have an explicit conversation with them before designating them; a proxy who does not know your preferences is limited in their effectiveness.
+          </div>
+        </details>
+      </div>
+
+      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
+        <details>
+          <summary class="flex justify-between items-center p-6 gap-4">
+            <span class="text-base font-semibold text-on-surface">Is my health information private on CareGoals?</span>
+            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
+          </summary>
+          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
+            Yes. CareGoals is HIPAA-compliant with encryption at rest and in transit. You control who can access your advance directive — nothing is shared without your explicit consent. The platform uses Supabase with row-level security on HIPAA-eligible infrastructure.
+          </div>
+        </details>
+      </div>
+
+      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
+        <details>
+          <summary class="flex justify-between items-center p-6 gap-4">
+            <span class="text-base font-semibold text-on-surface">Can family members access each other's CareGoals?</span>
+            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
+          </summary>
+          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
+            Yes, with explicit permission. A designated family coordinator can view and help update a family member's care preferences — useful when an older adult benefits from support. Access is granted by the primary account holder and revocable at any time. <a href="https://carescircle.com" class="text-primary underline">CaresCircle</a> integrates with CareGoals for shared family care planning.
+          </div>
+        </details>
+      </div>
+
+      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
+        <details>
+          <summary class="flex justify-between items-center p-6 gap-4">
+            <span class="text-base font-semibold text-on-surface">Does Medicare cover advance care planning?</span>
+            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
+          </summary>
+          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
+            Yes. CPT 99497 (first 30 min, ~$86) and 99498 (additional 30 min). Billable at an Annual Wellness Visit or standalone. co-op.care's physician partner facilitates Medicare-billable ACP conversations via telehealth as part of the membership.
+          </div>
+        </details>
+      </div>
+
+      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
+        <details>
+          <summary class="flex justify-between items-center p-6 gap-4">
+            <span class="text-base font-semibold text-on-surface">What if my family member has dementia — can they still complete an advance directive?</span>
+            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
+          </summary>
+          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
+            Decision-making capacity does not depend on a dementia diagnosis alone — many individuals with early or moderate dementia retain capacity to express preferences. A physician can assess capacity at time of signing. Acting early, before significant cognitive decline, provides the greatest protection.
+          </div>
+        </details>
+      </div>
+
+      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
+        <details>
+          <summary class="flex justify-between items-center p-6 gap-4">
+            <span class="text-base font-semibold text-on-surface">How does CareGoals connect to co-op.care?</span>
+            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
+          </summary>
+          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
+            CareGoals is the life story and directive layer of co-op.care. Your completed directive is stored in the <a href="https://comfortcard.org" class="text-primary underline">ComfortCard</a> digital wallet, accessible to first responders. The <a href="https://co-op.care" class="text-primary underline">co-op.care $59/month membership</a> includes CareGoals, ComfortCard, and access to physician-reviewed LMNs for HSA/FSA reimbursement.
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Internal links -->
+  <div class="bg-surface-container-low rounded-3xl p-8 text-center">
+    <h3 class="text-xl italic mb-3">Connected to the full care ecosystem</h3>
+    <p class="text-sm text-on-surface-variant mb-6 max-w-lg mx-auto">CareGoals works best alongside ongoing care coordination, digital health identity, and physician oversight.</p>
+    <div class="flex flex-wrap justify-center gap-3 text-sm">
+      <a href="https://co-op.care" class="px-4 py-2 bg-white rounded-full text-primary font-semibold shadow-sm min-h-[44px] flex items-center">co-op.care membership</a>
+      <a href="https://comfortcard.org" class="px-4 py-2 bg-white rounded-full text-primary font-semibold shadow-sm min-h-[44px] flex items-center">ComfortCard digital wallet</a>
+      <a href="https://qualitydeath.com" class="px-4 py-2 bg-white rounded-full text-primary font-semibold shadow-sm min-h-[44px] flex items-center">Quality Death planning guide</a>
+      <a href="https://carescircle.com" class="px-4 py-2 bg-white rounded-full text-primary font-semibold shadow-sm min-h-[44px] flex items-center">CaresCircle family coordination</a>
+      <a href="https://fallrisks.com" class="px-4 py-2 bg-white rounded-full text-primary font-semibold shadow-sm min-h-[44px] flex items-center">FallRisks home safety</a>
+    </div>
+  </div>
+
+</section>
 
 <!-- Medical Disclaimer -->
 <div style="background:#f6f3ee;border-top:1px solid #c1c8c1;padding:14px 24px;text-align:center;">
