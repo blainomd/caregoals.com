@@ -1,540 +1,422 @@
-<!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CareGoals — Every life deserves more than a dash between two dates</title>
-<meta name="description" content="Record mom's stories. The advance directive writes itself. Share Legacy Cards on social media. Connect to co-op.care membership for full family care.">
-<meta property="og:title" content="CareGoals — Record mom's stories. The advance directive writes itself.">
-<meta property="og:description" content="We spent an afternoon recording Mom's stories. She told us things we'd never heard. Every life deserves more than a dash between two dates.">
-<meta property="og:type" content="website">
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CareGoals — Every life deserves more than a dash between two dates.</title>
+<meta name="description" content="Advance care planning that feels like a conversation, not a form. Your values, your wishes, your story — captured in your own voice, over time, shareable with anyone who matters.">
+<meta property="og:title" content="CareGoals — Every life deserves more than a dash between two dates.">
+<meta property="og:description" content="Advance care planning as a conversation. Not a form.">
 <meta property="og:url" content="https://caregoals.com">
+<meta property="og:type" content="website">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config={theme:{extend:{
-  colors:{
-    "primary":"#264f39","primary-container":"#3e6750","primary-fixed":"#c0edd0",
-    "on-primary":"#ffffff","on-primary-container":"#b6e3c6",
-    "secondary":"#58605b","secondary-container":"#dde5dd",
-    "surface":"#fcf9f4","surface-container-low":"#f6f3ee","surface-container":"#f0ede8",
-    "surface-container-high":"#ebe8e2","surface-container-highest":"#e5e2dd",
-    "surface-container-lowest":"#ffffff",
-    "on-surface":"#1c1c19","on-surface-variant":"#414943",
-    "outline":"#717973","outline-variant":"#c1c8c1",
-  },
-  fontFamily:{headline:["Newsreader","serif"],body:["Inter","sans-serif"]}
-}}}
-</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script src="https://harnesshealth.ai/footer.js" defer></script>
+
 <style>
-.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
-body{background:#fcf9f4;color:#1c1c19;font-family:'Inter',sans-serif}
-h1,h2,h3,.font-serif{font-family:'Newsreader',serif}
-.faq-item details summary{cursor:pointer;list-style:none}
-.faq-item details summary::-webkit-details-marker{display:none}
-.faq-icon{transition:transform 0.2s ease}
-.faq-item details[open] summary .faq-icon{transform:rotate(45deg)}
+:root {
+  --hotblue:       #1F4CFF;
+  --hotblue-soft:  #E9EEFF;
+  --sage:          #4A7A5A;
+  --sage-deep:     #2E5238;
+  --sage-soft:     #E6EEE7;
+  --paper:         #F9F7F0;
+  --paper-dim:     #EFEBDD;
+  --card:          #FFFFFF;
+  --ink:           #0B0E27;
+  --ink-dim:       #3B4158;
+  --ink-soft:      #6C7089;
+  --rule:          #D3CEBD;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 17px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.serif { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; }
+.mono  { font-family: 'IBM Plex Mono', ui-monospace, monospace; letter-spacing: 0.02em; }
+
+nav.top {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 24px;
+  background: rgba(249,247,240,0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--rule);
+}
+nav.top .brand {
+  font-family: 'Fraunces', serif; font-weight: 600;
+  font-size: 1.3rem; letter-spacing: -0.01em;
+  color: var(--ink); text-decoration: none;
+}
+nav.top .brand .dot {
+  display: inline-block; width: 10px; height: 10px;
+  background: var(--sage); border-radius: 50%;
+  margin-right: 8px; vertical-align: 2px;
+}
+nav.top .links { display: none; gap: 28px; align-items: center; }
+@media (min-width: 720px) { nav.top .links { display: flex; } }
+nav.top .links a { color: var(--ink-dim); font-size: 0.92rem; text-decoration: none; font-weight: 500; }
+nav.top .links a:hover { color: var(--ink); }
+nav.top .cta {
+  background: var(--ink); color: var(--paper);
+  padding: 9px 18px; border-radius: 999px;
+  font-size: 0.86rem; font-weight: 600; text-decoration: none;
+  transition: background 0.2s;
+}
+nav.top .cta:hover { background: var(--sage-deep); }
+
+section, header.hero { padding: 6rem 1.5rem; max-width: 1180px; margin: 0 auto; }
+@media (min-width: 720px) { section, header.hero { padding: 7rem 2.5rem; } }
+@media (max-width: 540px) { section, header.hero { padding: 4rem 1.2rem; } }
+
+header.hero { display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: center; }
+@media (min-width: 920px) { header.hero { grid-template-columns: 1.1fr 1fr; gap: 5rem; } }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--sage); background: var(--sage-soft);
+  padding: 7px 14px; border-radius: 999px; margin-bottom: 2rem;
+}
+.eyebrow::before { content: ""; width: 6px; height: 6px; background: var(--sage); border-radius: 50%; }
+
+h1.hero-title {
+  font-family: 'Fraunces', serif; font-weight: 500;
+  font-size: clamp(2.6rem, 6.5vw, 4.6rem);
+  line-height: 1.05; letter-spacing: -0.03em;
+  color: var(--ink); margin-bottom: 1.6rem;
+}
+h1.hero-title em { font-style: italic; color: var(--sage); font-weight: 500; }
+.hero-deck {
+  font-size: 1.2rem; line-height: 1.55; color: var(--ink-dim);
+  max-width: 540px; margin-bottom: 2.4rem;
+}
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
+.btn-primary, .btn-secondary {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 26px; border-radius: 999px;
+  font-size: 1rem; font-weight: 600; text-decoration: none;
+  transition: all 0.2s; border: 1px solid transparent;
+}
+.btn-primary { background: var(--ink); color: var(--paper); }
+.btn-primary:hover { background: var(--sage-deep); }
+.btn-secondary { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn-secondary:hover { border-color: var(--ink); background: var(--paper-dim); }
+.hero-microcopy {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem; letter-spacing: 0.04em;
+  color: var(--ink-soft); margin-top: 1.4rem;
+}
+
+.convo {
+  position: relative; background: var(--card);
+  border-radius: 28px; padding: 2rem 1.8rem;
+  box-shadow: 0 1px 0 rgba(11,14,39,0.04), 0 28px 60px -20px rgba(11,14,39,0.14), 0 0 0 1px var(--rule);
+  max-width: 440px; margin: 0 auto;
+}
+.convo .bubble {
+  padding: 14px 18px; border-radius: 18px;
+  font-size: 0.97rem; line-height: 1.45;
+  margin-bottom: 12px; max-width: 85%;
+  font-family: 'Fraunces', serif; font-weight: 400;
+  letter-spacing: -0.005em;
+}
+.convo .from-sage { background: var(--sage-soft); color: var(--sage-deep); border-radius: 18px 18px 18px 4px; }
+.convo .from-you { background: var(--paper-dim); color: var(--ink); border-radius: 18px 18px 4px 18px; margin-left: auto; font-style: italic; }
+.convo .typing {
+  display: inline-flex; gap: 4px; align-items: center;
+  padding: 14px 18px; background: var(--sage-soft); border-radius: 18px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem; color: var(--sage); letter-spacing: 0.1em;
+}
+.convo .typing::before, .convo .typing::after { content: "•"; font-size: 1.1rem; animation: blink 1.4s infinite; }
+.convo .typing::after { animation-delay: 0.3s; }
+@keyframes blink { 0%, 60%, 100% { opacity: 0.25; } 30% { opacity: 1; } }
+.convo-footer {
+  margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem; color: var(--ink-soft);
+}
+
+.sec-head { max-width: 780px; margin-bottom: 4rem; }
+.sec-head .kicker {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--sage); margin-bottom: 1rem;
+}
+.sec-head h2 {
+  font-family: 'Fraunces', serif; font-weight: 500;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  line-height: 1.05; letter-spacing: -0.025em;
+  color: var(--ink); margin-bottom: 1rem;
+}
+.sec-head h2 em { font-style: italic; color: var(--sage); font-weight: 500; }
+.sec-head p.lede { font-size: 1.15rem; line-height: 1.55; color: var(--ink-dim); }
+
+.stories { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+@media (min-width: 780px) { .stories { grid-template-columns: 1fr 1fr 1fr; gap: 2.5rem; } }
+
+.story {
+  background: var(--card); border: 1px solid var(--rule);
+  border-radius: 20px; padding: 2rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.story:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -14px rgba(11,14,39,0.15); }
+a.story-link { display: block; text-decoration: none; color: inherit; }
+a.story-link:hover .story h3 { color: var(--sage); }
+a.story-link:hover { text-decoration: none; }
+.story .n {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.2em;
+  color: var(--sage); margin-bottom: 1rem; display: block;
+}
+.story h3 {
+  font-family: 'Fraunces', serif; font-weight: 500;
+  font-size: 1.45rem; line-height: 1.15;
+  letter-spacing: -0.015em; margin-bottom: 0.8rem; color: var(--ink);
+}
+.story p { color: var(--ink-dim); font-size: 0.97rem; line-height: 1.55; }
+
+.band { background: var(--sage-deep); color: #fff; margin: 0 -999px; padding: 6rem 999px; }
+.band-inner { max-width: 1180px; margin: 0 auto; padding: 0 1.5rem; }
+@media (min-width: 720px) { .band-inner { padding: 0 2.5rem; } }
+.band .kicker {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.74rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(255,255,255,0.6); margin-bottom: 1.2rem;
+}
+.band h2 {
+  font-family: 'Fraunces', serif; font-weight: 500;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  line-height: 1.05; letter-spacing: -0.025em;
+  color: #fff; margin-bottom: 1.2rem; max-width: 820px;
+}
+.band h2 em { font-style: italic; color: #C7E5CE; font-weight: 500; }
+.band p.lede { font-size: 1.2rem; line-height: 1.55; color: rgba(255,255,255,0.85); max-width: 640px; }
+
+.values-grid { display: grid; grid-template-columns: 1fr; gap: 1.2rem; margin-top: 3rem; }
+@media (min-width: 540px) { .values-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) { .values-grid { grid-template-columns: 1fr 1fr 1fr; } }
+.value {
+  padding: 1.6rem; background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14); border-radius: 18px;
+  transition: background 0.2s;
+}
+a.value-link { display: block; text-decoration: none; color: inherit; }
+a.value-link:hover { text-decoration: none; }
+a.value-link:hover .value { background: rgba(255,255,255,0.12); }
+.value .glyph {
+  font-family: 'Fraunces', serif; font-size: 1.7rem; color: #C7E5CE;
+  display: inline-block; margin-bottom: 0.6rem; font-style: italic; font-weight: 400;
+}
+.value strong {
+  display: block; font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.15rem;
+  color: #fff; margin-bottom: 0.3rem; letter-spacing: -0.01em;
+}
+.value p { font-size: 0.93rem; color: rgba(255,255,255,0.78); }
+
+.voice {
+  background: var(--paper-dim); border-radius: 28px;
+  padding: 4rem 2rem; margin-top: 3rem; text-align: center;
+}
+.voice blockquote {
+  font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  line-height: 1.35; letter-spacing: -0.015em;
+  color: var(--ink); max-width: 780px; margin: 0 auto 1.6rem;
+}
+.voice cite {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-soft); font-style: normal;
+}
+
+.closing { text-align: center; padding: 7rem 1.5rem 8rem; max-width: 900px; margin: 0 auto; }
+.closing h2 {
+  font-family: 'Fraunces', serif; font-weight: 500;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.02; letter-spacing: -0.03em;
+  color: var(--ink); margin-bottom: 1.6rem;
+}
+.closing h2 em { font-style: italic; color: var(--sage); font-weight: 500; }
+.closing p.lede {
+  font-size: 1.2rem; line-height: 1.55; color: var(--ink-dim);
+  max-width: 620px; margin: 0 auto 2.6rem;
+}
+.closing .btn-primary { font-size: 1.1rem; padding: 18px 34px; }
+
+footer.site {
+  border-top: 1px solid var(--rule);
+  padding: 3rem 1.5rem 2rem;
+  max-width: 1180px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr; gap: 1.5rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem; color: var(--ink-soft);
+}
+@media (min-width: 720px) { footer.site { grid-template-columns: 1fr 1fr; align-items: center; } }
+footer.site .right { text-align: left; }
+@media (min-width: 720px) { footer.site .right { text-align: right; } }
+footer.site a { color: var(--ink-dim); text-decoration: none; }
+footer.site a:hover { color: var(--sage); }
 </style>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "CareGoals",
-  "url": "https://caregoals.com",
-  "description": "Record family stories. Generate advance directives through conversation. Share Legacy Cards. Connected to co-op.care for full family care.",
-  "publisher": { "@type": "Organization", "name": "SolvingHealth LLC", "url": "https://solvinghealth.com" }
-}
-</script>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Can I change my advance directive later?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes, at any time while you have decision-making capacity. To revoke, notify your healthcare providers in writing, destroy existing copies, and document the change. Provide updated copies to your physician, hospital, and healthcare proxy. CareGoals makes updating as simple as continuing the conversation — the platform stores version history so you can see how your wishes have evolved." }
-    },
-    {
-      "@type": "Question",
-      "name": "How is an advance directive different from a will?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A will (or last will and testament) governs the distribution of your property after death — it has no effect during your lifetime. An advance directive governs medical decisions during your lifetime when you cannot speak for yourself. They address completely different domains: one is an estate document, the other is a healthcare document. Both are important components of comprehensive life planning." }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a Legacy Card?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A Legacy Card is a shareable summary of a person's life story, values, and meaningful memories — generated from a CareGoals conversation. Legacy Cards can be shared on social media, printed, or embedded in the ComfortCard digital wallet. They serve as a living memorial that families can access before and after a loved one's passing. The content also informs the advance directive by surfacing the values that underlie medical preferences." }
-    },
-    {
-      "@type": "Question",
-      "name": "Does CareGoals produce a legally binding advance directive?",
-      "acceptedAnswer": { "@type": "Answer", "text": "CareGoals generates a properly structured advance directive document tailored to your state's requirements. Legal validity requires proper execution: typically two witnesses who are not healthcare providers or beneficiaries, or notarization. co-op.care supports remote online notarization (RON) in 35–40 states. The resulting document is your legally binding advance directive when properly executed." }
-    },
-    {
-      "@type": "Question",
-      "name": "Who should I name as my healthcare proxy?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Your healthcare proxy (also called healthcare agent or durable power of attorney for healthcare) should be someone who will honor your wishes even under emotional pressure. They should be geographically accessible in an emergency, willing to advocate with medical teams, familiar with your values, and able to tolerate medical uncertainty. Crucially, you must have an explicit conversation with them about your wishes before a crisis — a proxy who does not know your preferences is limited in their effectiveness." }
-    },
-    {
-      "@type": "Question",
-      "name": "How does CareGoals connect to the rest of the co-op.care ecosystem?",
-      "acceptedAnswer": { "@type": "Answer", "text": "CareGoals is the life story and advance directive layer of co-op.care. Your completed directive and life story are stored in the ComfortCard digital wallet, accessible to first responders and hospital staff. co-op.care caregivers are trained to support ACP conversations during home visits. The co-op.care $59/month membership includes CareGoals, ComfortCard, and access to physician-reviewed LMNs for HSA/FSA reimbursement." }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my health information private on CareGoals?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. CareGoals is HIPAA-compliant. Your information is encrypted at rest and in transit. You control who can access your advance directive — it is not shared without your explicit consent. The co-op.care platform uses Supabase with row-level security and is hosted on HIPAA-eligible infrastructure." }
-    },
-    {
-      "@type": "Question",
-      "name": "Can family members access each other's CareGoals?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes, with explicit permission. CareGoals supports a family circle model where a designated family coordinator can view and help update a family member's care preferences — useful when an older adult benefits from support completing the process. Access is granted by the primary account holder and can be revoked at any time. CaresCircle family coordination integrates with CareGoals for shared care planning." }
-    },
-    {
-      "@type": "Question",
-      "name": "Does Medicare cover advance care planning?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Medicare covers Advance Care Planning under CPT codes 99497 (first 30 minutes, approximately $86) and 99498 (each additional 30 minutes). This can be billed at an Annual Wellness Visit or as a standalone service. The conversation must be face-to-face with a qualified clinician. co-op.care's physician partner can facilitate Medicare-billable ACP conversations via telehealth." }
-    },
-    {
-      "@type": "Question",
-      "name": "What if my family member has dementia — can they still complete an advance directive?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Decision-making capacity is not all-or-nothing and does not depend on a dementia diagnosis. Many individuals with early or moderate dementia retain capacity to express healthcare preferences. A physician can assess capacity at the time of signing. For individuals who lack capacity, a previously completed advance directive or a court-appointed guardian are the mechanisms for protecting their wishes. Acting early — before significant cognitive decline — provides the greatest protection." }
-    }
-  ]
-}
-</script>
 </head>
-<body class="bg-surface text-on-surface">
+<body>
 
-<!-- NAV -->
-<nav class="sticky top-0 z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
-<div class="flex justify-between items-center px-6 md:px-12 py-4 max-w-6xl mx-auto">
-  <a href="/" class="flex items-center gap-2">
-    <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings:'FILL' 1">auto_stories</span>
-    <span class="text-xl font-serif italic text-primary">CareGoals</span>
-  </a>
-  <div class="hidden md:flex items-center gap-8">
-    <a class="text-primary font-semibold text-xs tracking-[0.15em] uppercase" href="/">Home</a>
-    <a class="text-on-surface-variant hover:text-primary transition-colors text-xs tracking-[0.15em] uppercase" href="#pillars">The Gift</a>
-    <a class="text-on-surface-variant hover:text-primary transition-colors text-xs tracking-[0.15em] uppercase" href="#record">Record</a>
-    <a class="text-on-surface-variant hover:text-primary transition-colors text-xs tracking-[0.15em] uppercase" href="#connect">Connect</a>
+<nav class="top">
+  <a href="/" class="brand"><span class="dot"></span>CareGoals</a>
+  <div class="links">
+    <a href="#how">How it works</a>
+    <a href="#values">What we capture</a>
+    <a href="#ecosystem">Ecosystem</a>
   </div>
-  <a href="/onboarding" class="bg-primary text-on-primary px-5 py-2 rounded-lg text-sm font-medium hover:bg-primary-container transition-all">Start Recording</a>
-</div>
+  <a href="/first-session" class="cta">Start a session</a>
 </nav>
 
-<main class="max-w-6xl mx-auto px-6 py-12 md:py-24">
-
-<!-- HERO -->
-<section class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-32">
-  <div class="lg:col-span-6 z-10">
-    <span class="font-body text-xs tracking-[0.3em] uppercase text-primary font-bold mb-4 block">Every life deserves more than a dash between two dates</span>
-    <h1 class="text-5xl md:text-7xl leading-[1.1] text-on-surface mb-8 tracking-tight italic">
-      Record mom's stories.<br/>The advance directive<br/>writes itself.
-    </h1>
-    <p class="text-xl text-secondary leading-relaxed mb-10 max-w-lg">
-      "We spent an afternoon recording Mom's stories. She told us things we'd never heard."
-      CareGoals captures stories, preserves legacies, and generates advance directives as a natural byproduct — not through forms, but through conversation. Share Legacy Cards on social media.
-    </p>
-    <div class="flex flex-col sm:flex-row gap-4">
-      <a href="#gift" class="px-8 py-5 rounded-lg bg-primary text-on-primary font-semibold text-lg flex items-center justify-center gap-3 shadow-lg shadow-primary/10 hover:bg-primary-container transition-all">
-        Start recording stories <span class="material-symbols-outlined">arrow_forward</span>
-      </a>
-      <a href="https://co-op.care" class="px-8 py-5 rounded-lg border border-outline-variant/30 text-primary font-semibold text-lg hover:bg-surface-container-low transition-colors text-center">
-        co-op.care membership
-      </a>
-    </div>
-  </div>
-  <div class="lg:col-span-6 relative h-[400px] md:h-[550px]">
-    <div class="absolute inset-0 bg-surface-container-high rounded-3xl rotate-2"></div>
-    <img alt="Family legacy — grandmother and grandchild" class="absolute inset-0 w-full h-full object-cover rounded-3xl -rotate-2 shadow-2xl" src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=800&q=80&fit=crop"/>
-    <div class="absolute -bottom-8 -left-8 hidden md:block bg-surface-container-lowest p-6 rounded-2xl shadow-xl max-w-xs border border-surface-container-high">
-      <div class="flex items-center gap-3 mb-3">
-        <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">auto_stories</span>
-        <span class="font-body text-xs uppercase tracking-widest font-bold">Polly's Legacy</span>
-      </div>
-      <p class="text-sm text-secondary italic">"We spent an afternoon recording Mom's stories. She told us things we'd never heard."</p>
-      <p class="text-xs text-outline mt-2">— A Boulder family, 50+ stories captured</p>
-    </div>
-  </div>
-</section>
-
-<!-- THREE PILLARS -->
-<section class="mb-32" id="pillars">
-  <div class="text-center mb-16">
-    <h2 class="text-4xl md:text-5xl mb-4 italic">The Pillars of Comfort Care</h2>
-    <div class="w-24 h-0.5 bg-primary/20 mx-auto"></div>
-  </div>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-    <div class="md:col-span-2 bg-surface-container-low p-10 rounded-3xl group hover:bg-surface-container-lowest transition-all">
-      <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-6 text-primary">
-        <span class="material-symbols-outlined">history_edu</span>
-      </div>
-      <h3 class="text-3xl mb-4 italic">Documented Wishes</h3>
-      <p class="text-lg text-secondary leading-relaxed max-w-md">
-        Advance directives emerge naturally from your stories — not through cold forms. CareGoals captures your values first, then generates the legal documents that reflect who you truly are.
-      </p>
-      <div class="mt-8 flex items-center gap-2 text-primary font-bold tracking-widest uppercase text-xs">
-        ACP billing: 99497 / 99498 <span class="material-symbols-outlined text-sm">east</span>
-      </div>
-    </div>
-    <div class="bg-primary p-10 rounded-3xl text-on-primary">
-      <div class="relative overflow-hidden h-28 -mt-10 -mx-10 rounded-t-3xl mb-6">
-        <img class="w-full h-full object-cover opacity-50" src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80&fit=crop" alt="Family gathering around kitchen table"/>
-      </div>
-      <h3 class="text-2xl mb-4 italic">Share Legacy Cards</h3>
-      <p class="text-on-primary/80 leading-relaxed">Every story can become a Legacy Card — a shareable moment on social media. A recipe, a lesson, a memory captured in conversation. "We spent an afternoon recording Mom's stories. She told us things we'd never heard." AI transcribes, organizes, and makes it beautiful.</p>
-    </div>
-    <div class="bg-secondary-container p-10 rounded-3xl flex flex-col items-center text-center justify-center group">
-      <div class="w-20 h-20 bg-surface-container-lowest rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
-        <span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings:'FILL' 1">card_giftcard</span>
-      </div>
-      <h3 class="text-2xl mb-4 italic">The Century Plan</h3>
-      <p class="text-secondary leading-relaxed mb-4">$1,000 for 100 years of preserved legacy. Gift a lifetime of stories that keeps growing as your family does.</p>
-      <span class="font-mono text-xs text-primary/60 tracking-tighter">ARCHIVAL QUALITY · FOREVER</span>
-    </div>
-    <div class="md:col-span-2 bg-surface-container-low p-10 rounded-3xl flex items-center gap-12 group">
-      <div class="flex-1">
-        <h3 class="text-3xl mb-4 italic">The Family Circle</h3>
-        <p class="text-lg text-secondary leading-relaxed">Invite your inner circle to collaborate. Share stories, assign guardians, and build a collective legacy together. When someone can't speak for themselves, the circle speaks with one voice.</p>
-      </div>
-      <div class="hidden lg:flex w-16 h-16 bg-primary/10 rounded-full items-center justify-center flex-shrink-0">
-        <span class="material-symbols-outlined text-primary text-3xl">group</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- VOICE RECORDING PREVIEW -->
-<section class="mb-32" id="record">
-  <div class="bg-gradient-to-br from-primary to-primary-container rounded-[2.5rem] p-12 md:p-16 text-on-primary">
-    <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-      <div>
-        <span class="text-xs tracking-[0.2em] uppercase opacity-60 font-bold block mb-4">The Digital Heirloom</span>
-        <h2 class="text-3xl md:text-4xl italic mb-6">What was your favorite childhood memory?</h2>
-        <p class="text-on-primary-container/80 leading-relaxed mb-8">Open a conversation. Ask the questions only you would think to ask. Every answer is captured, transcribed, and preserved for generations.</p>
-        <div class="flex flex-wrap gap-6">
-          <div><div class="text-3xl font-bold">50+</div><div class="text-xs uppercase tracking-widest opacity-50">Stories captured</div></div>
-          <div><div class="text-3xl font-bold">100yr</div><div class="text-xs uppercase tracking-widest opacity-50">Century Plan</div></div>
-          <div><div class="text-3xl font-bold">$1,000</div><div class="text-xs uppercase tracking-widest opacity-50">Legacy forever</div></div>
-        </div>
-      </div>
-      <div class="flex justify-center">
-        <div class="bg-white/8 backdrop-blur-xl border border-white/12 rounded-[2rem] p-8 text-center max-w-[280px] w-full">
-          <div class="w-20 h-20 rounded-full bg-white/10 border-2 border-white/20 flex items-center justify-center mx-auto mb-6">
-            <span class="material-symbols-outlined text-3xl">mic</span>
-          </div>
-          <div class="flex justify-center items-end gap-[3px] h-10 mb-6">
-            <div class="w-[3px] rounded bg-white/30" style="height:30%"></div>
-            <div class="w-[3px] rounded bg-white/50" style="height:60%"></div>
-            <div class="w-[3px] rounded bg-white/70" style="height:90%"></div>
-            <div class="w-[3px] rounded bg-white/60" style="height:70%"></div>
-            <div class="w-[3px] rounded bg-white/40" style="height:40%"></div>
-            <div class="w-[3px] rounded bg-white/65" style="height:80%"></div>
-            <div class="w-[3px] rounded bg-white/45" style="height:50%"></div>
-            <div class="w-[3px] rounded bg-white/55" style="height:65%"></div>
-            <div class="w-[3px] rounded bg-white/35" style="height:35%"></div>
-            <div class="w-[3px] rounded bg-white/50" style="height:55%"></div>
-          </div>
-          <p class="text-sm opacity-70">Tap to start recording</p>
-          <p class="text-[0.65rem] opacity-40 mt-2">Stories are transcribed and woven into your directive</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HERITAGE PROGRESS -->
-<section class="mb-32">
-  <div class="max-w-2xl mx-auto">
-    <div class="text-center mb-12">
-      <span class="text-primary font-bold uppercase tracking-widest text-xs">The Journey</span>
-      <h2 class="text-3xl italic mt-2">Heritage Progress</h2>
-    </div>
-    <div class="space-y-8">
-      <div class="flex gap-6 items-start">
-        <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary flex-shrink-0 shadow-lg shadow-primary/20"><span class="material-symbols-outlined text-[18px]" style="font-variation-settings:'FILL' 1">mic</span></div>
-        <div><h4 class="font-bold text-lg mb-1">First Story Recorded</h4><p class="text-sm text-secondary">Your childhood memory, a life lesson, or a favorite recipe — start anywhere.</p></div>
-      </div>
-      <div class="flex gap-6 items-start">
-        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary flex-shrink-0"><span class="material-symbols-outlined text-[18px]">group</span></div>
-        <div><h4 class="font-bold text-lg mb-1">Family Circle Invited</h4><p class="text-sm text-secondary">A reminder to your loved ones that these stories are shared, not solo.</p></div>
-      </div>
-      <div class="flex gap-6 items-start">
-        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary flex-shrink-0"><span class="material-symbols-outlined text-[18px]">description</span></div>
-        <div><h4 class="font-bold text-lg mb-1">Advance Directive Generated</h4><p class="text-sm text-secondary">Your stories naturally produce a care directive — reflecting your real values, not checkbox answers.</p></div>
-      </div>
-      <div class="flex gap-6 items-start">
-        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary flex-shrink-0"><span class="material-symbols-outlined text-[18px]">collections_bookmark</span></div>
-        <div><h4 class="font-bold text-lg mb-1">10 Stories Archived</h4><p class="text-sm text-secondary">A living library that grows with every conversation. Your family's oral history, preserved.</p></div>
-      </div>
-      <div class="flex gap-6 items-start">
-        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary flex-shrink-0"><span class="material-symbols-outlined text-[18px]">menu_book</span></div>
-        <div><h4 class="font-bold text-lg mb-1">Print Your Heirloom Book</h4><p class="text-sm text-secondary">A physical, leather-bound volume of your family's stories. Archival quality. A century of legacy.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- QUOTE -->
-<section class="py-20 border-t border-b border-outline-variant/10 flex flex-col items-center text-center max-w-4xl mx-auto mb-32">
-  <span class="material-symbols-outlined text-primary-container mb-8 text-5xl">format_quote</span>
-  <blockquote class="text-2xl md:text-4xl italic font-serif leading-snug mb-8 text-on-surface">
-    "The greatest gift you can give your family is the certainty that they are carrying your story forward, exactly as you intended."
-  </blockquote>
-  <cite class="not-italic">
-    <span class="font-body text-sm uppercase tracking-[0.2em] font-bold text-primary">Every life deserves more than a dash between two dates.</span>
-  </cite>
-</section>
-
-<!-- CONNECT YOUR AI -->
-<section class="mb-32" id="connect">
-  <div class="text-center mb-12">
-    <h2 class="text-3xl italic mb-4">Connect your AI</h2>
-    <p class="text-secondary">Add CareGoals to Claude, or start a legacy conversation with any AI.</p>
-  </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-    <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm">
-      <h3 class="font-bold text-lg mb-3">Add to Claude</h3>
-      <p class="text-secondary text-sm mb-4">Settings &rarr; Connectors &rarr; URL:</p>
-      <div class="bg-surface-container rounded-lg p-3 font-mono text-xs text-on-surface-variant break-all mb-3">solvinghealth-mcp-production.up.railway.app/mcp</div>
-      <p class="text-outline text-xs">223 tools. CareGoals: story capture, advance directives, legacy AI.</p>
-    </div>
-    <div class="bg-gradient-to-br from-[#1a237e] to-[#283593] text-white p-8 rounded-2xl">
-      <h3 class="font-bold text-lg mb-3 flex items-center gap-2"><span>✦</span> Ask any AI</h3>
-      <p class="text-white/70 text-sm mb-4">Paste into Gemini, ChatGPT, or any AI:</p>
-      <div class="bg-white/8 border border-white/12 rounded-lg p-3 font-mono text-[0.6rem] leading-relaxed text-white/85 max-h-[120px] overflow-y-auto">You are a compassionate legacy capture guide for CareGoals. Help families preserve stories, values, and wishes through voice-first conversations. CareGoals captures life stories and generates advance care directives as a natural byproduct — not through forms, but through storytelling. The Century Plan preserves a legacy for 100 years ($1,000). Ask what stories they want to preserve and guide them through the process. Be warm and patient. If they mention end-of-life planning, explain that directives emerge naturally from stories. Billing: ACP (99497/99498).</div>
-      <p class="text-white/40 text-[0.6rem] mt-3">Copy &rarr; paste &rarr; start the conversation</p>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="mb-16" id="gift">
-  <div class="bg-surface-container-high rounded-[2.5rem] p-12 md:p-20 text-center relative overflow-hidden">
-    <div class="relative z-10">
-      <h2 class="text-4xl md:text-5xl italic mb-6">Every life deserves more than a dash between two dates.</h2>
-      <p class="text-secondary text-lg mb-10 max-w-xl mx-auto">Record your first story. Share a Legacy Card. Connect to co-op.care for full family care at $59/mo — the membership that pays for itself.</p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a href="/onboarding" class="px-10 py-5 bg-primary text-on-primary rounded-lg font-bold text-lg shadow-lg shadow-primary/10 hover:bg-primary-container transition-all">Start recording stories</a>
-        <a href="https://co-op.care" class="px-10 py-5 border border-outline-variant/30 text-primary rounded-lg font-bold text-lg hover:bg-surface-container-low transition-colors">co-op.care $59/mo</a>
-        <a href="/features" class="px-10 py-5 border border-outline-variant/30 text-primary rounded-lg font-bold text-lg hover:bg-surface-container-low transition-colors">Explore all features</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<!-- Deep-dive articles + FAQ -->
-<section class="max-w-4xl mx-auto px-6 py-16 space-y-12">
-
-  <!-- Trust signal -->
-  <div class="bg-white border border-outline-variant/30 rounded-2xl p-6 flex items-start gap-4">
-    <span class="material-symbols-outlined text-primary text-2xl mt-0.5">verified</span>
-    <div>
-      <p class="text-sm font-semibold text-on-surface">Reviewed by a physician</p>
-      <p class="text-xs text-on-surface-variant mt-1 leading-relaxed">Content reviewed by Josh Emdur, DO — Board-Certified Hospitalist, 50-state licensed. Last reviewed April 2026. Sources: Institute for Healthcare Improvement, The Conversation Project, CDC NCHS 2022, JAGS, CMS Physician Fee Schedule 2024.</p>
-    </div>
-  </div>
-
-  <!-- Articles -->
+<header class="hero">
   <div>
-    <h2 class="text-3xl italic mb-8">Understanding Advance Directives &amp; Life Story Planning</h2>
-    <div class="space-y-6">
-
-      <div class="bg-white rounded-2xl p-8 shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
-        <h3 class="text-xl italic mb-4 text-primary">Why Conversation Beats Forms</h3>
-        <p class="text-sm text-on-surface-variant leading-relaxed mb-4">Research consistently shows that standard advance directive forms are rarely completed — and when they are, they often fail to capture what matters most. A 2022 study in JAMA Network Open found that over half of adults over 65 had never discussed their end-of-life preferences with a physician, despite saying they wanted to. The barrier is not unwillingness — it is the clinical detachment of a form with checkboxes for "intubation: yes/no."</p>
-        <p class="text-sm text-on-surface-variant leading-relaxed">CareGoals uses conversation instead. Sage asks questions like "What would a good day look like for you?" and "What are you most afraid of happening medically?" The answers reveal values — and values are what guide good medical decision-making when a checklist cannot. The advance directive emerges as a natural byproduct. The life story is preserved alongside it, for the family as much as for the medical team.</p>
-      </div>
-
-      <div class="bg-white rounded-2xl p-8 shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
-        <h3 class="text-xl italic mb-4 text-primary">The Three Documents That Protect Your Wishes</h3>
-        <p class="text-sm text-on-surface-variant leading-relaxed mb-4">Complete protection requires three documents working together. A <strong>living will</strong> states which treatments you want or do not want — but it cannot anticipate every clinical scenario. A <strong>healthcare proxy</strong> (durable power of attorney for healthcare) designates a person to make real-time decisions in the gaps. A <strong>POLST</strong> (Physician Orders for Life-Sustaining Treatment) converts your preferences into immediately actionable medical orders, signed by a physician, that travel with you across all care settings.</p>
-        <p class="text-sm text-on-surface-variant leading-relaxed">Most adults have none of these. CareGoals helps you build all three through a single guided conversation. The physician co-founder of <a href="https://co-op.care" class="text-primary underline">co-op.care</a> reviews each document before it is finalized, and remote online notarization is available in 35–40 states through the platform.</p>
-      </div>
-
-      <div class="bg-white rounded-2xl p-8 shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
-        <h3 class="text-xl italic mb-4 text-primary">Legacy Cards: The Gift That Outlasts the Directive</h3>
-        <p class="text-sm text-on-surface-variant leading-relaxed mb-4">An advance directive protects medical decisions. A Legacy Card preserves the person behind them. Legacy Cards are shareable summaries of a person's life story, values, meaningful memories, and the things that made them who they are — generated from the CareGoals conversation. They can be shared on social media, printed for a family gathering, or embedded in the <a href="https://comfortcard.org" class="text-primary underline">ComfortCard digital health wallet</a>.</p>
-        <p class="text-sm text-on-surface-variant leading-relaxed">Families who have used Legacy Cards report that the process of creating them — sitting together, asking questions, recording answers — is often more valuable than the card itself. "She told us things we'd never heard." That afternoon becomes an irreplaceable family asset. Every life deserves more than a dash between two dates.</p>
-      </div>
-
-      <div class="bg-white rounded-2xl p-8 shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
-        <h3 class="text-xl italic mb-4 text-primary">When to Start — and What Happens If You Don't</h3>
-        <p class="text-sm text-on-surface-variant leading-relaxed mb-4">The American Bar Association recommends completing a healthcare proxy designation at age 18 — the moment parents lose automatic legal authority over their children's medical decisions. For most people, the conversation becomes more urgent after a hospitalization, a serious diagnosis, or a significant decline in function. But urgency is the worst time to start.</p>
-        <p class="text-sm text-on-surface-variant leading-relaxed">Without an advance directive, medical decisions default to family consensus — which often means the most aggressive intervention, the longest hospitalization, and the most suffering, because no one wants to be the person who "gave up." Families of patients who had completed advance care planning report significantly less grief, less guilt, and less decisional conflict (JAGS, 2010). The document is a gift to the people left behind. Connect it to <a href="https://carescircle.com" class="text-primary underline">CaresCircle family coordination</a> so everyone is on the same page.</p>
-      </div>
-
-      <div class="bg-white rounded-2xl p-8 shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
-        <h3 class="text-xl italic mb-4 text-primary">HSA/FSA and Medicare Coverage for Advance Care Planning</h3>
-        <p class="text-sm text-on-surface-variant leading-relaxed mb-4">Medicare covers Advance Care Planning as a separately billable service under CPT 99497 (first 30 minutes, approximately $86) and 99498 (each additional 30 minutes). This can be billed at an Annual Wellness Visit or as a standalone service. The conversation must be face-to-face — or via telehealth — with a qualified clinician. co-op.care's physician partner facilitates Medicare-billable ACP conversations via telehealth as part of the platform.</p>
-        <p class="text-sm text-on-surface-variant leading-relaxed">For non-Medicare patients, advance care planning services may be reimbursable from an HSA or FSA with a physician's Letter of Medical Necessity. The <a href="https://comfortcard.org" class="text-primary underline">ComfortCard HSA/FSA tracker</a> automatically identifies eligible expenses and calculates annual tax savings.</p>
-      </div>
-
+    <div class="eyebrow">A conversation. Not a form.</div>
+    <h1 class="hero-title serif">Every life deserves more than<br><em>a dash between two dates.</em></h1>
+    <p class="hero-deck">CareGoals captures the values, memories, and wishes that make you <em>you</em> — in your own voice, over many short conversations, shareable with the people who matter when it matters most.</p>
+    <div class="hero-ctas">
+      <a href="/first-session" class="btn-primary">Have your first session →</a>
+      <a href="/gallery" class="btn-secondary">See sample profiles</a>
     </div>
+    <div class="hero-microcopy">No forms. 15 minutes at a time. Resume whenever you're ready.</div>
   </div>
 
-  <!-- FAQ -->
   <div>
-    <h2 class="text-3xl italic mb-8">Frequently Asked Questions</h2>
-    <div class="space-y-3">
-
-      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
-        <details>
-          <summary class="flex justify-between items-center p-6 gap-4">
-            <span class="text-base font-semibold text-on-surface">Can I change my advance directive later?</span>
-            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
-          </summary>
-          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
-            Yes, at any time while you have decision-making capacity. Notify your healthcare providers in writing, destroy existing copies, and document the change. Provide updated copies to your physician, hospital, and proxy. CareGoals stores version history — updating is as simple as continuing the conversation.
-          </div>
-        </details>
+    <div class="convo">
+      <div class="bubble from-sage">What's one small thing in your day that still feels like <em>you?</em></div>
+      <div class="bubble from-you">My morning coffee on the porch. Every single day for 42 years.</div>
+      <div class="bubble from-sage">I'd like to come back to that one. Tell me about the porch.</div>
+      <div class="typing mono">SAGE IS LISTENING</div>
+      <div class="convo-footer">
+        <div>Session 3 of ∞</div>
+        <div>Saved · shareable</div>
       </div>
-
-      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
-        <details>
-          <summary class="flex justify-between items-center p-6 gap-4">
-            <span class="text-base font-semibold text-on-surface">How is an advance directive different from a will?</span>
-            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
-          </summary>
-          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
-            A will governs distribution of property after death. An advance directive governs medical decisions during your lifetime when you cannot speak for yourself. They address completely different domains — one is an estate document, the other is a healthcare document. Both are important components of comprehensive life planning.
-          </div>
-        </details>
-      </div>
-
-      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
-        <details>
-          <summary class="flex justify-between items-center p-6 gap-4">
-            <span class="text-base font-semibold text-on-surface">What is a Legacy Card?</span>
-            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
-          </summary>
-          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
-            A shareable summary of a person's life story, values, and meaningful memories — generated from a CareGoals conversation. Legacy Cards can be shared on social media, printed, or stored in the ComfortCard digital wallet. They serve as a living memorial and also inform the advance directive by surfacing the values that underlie medical preferences.
-          </div>
-        </details>
-      </div>
-
-      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
-        <details>
-          <summary class="flex justify-between items-center p-6 gap-4">
-            <span class="text-base font-semibold text-on-surface">Does CareGoals produce a legally binding advance directive?</span>
-            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
-          </summary>
-          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
-            CareGoals generates a properly structured document tailored to your state's requirements. Legal validity requires proper execution: typically two witnesses (not healthcare providers or beneficiaries) or notarization. co-op.care supports remote online notarization in 35–40 states.
-          </div>
-        </details>
-      </div>
-
-      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
-        <details>
-          <summary class="flex justify-between items-center p-6 gap-4">
-            <span class="text-base font-semibold text-on-surface">Who should I name as my healthcare proxy?</span>
-            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
-          </summary>
-          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
-            Someone who will honor your wishes even under emotional pressure — not necessarily the closest family member. They should be geographically accessible, willing to advocate with medical teams, and genuinely familiar with your values. Have an explicit conversation with them before designating them; a proxy who does not know your preferences is limited in their effectiveness.
-          </div>
-        </details>
-      </div>
-
-      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
-        <details>
-          <summary class="flex justify-between items-center p-6 gap-4">
-            <span class="text-base font-semibold text-on-surface">Is my health information private on CareGoals?</span>
-            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
-          </summary>
-          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
-            Yes. CareGoals is HIPAA-compliant with encryption at rest and in transit. You control who can access your advance directive — nothing is shared without your explicit consent. The platform uses Supabase with row-level security on HIPAA-eligible infrastructure.
-          </div>
-        </details>
-      </div>
-
-      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
-        <details>
-          <summary class="flex justify-between items-center p-6 gap-4">
-            <span class="text-base font-semibold text-on-surface">Can family members access each other's CareGoals?</span>
-            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
-          </summary>
-          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
-            Yes, with explicit permission. A designated family coordinator can view and help update a family member's care preferences — useful when an older adult benefits from support. Access is granted by the primary account holder and revocable at any time. <a href="https://carescircle.com" class="text-primary underline">CaresCircle</a> integrates with CareGoals for shared family care planning.
-          </div>
-        </details>
-      </div>
-
-      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
-        <details>
-          <summary class="flex justify-between items-center p-6 gap-4">
-            <span class="text-base font-semibold text-on-surface">Does Medicare cover advance care planning?</span>
-            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
-          </summary>
-          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
-            Yes. CPT 99497 (first 30 min, ~$86) and 99498 (additional 30 min). Billable at an Annual Wellness Visit or standalone. co-op.care's physician partner facilitates Medicare-billable ACP conversations via telehealth as part of the membership.
-          </div>
-        </details>
-      </div>
-
-      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
-        <details>
-          <summary class="flex justify-between items-center p-6 gap-4">
-            <span class="text-base font-semibold text-on-surface">What if my family member has dementia — can they still complete an advance directive?</span>
-            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
-          </summary>
-          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
-            Decision-making capacity does not depend on a dementia diagnosis alone — many individuals with early or moderate dementia retain capacity to express preferences. A physician can assess capacity at time of signing. Acting early, before significant cognitive decline, provides the greatest protection.
-          </div>
-        </details>
-      </div>
-
-      <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(28,28,25,0.04)]">
-        <details>
-          <summary class="flex justify-between items-center p-6 gap-4">
-            <span class="text-base font-semibold text-on-surface">How does CareGoals connect to co-op.care?</span>
-            <span class="material-symbols-outlined text-primary faq-icon flex-shrink-0">add</span>
-          </summary>
-          <div class="px-6 pb-6 text-sm text-on-surface-variant leading-relaxed">
-            CareGoals is the life story and directive layer of co-op.care. Your completed directive is stored in the <a href="https://comfortcard.org" class="text-primary underline">ComfortCard</a> digital wallet, accessible to first responders. The <a href="https://co-op.care" class="text-primary underline">co-op.care $59/month membership</a> includes CareGoals, ComfortCard, and access to physician-reviewed LMNs for HSA/FSA reimbursement.
-          </div>
-        </details>
-      </div>
-
     </div>
   </div>
+</header>
 
-  <!-- Internal links -->
-  <div class="bg-surface-container-low rounded-3xl p-8 text-center">
-    <h3 class="text-xl italic mb-3">Connected to the full care ecosystem</h3>
-    <p class="text-sm text-on-surface-variant mb-6 max-w-lg mx-auto">CareGoals works best alongside ongoing care coordination, digital health identity, and physician oversight.</p>
-    <div class="flex flex-wrap justify-center gap-3 text-sm">
-      <a href="https://co-op.care" class="px-4 py-2 bg-white rounded-full text-primary font-semibold shadow-sm min-h-[44px] flex items-center">co-op.care membership</a>
-      <a href="https://comfortcard.org" class="px-4 py-2 bg-white rounded-full text-primary font-semibold shadow-sm min-h-[44px] flex items-center">ComfortCard digital wallet</a>
-      <a href="https://qualitydeath.com" class="px-4 py-2 bg-white rounded-full text-primary font-semibold shadow-sm min-h-[44px] flex items-center">Quality Death planning guide</a>
-      <a href="https://carescircle.com" class="px-4 py-2 bg-white rounded-full text-primary font-semibold shadow-sm min-h-[44px] flex items-center">CaresCircle family coordination</a>
-      <a href="https://fallrisks.com" class="px-4 py-2 bg-white rounded-full text-primary font-semibold shadow-sm min-h-[44px] flex items-center">FallRisks home safety</a>
-    </div>
+<section id="how">
+  <div class="sec-head">
+    <div class="kicker">How it works</div>
+    <h2 class="serif">Fifteen minutes. <em>Your whole story.</em></h2>
+    <p class="lede">CareGoals works differently than anything else that calls itself an advance directive tool. It doesn't ask you to fill in a legal form. It asks you questions, one at a time, and remembers everything you say.</p>
   </div>
-
+  <div class="stories">
+    <a class="story-link" href="/first-session"><article class="story">
+      <span class="n">01 / BEGIN</span>
+      <h3 class="serif">Answer one question. →</h3>
+      <p>Reed asks something simple, like "What's one small thing in your day that still feels like you?" You answer in your own words, by voice or text. That's the start.</p>
+    </article></a>
+    <a class="story-link" href="/conversation"><article class="story">
+      <span class="n">02 / RETURN</span>
+      <h3 class="serif">Come back when you're ready. →</h3>
+      <p>No session is long. No question is required. Over weeks or months, Reed remembers every conversation — and gently goes deeper into the topics you want to explore.</p>
+    </article></a>
+    <a class="story-link" href="/gallery"><article class="story">
+      <span class="n">03 / SHARE</span>
+      <h3 class="serif">A one-page care summary. →</h3>
+      <p>Every conversation builds a shareable one-page PDF any hospital, clinician, or family member can read. Your care wishes, your values, your voice — no form required.</p>
+    </article></a>
+  </div>
 </section>
 
-<!-- Medical Disclaimer -->
-<div style="background:#f6f3ee;border-top:1px solid #c1c8c1;padding:14px 24px;text-align:center;">
-  <p style="font-size:11px;color:#717973;margin:0;">This platform provides health information and tools, not medical advice. Always consult a qualified healthcare provider for diagnosis and treatment.</p>
+<div class="band">
+  <div class="band-inner">
+    <div class="kicker">What we capture</div>
+    <h2 class="serif">The things that make a life worth living — <em>not just prolonging.</em></h2>
+    <p class="lede">Most advance directives ask about ventilators and feeding tubes. Important, yes. But the conversation that actually helps your family in a hard moment is a different one.</p>
+    <div class="values-grid">
+      <a class="value-link" href="/first-session?seed=daily-routines"><div class="value"><div class="glyph">A</div><strong>Daily routines →</strong><p>The coffee on the porch. The evening walk. The specific music. The things that make you feel like yourself.</p></div></a>
+      <a class="value-link" href="/first-session?seed=what-matters"><div class="value"><div class="glyph">B</div><strong>What matters most →</strong><p>Being outdoors, or being warm. Being surrounded, or being quiet. The shape of daily life you'd want if the choices got harder.</p></div></a>
+      <a class="value-link" href="/first-session?seed=medical"><div class="value"><div class="glyph">C</div><strong>Medical preferences →</strong><p>CPR, ventilator, tube feeding, comfort-focused care. The standard legal decisions — captured as conversation, not a checkbox.</p></div></a>
+      <a class="value-link" href="/first-session?seed=proxy"><div class="value"><div class="glyph">D</div><strong>Who speaks for you →</strong><p>Healthcare proxy, decision hierarchy, and what you'd want them to know about the conversations we've already had.</p></div></a>
+      <a class="value-link" href="/first-session?seed=dementia"><div class="value"><div class="glyph">E</div><strong>Dementia-specific wishes →</strong><p>The planning that's hardest to do after the diagnosis and most valuable to have done before. Captured early.</p></div></a>
+      <a class="value-link" href="/first-session?seed=legacy"><div class="value"><div class="glyph">F</div><strong>Legacy and stories →</strong><p>The wisdom. The memories. The messages for grandchildren who aren't born yet. The things that should outlive the dash.</p></div></a>
+    </div>
+  </div>
 </div>
 
-<!-- FOOTER -->
-<div style="text-align:center;padding:16px 24px;font-size:11px;color:#9CA3AF;border-top:1px solid #E5E7EB;">
-  <p>CareGoals provides advance care planning tools, not medical or legal advice. Consult your healthcare provider and attorney for clinical and legal decisions.</p>
-  <p style="margin-top:8px;">
-    <a href="https://solvinghealth.com/privacy" style="color:#9CA3AF;">Privacy</a> |
-    <a href="https://solvinghealth.com/terms" style="color:#9CA3AF;">Terms</a> |
-    <a href="https://solvinghealth.com/hipaa" style="color:#9CA3AF;">HIPAA Notice</a>
-  </p>
-</div>
-<script src="https://harnesshealth.ai/footer.js?v=8" data-brand="co-op.care" data-theme="light"></script>
-</body></html>
+<section>
+  <div class="voice">
+    <blockquote>"We sat for three months trying to decide what Mom would have wanted. We argued. We cried. <em>We had absolutely no idea.</em> I don't want my kids to go through that."</blockquote>
+    <cite>CareGoals beta user · Boulder, CO</cite>
+  </div>
+</section>
+
+<section id="ecosystem">
+  <div class="sec-head">
+    <div class="kicker">Built with co-op.care</div>
+    <h2 class="serif">Not a document. <em>A living record.</em></h2>
+    <p class="lede">CareGoals grows with you. Your values shift. Your preferences evolve. Your family changes. Your profile updates quietly, across many small sessions, and the PDF you share is always current.</p>
+  </div>
+
+  <div class="stories">
+    <a class="story-link" href="https://comfortcard.org"><article class="story">
+      <span class="n">01 / IDENTITY</span>
+      <h3 class="serif">ComfortCard →</h3>
+      <p>Your CareGoals summary rides inside your ComfortCard — the scannable health identity you carry. When it matters, the ER can see what you said.</p>
+    </article></a>
+    <a class="story-link" href="https://co-op.care"><article class="story">
+      <span class="n">02 / CARE</span>
+      <h3 class="serif">co-op.care →</h3>
+      <p>When you need care at home, your caregiver reads your CareGoals before the first visit. Continuity, from the first moment.</p>
+    </article></a>
+    <a class="story-link" href="/gallery"><article class="story">
+      <span class="n">03 / FAMILY</span>
+      <h3 class="serif">Shareable profile →</h3>
+      <p>One PDF. One link. Anyone you invite can read your care profile. Nobody guesses anymore.</p>
+    </article></a>
+    <a class="story-link" href="https://medfrail.com"><article class="story">
+      <span class="n">04 / EXEMPTION</span>
+      <h3 class="serif">medfrail.com →</h3>
+      <p>Caregiving is work. If you're the primary caregiver for an aging parent or spouse, OBBBA's January 2027 Medicaid work requirements recognize you as exempt — but only with physician attestation. CareGoals flags when your caregiver designation makes you eligible; medfrail.com delivers the signed attestation in 24 hours.</p>
+    </article></a>
+    <a class="story-link" href="https://hashcare.com"><article class="story">
+      <span class="n">05 / DATA OWNERSHIP</span>
+      <h3 class="serif">hashcare.com →</h3>
+      <p>Your CareGoals profile is yours. HashCare gives you a cryptographic identity for your health records, so when your directive needs to travel across hospitals, states, or generations, you control who sees it.</p>
+    </article></a>
+    <a class="story-link" href="https://harnesshealth.ai"><article class="story">
+      <span class="n">06 / INFRASTRUCTURE</span>
+      <h3 class="serif">harnesshealth.ai →</h3>
+      <p>Reed is a conversation tool, but every structured output — your directive summary, your HSA/FSA letter, your values map — passes through a licensed physician before it's final. That's the infrastructure that makes the conversation count.</p>
+    </article></a>
+  </div>
+</section>
+
+<section class="closing">
+  <h2 class="serif">The conversation you were<br><em>going to have someday.</em></h2>
+  <p class="lede">Someday comes faster than anyone plans. Begin with one question. Take your time. Your family will thank you.</p>
+  <a href="/first-session" class="btn-primary">Have your first session →</a>
+</section>
+
+<footer class="site">
+  <div>© CareGoals · Built with <a href="https://co-op.care">co-op.care</a> · by <a href="https://solvinghealth.com">SolvingHealth</a></div>
+  <div class="right"><a href="/legal">Legal</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></div>
+</footer>
+
+<script
+  src="https://solvinghealth.com/signup-widget.js"
+  data-brand="caregoals.com"
+  data-intent="acp-waitlist"
+  data-title="Join the waitlist"
+  data-subtitle="Advance care planning as a conversation. Early access."
+  data-cta="Join"
+  data-color="#1F4CFF"
+  data-position="floating"
+  defer></script>
+</body>
+</html>

@@ -347,7 +347,7 @@ body {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="15" cy="9" r="1" fill="currentColor"/></svg>
     </div>
     <div class="header-text">
-      <h1>Sage</h1>
+      <h1>Reed</h1>
       <p>Your care companion</p>
     </div>
   </div>
@@ -467,7 +467,7 @@ async function sageReply(text, qr, delay) {
 const STEPS = [
   // 0: Opening — warm, no framework jargon
   {
-    sage: "Hi. I'm Sage.\n\nI'm glad you're here. What we're going to do is simple — just talk. About you. About what matters to you. About the things you want the people you love to understand.\n\nBy the end, you'll have something real — a document in your own words that your family and your doctor can hold onto. Not medical language. Your language.\n\nWhat's your name?",
+    sage: "Hi. I'm Reed.\n\nI'm glad you're here. What we're going to do is simple — just talk. About you. About what matters to you. About the things you want the people you love to understand.\n\nBy the end, you'll have something real — a document in your own words that your family and your doctor can hold onto. Not medical language. Your language.\n\nWhat's your name?",
     qr: [],
   },
   // 1: Name — then ease in gently
@@ -659,7 +659,7 @@ const STEPS = [
       wishes.joy = msg;
       return {
         sage: `${name}.\n\nDo you know what you just did? You put your whole self into words. Not your diagnosis. Not your chart number. You.\n\nI've gathered everything you shared into a document — your Care Wishes. It's below this message. You can print it and give it to:\n\n- The person who speaks for you, so they know exactly what you want\n- Your family, so they never have to guess\n- Your doctor, so it becomes part of your record\n\nA physician can review this and help make it legally binding. But even without that — what you said here today is a gift. Your family will never have to wonder. They'll know. Because you told them.`,
-        qr: ["Print my wishes", "I want to keep talking", "Thank you, Sage"],
+        qr: ["Print my wishes", "I want to keep talking", "Thank you, Reed"],
         showCard: true,
       };
     }
@@ -677,7 +677,7 @@ const STEPS = [
       }
       if (lower.includes('thank') || lower.includes('done') || lower.includes('goodbye') || lower.includes('think i')) {
         return {
-          sage: `${name}. It's been an honor.\n\nWhat you did today — sitting here, saying these things out loud — most people never do it. You did. And because you did, the people who love you will never have to carry the weight of guessing.\n\nYour words live here now. And they'll live in your family.\n\nCome back anytime. I don't forget.\n\nWith care,\nSage`,
+          sage: `${name}. It's been an honor.\n\nWhat you did today — sitting here, saying these things out loud — most people never do it. You did. And because you did, the people who love you will never have to carry the weight of guessing.\n\nYour words live here now. And they'll live in your family.\n\nCome back anytime. I don't forget.\n\nWith care,\nReed`,
           qr: [],
         };
       }
@@ -745,7 +745,7 @@ let speakEnabled = false;
 let recognition = null;
 let isRecording = false;
 
-// Text-to-Speech: Sage speaks
+// Text-to-Speech: Reed speaks
 function speak(text) {
   if (!speakEnabled || !window.speechSynthesis) return;
   window.speechSynthesis.cancel();
@@ -899,7 +899,7 @@ function loadConversation() {
 // Start — always show something
 function startFresh() {
   step = 1;
-  var msg = "Hi. I'm Sage.\n\nI'm glad you're here. What we're going to do is simple — just talk. About you. About what matters to you. About the things you want the people you love to understand.\n\nBy the end, you'll have something real — a document in your own words that your family and your doctor can hold onto. Not medical language. Your language.\n\nWhat's your name?";
+  var msg = "Hi. I'm Reed.\n\nI'm glad you're here. What we're going to do is simple — just talk. About you. About what matters to you. About the things you want the people you love to understand.\n\nBy the end, you'll have something real — a document in your own words that your family and your doctor can hold onto. Not medical language. Your language.\n\nWhat's your name?";
   addMsg(msg, 'sage');
 }
 
