@@ -56,7 +56,7 @@ body {
   align-items: center;
   gap: 10px;
 }
-.sage-avatar {
+.reed-avatar {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -65,7 +65,7 @@ body {
   align-items: center;
   justify-content: center;
 }
-.sage-avatar svg { width: 18px; height: 18px; color: var(--white); }
+.reed-avatar svg { width: 18px; height: 18px; color: var(--white); }
 .header-text h1 {
   font-family: var(--serif);
   font-size: 16px;
@@ -105,7 +105,7 @@ body {
 
 /* Messages */
 .msg { max-width: 88%; animation: fadeUp 0.4s ease; }
-.msg-sage { align-self: flex-start; }
+.msg-reed { align-self: flex-start; }
 .msg-user { align-self: flex-end; }
 
 .msg-bubble {
@@ -114,7 +114,7 @@ body {
   font-size: 16px;
   line-height: 1.6;
 }
-.msg-sage .msg-bubble {
+.msg-reed .msg-bubble {
   background: var(--white);
   border: 1px solid rgba(0,0,0,0.05);
   border-bottom-left-radius: 6px;
@@ -334,7 +334,7 @@ body {
   .header, .input-area, .msg-user, .quick-replies, .typing, .msg-meta { display: none; }
   body { background: white; overflow: visible; }
   .chat { overflow: visible; max-width: 100%; padding: 20px; }
-  .msg-sage .msg-bubble { border: none; box-shadow: none; padding: 8px 0; font-size: 14px; }
+  .msg-reed .msg-bubble { border: none; box-shadow: none; padding: 8px 0; font-size: 14px; }
   .wishes-card { break-inside: avoid; border-width: 1px; }
 }
 </style>
@@ -343,7 +343,7 @@ body {
 
 <div class="header">
   <div class="header-left">
-    <div class="sage-avatar">
+    <div class="reed-avatar">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="15" cy="9" r="1" fill="currentColor"/></svg>
     </div>
     <div class="header-text">
@@ -450,12 +450,12 @@ function showWishesCard() {
   chat.scrollTop = chat.scrollHeight;
 }
 
-async function sageReply(text, qr, delay) {
+async function reedReply(text, qr, delay) {
   showTyping();
   return new Promise(resolve => {
     setTimeout(async () => {
       hideTyping();
-      await addMsg(text, 'sage');
+      await addMsg(text, 'reed');
       try { speak(text); } catch(e) {}
       try { saveConversation(); } catch(e) {}
       if (qr && qr.length > 0) setTimeout(() => { showQR(qr); resolve(); }, 400);
@@ -467,7 +467,7 @@ async function sageReply(text, qr, delay) {
 const STEPS = [
   // 0: Opening — warm, no framework jargon
   {
-    sage: "Hi. I'm Reed.\n\nI'm glad you're here. What we're going to do is simple — just talk. About you. About what matters to you. About the things you want the people you love to understand.\n\nBy the end, you'll have something real — a document in your own words that your family and your doctor can hold onto. Not medical language. Your language.\n\nWhat's your name?",
+    reed: "Hi. I'm Reed.\n\nI'm glad you're here. What we're going to do is simple — just talk. About you. About what matters to you. About the things you want the people you love to understand.\n\nBy the end, you'll have something real — a document in your own words that your family and your doctor can hold onto. Not medical language. Your language.\n\nWhat's your name?",
     qr: [],
   },
   // 1: Name — then ease in gently
@@ -721,7 +721,7 @@ async function handleMsg(text) {
     response = STEPS[STEPS.length - 1].handler(text);
   }
 
-  await sageReply(response.sage, response.qr);
+  await reedReply(response.reed, response.qr);
 
   if (response.showCard) {
     setTimeout(() => showWishesCard(), 600);
@@ -886,7 +886,7 @@ function loadConversation() {
     }
     chat.scrollTop = chat.scrollHeight;
     setTimeout(function() {
-      sageReply((name || 'Friend') + ', welcome back. I remember our conversation. You can keep going, add to your wishes, or just sit here.');
+      reedReply((name || 'Friend') + ', welcome back. I remember our conversation. You can keep going, add to your wishes, or just sit here.');
     }, 800);
     return true;
   } catch(e) {
@@ -900,7 +900,7 @@ function loadConversation() {
 function startFresh() {
   step = 1;
   var msg = "Hi. I'm Reed.\n\nI'm glad you're here. What we're going to do is simple — just talk. About you. About what matters to you. About the things you want the people you love to understand.\n\nBy the end, you'll have something real — a document in your own words that your family and your doctor can hold onto. Not medical language. Your language.\n\nWhat's your name?";
-  addMsg(msg, 'sage');
+  addMsg(msg, 'reed');
 }
 
 // Clear any corrupted state from old redirect era
