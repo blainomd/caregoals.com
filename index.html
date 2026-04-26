@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>CareGoals — Every life deserves more than a dash between two dates.</title>
-<meta name="description" content="Advance care planning that feels like a conversation, not a form. Your values, your wishes, your story — captured in your own voice, over time, shareable with anyone who matters.">
-<meta property="og:title" content="CareGoals — Every life deserves more than a dash between two dates.">
-<meta property="og:description" content="Advance care planning as a conversation. Not a form.">
+<title>CareGoals — Build your own advance directive, MOLST, or POLST. Fun. Legacy you can share.</title>
+<meta name="description" content="A self-directed advance directive, MOLST, or POLST you build through conversation. Physician-approved. Stored on your ComfortCard. Save a copy to your own hard drive with chanio. The whole thing is fun — and what you walk away with is a legacy you can share with the people who love you.">
+<meta property="og:title" content="CareGoals — Build your own advance directive, MOLST, or POLST.">
+<meta property="og:description" content="Self-directed advance care planning. Physician-approved. Stored on your ComfortCard. Fun to make. A legacy you can share.">
 <meta property="og:url" content="https://caregoals.com">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://caregoals.com/apple-touch-icon.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="CareGoals — Every life deserves more than a dash between two dates.">
-<meta name="twitter:description" content="Advance care planning as a conversation. Not a form.">
+<meta name="twitter:title" content="CareGoals — Build your own advance directive, MOLST, or POLST.">
+<meta name="twitter:description" content="Self-directed advance care planning. Physician-approved. Stored on your ComfortCard. Fun to make. A legacy you can share.">
 <meta name="twitter:image" content="https://caregoals.com/apple-touch-icon.png">
 <link rel="canonical" href="https://caregoals.com/">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -21,10 +21,10 @@
 {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "CareGoals — AI-witnessed advance care planning",
+  "name": "CareGoals — Self-directed advance directive, MOLST, and POLST",
   "url": "https://caregoals.com",
   "serviceType": "Advance Care Planning",
-  "description": "Advance care planning that feels like a conversation, not a form. Captures values, wishes, and care preferences in your own voice over many short sessions, with physician oversight and a shareable one-page profile.",
+  "description": "A self-directed program for building your own advance directive, MOLST, or POLST through short, friendly conversations. Each output is reviewed and approved by a licensed physician, integrated into your ComfortCard health-identity wallet, and saveable to your own hard drive. The conversation is fun to do; the document is legally valid; the legacy is shareable with the people you love.",
   "provider": {
     "@type": "Organization",
     "name": "co-op.care",
@@ -311,6 +311,73 @@ footer.site a:hover { color: var(--sage); }
   font-family: 'Inter', sans-serif; font-weight: 600; text-decoration: none;
   box-shadow: 0 4px 12px rgba(11,14,39,0.18);
 }
+
+/* ── Lifecycle strip (Apr 26 2026) ──────────────────────────────────── */
+.lifecycle-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 3rem; }
+@media (min-width: 720px) { .lifecycle-grid { grid-template-columns: 1fr 1fr; gap: 1.4rem; } }
+@media (min-width: 1080px) { .lifecycle-grid { grid-template-columns: repeat(4, 1fr); } }
+.lc-tile {
+  display: block; text-decoration: none; color: inherit;
+  background: var(--card); border: 1px solid var(--rule); border-radius: 18px;
+  padding: 1.6rem 1.4rem; transition: transform 0.2s, box-shadow 0.2s;
+}
+.lc-tile:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -14px rgba(11,14,39,0.14); }
+.lc-tile--here { background: var(--sage-soft); border-color: var(--sage); }
+.lc-step {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.2em;
+  color: var(--sage); margin-bottom: 0.7rem; text-transform: uppercase;
+}
+.lc-tile h3 {
+  font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.25rem;
+  letter-spacing: -0.015em; color: var(--ink); margin-bottom: 0.5rem;
+}
+.lc-tile p { font-size: 0.93rem; color: var(--ink-dim); line-height: 1.5; margin-bottom: 0.9rem; }
+.lc-tag {
+  display: inline-block; font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--sage-deep); background: var(--sage-soft);
+  padding: 4px 10px; border-radius: 999px;
+}
+.lc-tile--here .lc-tag { background: var(--sage-deep); color: #fff; }
+
+/* ── Take-it-deeper upgrade tier ────────────────────────────────────── */
+.deeper-grid { display: grid; grid-template-columns: 1fr; gap: 1.4rem; margin-top: 3rem; }
+@media (min-width: 720px) { .deeper-grid { grid-template-columns: 1fr 1fr; gap: 1.8rem; } }
+.deep-tile {
+  display: block; text-decoration: none; color: inherit;
+  background: var(--paper-dim); border: 1px solid var(--rule); border-radius: 20px;
+  padding: 2rem; transition: transform 0.2s, background 0.2s;
+}
+.deep-tile:hover { transform: translateY(-2px); background: var(--card); }
+.deep-tag {
+  display: inline-block; font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--sage-deep); margin-bottom: 0.9rem;
+}
+.deep-tile h3 {
+  font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.55rem;
+  letter-spacing: -0.018em; color: var(--ink); margin-bottom: 0.7rem;
+}
+.deep-tile p { color: var(--ink-dim); font-size: 1rem; line-height: 1.55; }
+
+/* ── Ecosystem lanes ────────────────────────────────────────────────── */
+.eco-lane { margin-top: 3.5rem; }
+.eco-lane:first-of-type { margin-top: 0.5rem; }
+.eco-lane-head { margin-bottom: 1.6rem; }
+.eco-lane-tag {
+  display: inline-block; font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.74rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--sage-deep); background: var(--sage-soft);
+  padding: 6px 14px; border-radius: 999px; margin-bottom: 0.6rem;
+}
+.eco-lane-head p { color: var(--ink-soft); font-size: 0.95rem; }
+
+/* Closing footer microcopy */
+.closing-foot {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-soft); margin-top: 1.6rem;
+}
 </style>
 </head>
 <body>
@@ -329,9 +396,9 @@ footer.site a:hover { color: var(--sage); }
 
 <header class="hero" id="main" role="main">
   <div>
-    <div class="eyebrow">A conversation. Not a form.</div>
-    <h1 class="hero-title serif">Every life deserves more than<br><em>a dash between two dates.</em></h1>
-    <p class="hero-deck">CareGoals captures the values, memories, and wishes that make you <em>you</em> — in your own voice, over many short conversations, shareable with the people who matter when it matters most.</p>
+    <div class="eyebrow">Self-directed · advance directive · MOLST · POLST</div>
+    <h1 class="hero-title serif">Build the directive that <em>actually sounds like you.</em></h1>
+    <p class="hero-deck">CareGoals is a self-directed program for making your own advance directive — or a MOLST or POLST when one of those is what your situation needs. The whole thing is a conversation, not a form. It's actually <em>fun</em> to do. What you walk away with is a physician-approved legal document <em>and</em> a legacy you can share with the people who love you.</p>
 
     <!-- ═══════════ DIAGNOSTIC HOOK — plan the first conversation ═══════════ -->
     <div class="cg-diag" id="cg-diag" style="background:#fff;border:1px solid var(--rule,#e6dcc7);border-radius:14px;padding:1.25rem 1.4rem;margin-bottom:1.25rem;">
@@ -453,6 +520,44 @@ footer.site a:hover { color: var(--sage); }
   </div>
 </header>
 
+<!-- ── Lifecycle strip: MAKE / APPROVE / STORE / OWN ─────────────────────
+     The four-move map. Frames CareGoals as the conversation, with the rest
+     of the network doing the paperwork, the storage, and the sovereignty.
+     ────────────────────────────────────────────────────────────────────── -->
+<section id="lifecycle" aria-label="How CareGoals fits with the rest of your life">
+  <div class="sec-head">
+    <div class="kicker">The four moves</div>
+    <h2 class="serif">Make it. <em>Approve it.</em> Store it. <em>Own a copy.</em></h2>
+    <p class="lede">CareGoals is the conversation. The rest of the network does the work that used to feel impossible — physician approval, secure storage, and a copy you actually own. You don't see the bureaucracy. It's just done.</p>
+  </div>
+  <div class="lifecycle-grid">
+    <a href="/first-session" class="lc-tile lc-tile--here">
+      <div class="lc-step">01 / MAKE</div>
+      <h3 class="serif">caregoals.com</h3>
+      <p>You're here. Short, friendly conversations build the document — directive, MOLST, or POLST — in your own words. Fifteen minutes at a time.</p>
+      <div class="lc-tag">You are here</div>
+    </a>
+    <a href="https://harnesshealth.ai" class="lc-tile">
+      <div class="lc-step">02 / APPROVE</div>
+      <h3 class="serif">harnesshealth.ai</h3>
+      <p>A licensed physician reviews and signs the directive. Safe agentics handle the paperwork around it — filing, retrieval, follow-ups. You don't see the friction.</p>
+      <div class="lc-tag">Physician-attested</div>
+    </a>
+    <a href="https://comfortcard.org" class="lc-tile">
+      <div class="lc-step">03 / STORE</div>
+      <h3 class="serif">comfortcard.org</h3>
+      <p>The signed directive rides inside your ComfortCard — the Apple Wallet health-identity card the ER, your family, and any clinician can scan in 90 seconds.</p>
+      <div class="lc-tag">Wallet · 90-sec ER</div>
+    </a>
+    <a href="https://chanio.com" class="lc-tile">
+      <div class="lc-step">04 / OWN</div>
+      <h3 class="serif">chanio.com</h3>
+      <p>Save the conversation, the directive, and every linked record to your own hard drive. Encrypted, sovereign, yours forever — so the document belongs to you, not a vendor.</p>
+      <div class="lc-tag">Your hard drive</div>
+    </a>
+  </div>
+</section>
+
 <section id="how">
   <div class="sec-head">
     <div class="kicker">How it works</div>
@@ -494,6 +599,27 @@ footer.site a:hover { color: var(--sage); }
   </div>
 </div>
 
+<!-- ── Take-it-deeper upgrade tier: qualitydeath + mapofyou ───────────── -->
+<section id="deeper" aria-label="Take the conversation deeper">
+  <div class="sec-head">
+    <div class="kicker">Take it deeper</div>
+    <h2 class="serif">When the directive opens a door — <em>and you want to walk through it.</em></h2>
+    <p class="lede">CareGoals captures the wishes. Sometimes the conversation wants to go further: into the philosophy of a good ending, or the deeper map of who you've been. Same warmth. Different territory. These are the upgrade conversations, available when you're ready.</p>
+  </div>
+  <div class="deeper-grid">
+    <a href="https://qualitydeath.com" class="deep-tile">
+      <div class="deep-tag">Philosophy of a good ending</div>
+      <h3 class="serif">qualitydeath.com →</h3>
+      <p>The conversations about meaning, suffering, mortality, and what makes a death feel like one a person could be at peace with. Same Reed. Different territory.</p>
+    </a>
+    <a href="https://mapofyou.com" class="deep-tile">
+      <div class="deep-tag">The inner journey</div>
+      <h3 class="serif">mapofyou.com →</h3>
+      <p>Ikigai, parts work, shadow, strengths, personality topology. The fuller portrait of the person doing the planning — and what their values point toward in the years ahead.</p>
+    </a>
+  </div>
+</section>
+
 <section>
   <div class="voice">
     <blockquote>"We sat for three months trying to decide what Mom would have wanted. We argued. We cried. <em>We had absolutely no idea.</em> I don't want my kids to go through that."</blockquote>
@@ -503,49 +629,107 @@ footer.site a:hover { color: var(--sage); }
 
 <section id="ecosystem">
   <div class="sec-head">
-    <div class="kicker">Built with co-op.care</div>
-    <h2 class="serif">Not a document. <em>A living record.</em></h2>
-    <p class="lede">CareGoals grows with you. Your values shift. Your preferences evolve. Your family changes. Your profile updates quietly, across many small sessions, and the PDF you share is always current.</p>
+    <div class="kicker">The full network</div>
+    <h2 class="serif">CareGoals doesn't live alone. <em>Here's the rest.</em></h2>
+    <p class="lede">A health system that works for you instead of you working for it. Each piece is its own door, but they share one network — your ComfortCard identity, your physician, your data, your community. Pick the one you need today; the others stay there when you're ready.</p>
   </div>
 
-  <div class="stories">
-    <a class="story-link" href="https://comfortcard.org"><article class="story">
-      <span class="n">01 / IDENTITY</span>
-      <h3 class="serif">ComfortCard →</h3>
-      <p>Your CareGoals summary rides inside your ComfortCard — the scannable health identity you carry. When it matters, the ER can see what you said.</p>
-    </article></a>
-    <a class="story-link" href="https://co-op.care"><article class="story">
-      <span class="n">02 / CARE</span>
-      <h3 class="serif">co-op.care →</h3>
-      <p>When you need care at home, your caregiver reads your CareGoals before the first visit. Continuity, from the first moment.</p>
-    </article></a>
-    <a class="story-link" href="/gallery"><article class="story">
-      <span class="n">03 / FAMILY</span>
-      <h3 class="serif">Shareable profile →</h3>
-      <p>One PDF. One link. Anyone you invite can read your care profile. Nobody guesses anymore.</p>
-    </article></a>
-    <a class="story-link" href="https://medfrail.com"><article class="story">
-      <span class="n">04 / EXEMPTION</span>
-      <h3 class="serif">medfrail.com →</h3>
-      <p>Caregiving is work. If you're the primary caregiver for an aging parent or spouse, OBBBA's January 2027 Medicaid work requirements recognize you as exempt — but only with physician attestation. CareGoals flags when your caregiver designation makes you eligible; medfrail.com delivers the signed attestation in 24 hours.</p>
-    </article></a>
-    <a class="story-link" href="https://hashcare.com"><article class="story">
-      <span class="n">05 / DATA OWNERSHIP</span>
-      <h3 class="serif">hashcare.com →</h3>
-      <p>Your CareGoals profile is yours. HashCare gives you a cryptographic identity for your health records, so when your directive needs to travel across hospitals, states, or generations, you control who sees it.</p>
-    </article></a>
-    <a class="story-link" href="https://harnesshealth.ai"><article class="story">
-      <span class="n">06 / INFRASTRUCTURE</span>
-      <h3 class="serif">harnesshealth.ai →</h3>
-      <p>Reed is a conversation tool, but every structured output — your directive summary, your HSA/FSA letter, your values map — passes through a licensed physician before it's final. That's the infrastructure that makes the conversation count.</p>
-    </article></a>
+  <!-- LANE 1 — Store &amp; use the directive you just made -->
+  <div class="eco-lane">
+    <div class="eco-lane-head">
+      <span class="eco-lane-tag">Store &amp; use</span>
+      <p>Where the directive lives once it's signed.</p>
+    </div>
+    <div class="stories">
+      <a class="story-link" href="https://harnesshealth.ai"><article class="story">
+        <span class="n">START HERE</span>
+        <h3 class="serif">harnesshealth.ai →</h3>
+        <p>The connector that runs the whole network. Safe agentics do the administrative work — physician review, signature, filing, retrieval — so you don't have to. A health system that cares does the paperwork for you.</p>
+      </article></a>
+      <a class="story-link" href="https://comfortcard.org"><article class="story">
+        <span class="n">IDENTITY WALLET</span>
+        <h3 class="serif">comfortcard.org →</h3>
+        <p>Your CareGoals summary rides inside your ComfortCard — the Apple Wallet health-identity card the ER, your family, and any clinician can scan in 90 seconds. $19/mo or $199/yr.</p>
+      </article></a>
+      <a class="story-link" href="https://chanio.com"><article class="story">
+        <span class="n">YOUR HARD DRIVE</span>
+        <h3 class="serif">chanio.com →</h3>
+        <p>Save the conversation, the directive, and every linked record to your own machine. Encrypted, sovereign, yours forever — so the document belongs to you, not a vendor.</p>
+      </article></a>
+    </div>
+  </div>
+
+  <!-- LANE 2 — Go deeper with the same warmth -->
+  <div class="eco-lane">
+    <div class="eco-lane-head">
+      <span class="eco-lane-tag">Go deeper</span>
+      <p>When the directive opened a door and you want to walk through it.</p>
+    </div>
+    <div class="stories">
+      <a class="story-link" href="https://qualitydeath.com"><article class="story">
+        <span class="n">PHILOSOPHY</span>
+        <h3 class="serif">qualitydeath.com →</h3>
+        <p>The conversations about meaning, suffering, and what a person of peace would call a good ending. Same Reed. Different territory.</p>
+      </article></a>
+      <a class="story-link" href="https://mapofyou.com"><article class="story">
+        <span class="n">INNER JOURNEY</span>
+        <h3 class="serif">mapofyou.com →</h3>
+        <p>Ikigai, parts work, shadow, strengths, personality topology. The fuller portrait of the person doing the planning — and what their values point toward in the years ahead.</p>
+      </article></a>
+      <a class="story-link" href="https://hashcare.com"><article class="story">
+        <span class="n">CRYPTO IDENTITY</span>
+        <h3 class="serif">hashcare.com →</h3>
+        <p>A cryptographic identity for your health record. So your directive can travel across hospitals, states, and generations without losing its provenance.</p>
+      </article></a>
+    </div>
+  </div>
+
+  <!-- LANE 3 — Build community infrastructure -->
+  <div class="eco-lane">
+    <div class="eco-lane-head">
+      <span class="eco-lane-tag">Build community infrastructure</span>
+      <p>For the families, neighborhoods, and operators who want to do this at scale.</p>
+    </div>
+    <div class="stories">
+      <a class="story-link" href="https://co-op.care"><article class="story">
+        <span class="n">YOUR COMMUNITY</span>
+        <h3 class="serif">co-op.care →</h3>
+        <p>Build the worker-owned care grid in your town. CareGoals is one input. Caregivers, neighbors, physicians, and a cooperative that runs on your terms — that's the rest.</p>
+      </article></a>
+      <a class="story-link" href="https://vimty.com"><article class="story">
+        <span class="n">LEARN HOW</span>
+        <h3 class="serif">vimty.com →</h3>
+        <p>The open tutorial. Each piece of the network shown clearly, with what it does and how the parts fit. Read this before you decide which doors to open first.</p>
+      </article></a>
+      <a class="story-link" href="https://agentichsa.com"><article class="story">
+        <span class="n">FOR WELLNESS COMPANIES</span>
+        <h3 class="serif">agentichsa.com →</h3>
+        <p>If you're a wellness brand, gym, or solo operator on a high-deductible plan: AgenticHSA is the wrapper that turns the rest of this stack into a tax-advantaged benefit for you and your team.</p>
+      </article></a>
+    </div>
+  </div>
+
+  <!-- Honorable mention: medfrail (caregiver Medicaid exemption) -->
+  <div class="eco-lane" style="margin-top:2.5rem;">
+    <div class="eco-lane-head">
+      <span class="eco-lane-tag">For caregivers</span>
+      <p>If you're caring for an aging parent or spouse — read this.</p>
+    </div>
+    <div class="stories" style="grid-template-columns:1fr;">
+      <a class="story-link" href="https://medfrail.com"><article class="story">
+        <span class="n">MEDICAID EXEMPTION</span>
+        <h3 class="serif">medfrail.com →</h3>
+        <p>OBBBA's January 2027 Medicaid work requirements recognize primary caregivers as exempt — but only with physician attestation. CareGoals flags when your caregiver designation makes you eligible; medfrail.com delivers the signed attestation in 24 hours.</p>
+      </article></a>
+    </div>
   </div>
 </section>
 
 <section class="closing">
   <h2 class="serif">The conversation you were<br><em>going to have someday.</em></h2>
-  <p class="lede">Someday comes faster than anyone plans. Begin with one question. Take your time. Your family will thank you.</p>
+  <p class="lede">Someday comes faster than anyone plans. Begin with one question — Reed handles the structure. The harnesshealth.ai connector handles the paperwork. Your ComfortCard handles the storage. You handle the part only you can do: showing up.</p>
   <a href="/first-session" class="btn-primary">Have your first session →</a>
+  <p class="closing-foot">15 minutes · physician-attested · stored on your ComfortCard</p>
 </section>
 
 <footer class="site">
@@ -616,16 +800,36 @@ footer.site a:hover { color: var(--sage); }
     } catch (_) { return null; }
   }
 
+  // Build the canonical redirect target. We use origin + pathname (no
+  // fragment, no query string) so the OAuth round-trip lands back on the
+  // same canonical URL the user started from. CRITICAL: this URL must be
+  // present in the Supabase project's "Authentication > URL Configuration
+  // > Redirect URLs" allowlist, otherwise Supabase silently falls back to
+  // the project's default Site URL (which is currently set to localhost
+  // for development and was redirecting users into a dead page).
+  function buildOAuthRedirect() {
+    try {
+      const o = window.location.origin;
+      const p = window.location.pathname || '/';
+      // Treat /index.html and / as the same canonical destination
+      const path = p === '/index.html' ? '/' : p;
+      return o + path;
+    } catch (_) {
+      return 'https://caregoals.com/';
+    }
+  }
+
   // Public — wired to onclick on the Google button
   window.signInGoogle = async function () {
     const s = getSupa();
     if (!s) { status('Sign-in still loading — try again in a moment, or use email below.', 'err'); return; }
     const btn = document.getElementById('auth-google-btn');
     if (btn) { btn.disabled = true; btn.style.opacity = '0.65'; }
+    const redirectTo = buildOAuthRedirect();
     try {
       const { error } = await s.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: window.location.href }
+        options: { redirectTo }
       });
       if (error) throw error;
       // OAuth redirect happens; if still here in 3s, restore button.
@@ -635,6 +839,8 @@ footer.site a:hover { color: var(--sage); }
       const m = (e && e.message || '').toLowerCase();
       if (m.includes('not enabled') || m.includes('not configured') || m.includes('provider')) {
         status('Google sign-in is being configured — drop your email below for now and we\'ll connect it when it\'s live.', 'info');
+      } else if (m.includes('redirect') || m.includes('url')) {
+        status('Sign-in returned an invalid redirect — caregoals.com needs to be added to the Supabase redirect allowlist. Drop your email below for now.', 'err');
       } else {
         status('Sign-in failed. Drop your email below instead.', 'err');
       }
