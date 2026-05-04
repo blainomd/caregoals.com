@@ -599,6 +599,138 @@ footer.site a:hover { color: var(--sage); }
   </div>
 </div>
 
+<!-- ── MOST Form: what CareGoals actually produces ─────────────────────── -->
+<section id="most-form" aria-label="Colorado MOST Form — what CareGoals produces" style="padding:5rem 0;background:var(--card);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);">
+  <div style="max-width:1140px;margin:0 auto;padding:0 1.5rem;">
+    <div class="sec-head">
+      <div class="kicker">What you end up with</div>
+      <h2 class="serif">A physician-signed medical order — <em>not just a wish.</em></h2>
+      <p class="lede">The conversation produces a Colorado MOST form. Medical Orders for Scope of Treatment — C.R.S. 15-18.7. When a physician signs it, EMS, hospitals, and care facilities are legally required to follow it. Without it, the default is full treatment, regardless of what you asked for.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1.15fr 1fr;gap:3rem;align-items:start;margin-top:2.5rem;">
+
+      <!-- ── Left: rendered MOST form ── -->
+      <div style="position:relative;font-family:'Inter',system-ui,sans-serif;">
+        <!-- SAMPLE watermark -->
+        <div aria-hidden="true" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:10;transform:rotate(-28deg);">
+          <span style="font-size:4rem;font-weight:900;letter-spacing:0.15em;color:rgba(74,122,90,0.12);text-transform:uppercase;white-space:nowrap;">SAMPLE</span>
+        </div>
+        <div style="border:2px solid var(--sage);border-radius:10px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.07);">
+          <!-- Form header -->
+          <div style="background:var(--sage-deep);color:#fff;padding:14px 18px;">
+            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;opacity:0.7;margin-bottom:4px;">State of Colorado &middot; C.R.S. 15-18.7</div>
+            <div style="font-size:1.05rem;font-weight:700;letter-spacing:0.02em;">Medical Orders for Scope of Treatment (MOST)</div>
+          </div>
+          <!-- Patient bar -->
+          <div style="background:var(--sage-soft);padding:10px 18px;border-bottom:1px solid var(--rule);display:flex;gap:24px;flex-wrap:wrap;font-size:0.78rem;">
+            <span><span style="color:var(--ink-soft);font-weight:600;">Patient:</span> Margaret W. Sample</span>
+            <span><span style="color:var(--ink-soft);font-weight:600;">DOB:</span> 03/14/1942</span>
+          </div>
+          <!-- Section A: CPR -->
+          <div style="padding:14px 18px;border-bottom:1px solid var(--rule);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:26px;height:26px;border-radius:50%;background:var(--sage-deep);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;flex-shrink:0;">A</div>
+              <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--sage-deep);">Cardiopulmonary Resuscitation (CPR)</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;padding-left:36px;font-size:0.82rem;">
+              <label style="display:flex;align-items:center;gap:8px;">
+                <input type="radio" checked disabled style="width:15px;height:15px;accent-color:var(--sage);">
+                <span><strong>No CPR</strong> &mdash; do not attempt CPR. Allow natural death.</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;">
+                <input type="radio" disabled style="width:15px;height:15px;">
+                <span><strong>Attempt CPR</strong></span>
+              </label>
+            </div>
+          </div>
+          <!-- Section B: Medical Interventions -->
+          <div style="padding:14px 18px;border-bottom:1px solid var(--rule);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:26px;height:26px;border-radius:50%;background:var(--sage-deep);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;flex-shrink:0;">B</div>
+              <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--sage-deep);">Medical Interventions</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:7px;padding-left:36px;font-size:0.82rem;">
+              <label style="display:flex;align-items:flex-start;gap:8px;">
+                <input type="radio" disabled style="width:15px;height:15px;margin-top:2px;">
+                <span><strong>Full treatment</strong> &mdash; all interventions including ICU.</span>
+              </label>
+              <label style="display:flex;align-items:flex-start;gap:8px;">
+                <input type="radio" disabled style="width:15px;height:15px;margin-top:2px;">
+                <span><strong>Selective interventions</strong> &mdash; hospitalization and IV medications, but not ICU.</span>
+              </label>
+              <label style="display:flex;align-items:flex-start;gap:8px;">
+                <input type="radio" checked disabled style="width:15px;height:15px;margin-top:2px;accent-color:var(--sage);">
+                <span><strong>Comfort-focused care only</strong> &mdash; relieve pain and suffering. No hospitalization unless comfort cannot be provided elsewhere.</span>
+              </label>
+            </div>
+          </div>
+          <!-- Section C: Artificial Nutrition -->
+          <div style="padding:14px 18px;border-bottom:1px solid var(--rule);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:26px;height:26px;border-radius:50%;background:var(--sage-deep);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;flex-shrink:0;">C</div>
+              <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--sage-deep);">Artificial Nutrition and Hydration</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;padding-left:36px;font-size:0.82rem;">
+              <label style="display:flex;align-items:center;gap:8px;">
+                <input type="radio" checked disabled style="width:15px;height:15px;accent-color:var(--sage);">
+                <span><strong>No artificial nutrition</strong> &mdash; offer food and water by mouth if feasible and desired.</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;">
+                <input type="radio" disabled style="width:15px;height:15px;">
+                <span><strong>Trial period</strong> of artificial nutrition.</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;">
+                <input type="radio" disabled style="width:15px;height:15px;">
+                <span><strong>Long-term</strong> artificial nutrition.</span>
+              </label>
+            </div>
+          </div>
+          <!-- Physician signature -->
+          <div style="padding:12px 18px;background:var(--sage-soft);display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.78rem;">
+            <div>
+              <div style="color:var(--ink-soft);font-size:0.7rem;font-weight:600;margin-bottom:3px;text-transform:uppercase;letter-spacing:0.06em;">Physician / APN / PA Signature</div>
+              <div style="font-family:'Fraunces',Georgia,serif;font-size:1.05rem;color:var(--sage-deep);font-style:italic;">Josh Emdur, DO</div>
+              <div style="color:var(--ink-soft);font-size:0.7rem;margin-top:2px;">CO License: ME-SAMPLE &middot; Altru Physician Services</div>
+            </div>
+            <div>
+              <div style="color:var(--ink-soft);font-size:0.7rem;font-weight:600;margin-bottom:3px;text-transform:uppercase;letter-spacing:0.06em;">Date</div>
+              <div style="font-weight:600;">__/__/____</div>
+              <div style="color:var(--ink-soft);font-size:0.7rem;margin-top:4px;">Stored in ComfortCard &middot; Apple Wallet</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:0.7rem;color:var(--ink-soft);text-align:center;letter-spacing:0.05em;text-transform:uppercase;">Sample only &middot; not a real medical order</div>
+      </div>
+
+      <!-- ── Right: explainer panels ── -->
+      <div style="display:flex;flex-direction:column;gap:2rem;">
+        <div style="padding:1.5rem;background:var(--sage-soft);border-radius:10px;">
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage-deep);margin-bottom:8px;">Why it matters</div>
+          <p style="font-size:0.92rem;line-height:1.55;color:var(--ink-dim);">An advance directive tells doctors what you <em>wanted</em>. A MOST form is a <strong>physician-signed medical order</strong> &mdash; it tells paramedics what they are <em>legally required</em> to do. Without it, EMS follows default protocol: CPR, ambulance, ER, regardless of what was written in advance.</p>
+        </div>
+        <div style="padding:1.5rem;background:var(--card);border:1px solid var(--rule);border-radius:10px;">
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage-deep);margin-bottom:8px;">Three decisions. Whole document.</div>
+          <p style="font-size:0.92rem;line-height:1.55;color:var(--ink-dim);">Section A is CPR &mdash; yes or no. Section B is medical interventions &mdash; full treatment, selective, or comfort-focused only. Section C is artificial nutrition. That's the entire form. Physicians can review and sign one in under ten minutes once the conversation is complete.</p>
+        </div>
+        <div style="padding:1.5rem;background:var(--card);border:1px solid var(--rule);border-radius:10px;">
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage-deep);margin-bottom:8px;">How CareGoals produces this</div>
+          <p style="font-size:0.92rem;line-height:1.55;color:var(--ink-dim);">CareGoals has the conversation. Harness sends it to a physician for review. The signed MOST form is stored in your ComfortCard &mdash; accessible in Apple Wallet to any provider who scans your card.</p>
+          <div style="margin-top:14px;display:flex;gap:8px;align-items:center;font-size:0.82rem;font-weight:600;color:var(--sage-deep);">
+            <span>caregoals.com</span>
+            <span style="opacity:0.4;">&rarr;</span>
+            <span>harnesshealth.ai</span>
+            <span style="opacity:0.4;">&rarr;</span>
+            <span>comfortcard.org</span>
+          </div>
+        </div>
+        <a href="/first-session?seed=medical" style="display:block;text-align:center;background:var(--sage-deep);color:#fff;border-radius:8px;padding:14px 24px;font-weight:700;font-size:0.95rem;text-decoration:none;">Start the conversation &rarr;</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- ── Take-it-deeper upgrade tier: qualitydeath + mapofyou ───────────── -->
 <section id="deeper" aria-label="Take the conversation deeper">
   <div class="sec-head">
