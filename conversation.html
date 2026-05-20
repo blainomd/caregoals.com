@@ -844,6 +844,13 @@ function renderWishesDoc(w) {
           <div class="wd-attest-meta">Physician name · NPI · Date</div>
         </div>
 
+        <div class="cc-save-cta" style="margin:1.25rem 0;padding:1.1rem 1.25rem;background:#EAF1EA;border:1px solid #4A7A5A;border-radius:14px;">
+          <div style="font-weight:700;font-size:1.08rem;color:#1f3d2a;margin-bottom:0.35rem;">Keep your wishes in your ComfortCard.</div>
+          <div style="font-size:0.92rem;line-height:1.5;color:#44524a;margin-bottom:0.9rem;">Save this to your ComfortCard — your private health-identity wallet. It is stored securely in one place you control, ready whenever you need it.</div>
+          <button type="button" id="cc-save-btn" class="review-cta-btn" onclick="saveToComfortCard()">Save to your ComfortCard →</button>
+          <div id="cc-save-status" style="display:none;margin-top:0.7rem;font-size:0.9rem;line-height:1.45;color:#2E5238;"></div>
+        </div>
+
         <div class="review-cta" id="review-cta">
           <div class="review-cta-head">Make this part of your medical record.</div>
           <div class="review-cta-body">A 50-state-licensed physician (Josh Emdur, DO) will review what you wrote, sign it, and send back a version your hospital and family can use. We'll also flag anything worth discussing with your own doctor.</div>
@@ -1755,6 +1762,75 @@ window.addEventListener('load', function() {
     }, 2000);
   }, 600);
 });
+</script>
+
+<!-- Save to ComfortCard — reads the SSO Supabase session (set on sign-in) and
+     posts the directive to the token-gated solvinghealth.com/api/save-directive.
+     The directive lands in the member's own cg_advance_directives row. -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function () {
+  var SUPA_URL = 'https://uhizqukdctkvluluheux.supabase.co';
+  var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVoaXpxdWtkY3Rrdmx1bHVoZXV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NzQ1ODQsImV4cCI6MjA4OTQ1MDU4NH0._AxT5pBEi1GZ167JPJpHeg_k1E0Bbtzyj3UPKdTFEug';
+  var _supa = null;
+  function supa() {
+    if (_supa) return _supa;
+    if (!window.supabase || typeof window.supabase.createClient !== 'function') return null;
+    _supa = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+    return _supa;
+  }
+  async function getToken() {
+    var s = supa(); if (!s) return null;
+    try { var r = await s.auth.getSession(); return (r && r.data && r.data.session) ? r.data.session.access_token : null; } catch (_) { return null; }
+  }
+  function signInPrompt(status) {
+    if (!status) return;
+    status.style.display = 'block';
+    status.innerHTML = 'Sign in to save this privately to your ComfortCard — it stays visible only to you. <button type="button" onclick="cgSignInToSave()" style="margin-top:8px;padding:8px 14px;border:1px solid #4A7A5A;background:#fff;border-radius:8px;font-weight:600;cursor:pointer;">Continue with Google →</button>';
+  }
+  window.cgSignInToSave = async function () {
+    var s = supa();
+    var status = document.getElementById('cc-save-status');
+    if (!s) { if (status) { status.style.display = 'block'; status.textContent = 'Sign-in is still loading — try again in a moment.'; } return; }
+    try { await s.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + '/conversation?save=1' } }); } catch (e) {}
+  };
+  window.saveToComfortCard = async function () {
+    var btn = document.getElementById('cc-save-btn');
+    var status = document.getElementById('cc-save-status');
+    var w = {};
+    try { w = (typeof wishes !== 'undefined' && (wishes.__extracted || wishes)) || {}; } catch (_) {}
+    var t = await getToken();
+    if (!t) { signInPrompt(status); return; }
+    if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+    var proxy = (w && w.speaks_for_me) ? { name: w.speaks_for_me.who, relationship: w.speaks_for_me.why } : null;
+    try {
+      var r = await fetch('https://solvinghealth.com/api/save-directive', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + t },
+        body: JSON.stringify({ sections: w, state: (w && w.state) || null, proxy: proxy })
+      });
+      var d = {}; try { d = await r.json(); } catch (_) {}
+      if (r.ok && d.ok) {
+        if (status) { status.style.display = 'block'; status.innerHTML = '✓ Saved to your ComfortCard. <a href="https://comfortcard.org/profile" style="color:#2E5238;font-weight:600;">View it in your wallet &rarr;</a>'; }
+        if (btn) { btn.textContent = 'Saved to your ComfortCard ✓'; }
+      } else if (r.status === 401) {
+        if (btn) { btn.disabled = false; btn.textContent = 'Save to your ComfortCard →'; }
+        signInPrompt(status);
+      } else {
+        throw new Error((d && d.error) || ('http_' + r.status));
+      }
+    } catch (e) {
+      if (status) { status.style.display = 'block'; status.textContent = 'Could not save just now — your wishes are still saved on this device. Please try again.'; }
+      if (btn) { btn.disabled = false; btn.textContent = 'Save to your ComfortCard →'; }
+    }
+  };
+  // After returning from Google sign-in (?save=1), auto-save once the card is shown.
+  document.addEventListener('DOMContentLoaded', function () {
+    if (location.search.indexOf('save=1') > -1) {
+      setTimeout(function () { if (document.getElementById('cc-save-btn')) window.saveToComfortCard(); }, 1500);
+    }
+  });
+})();
 </script>
 
 <div style="text-align:center;padding:16px 24px;font-size:11px;color:#9CA3AF;border-top:1px solid #E5E7EB;">
