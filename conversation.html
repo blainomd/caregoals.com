@@ -682,13 +682,27 @@ let step = 0;
 let wishes = {};
 let name = '';
 
+// Render a message safely: escape HTML (API replies + pasted input are
+// untrusted), then apply minimal inline markdown (**bold**, *italic*) and
+// preserve line breaks. Fixes Sage replies that previously showed literal
+// asterisks, and closes the prior raw-innerHTML injection path.
+function renderRich(text) {
+  var esc = String(text == null ? '' : text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  esc = esc.replace(/\*\*([\s\S]+?)\*\*/g, '<strong>$1</strong>');
+  esc = esc.replace(/\*([^*\n]+?)\*/g, '<em>$1</em>');
+  return esc.replace(/\n/g, '<br>');
+}
+
 function addMsg(text, sender) {
   return new Promise(resolve => {
     const d = document.createElement('div');
     d.className = `msg msg-${sender}`;
     const b = document.createElement('div');
     b.className = 'msg-bubble';
-    b.innerHTML = text.replace(/\n/g, '<br>');
+    b.innerHTML = renderRich(text);
     d.appendChild(b);
     // Replay button on every Sage message — works regardless of Voice toggle.
     if (sender === 'reed' || sender === 'sage') {
@@ -1609,7 +1623,7 @@ function loadConversation() {
       d.className = 'msg msg-' + sender;
       var b = document.createElement('div');
       b.className = 'msg-bubble';
-      b.textContent = m.text;
+      b.innerHTML = renderRich(m.text);
       d.appendChild(b);
       // Attach replay button to historical Sage bubbles too.
       if (sender !== 'user') {
@@ -1676,10 +1690,32 @@ function startOver() {
   location.reload();
 }
 
+// Read ?seed=<topic> (set by the homepage value cards + MOST CTA) and turn it
+// into a one-line acknowledgment woven into Sage's opener. buildHistory()
+// includes this opener, so the chosen topic also flows into the /api/sage
+// context — Sage gently steers there once the conversation gets going.
+function cgSeedLine() {
+  try {
+    var seed = new URLSearchParams(window.location.search).get('seed');
+    if (!seed) return '';
+    var topics = {
+      'daily-routines': 'the daily routines and small things that still feel like you',
+      'what-matters':   'what matters most to you',
+      'medical':        'your medical care preferences',
+      'proxy':          "who you'd want to speak for you",
+      'dementia':       'planning ahead for memory changes',
+      'legacy':         'the stories and legacy you want to leave'
+    };
+    var t = topics[seed];
+    if (!t) return '';
+    return "You came in thinking about " + t + " — we'll get there, and we'll do it as a conversation, not a checklist.\n\n";
+  } catch (_) { return ''; }
+}
+
 // Start — always show something
 function startFresh() {
   step = 1;
-  var msg = "Hi. I'm Sage.\n\nI'm glad you're here. What we're going to do is simple — just talk. About you. About what matters to you. About the things you want the people you love to understand.\n\nBy the end, you'll have something real — a document in your own words that your family and your doctor can hold onto. Not medical language. Your language.\n\nWhat's your name?";
+  var msg = "Hi. I'm Sage.\n\nI'm glad you're here. What we're going to do is simple — just talk. About you. About what matters to you. About the things you want the people you love to understand.\n\n" + cgSeedLine() + "By the end, you'll have something real — a document in your own words that your family and your doctor can hold onto. Not medical language. Your language.\n\nWhat's your name?";
   addMsg(msg, 'reed');
 }
 
