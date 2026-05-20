@@ -1701,22 +1701,54 @@ function startOver() {
 // into a one-line acknowledgment woven into Sage's opener. buildHistory()
 // includes this opener, so the chosen topic also flows into the /api/sage
 // context — Sage gently steers there once the conversation gets going.
-function cgSeedLine() {
+// Seed topics shared by the opener (fresh start) and the pivot (resume). The
+// homepage value cards + MOST CTA pass ?seed=<topic>; each MUST lead to its own
+// distinct content, never the same resumed conversation.
+var CG_SEED_TOPICS = {
+  'daily-routines': 'the daily routines and small things that still feel like you',
+  'what-matters':   'what matters most to you',
+  'medical':        'your medical care preferences',
+  'proxy':          "who you'd want to speak for you",
+  'dementia':       'planning ahead for memory changes',
+  'legacy':         'the stories and legacy you want to leave'
+};
+// A genuinely different opening question per topic — this is what makes each
+// value card open UNIQUE content instead of the same resumed conversation.
+var CG_SEED_PIVOTS = {
+  'daily-routines': "Let's talk about the small things that still feel like you. What's one part of an ordinary day you'd never want to give up?",
+  'what-matters':   "Let's talk about what matters most to you. If a lot were taken away, what would you most want to hold onto?",
+  'medical':        "Let's turn to your medical care preferences. When you picture being seriously ill, what matters most about how you're treated?",
+  'proxy':          "Let's talk about who speaks for you if you can't speak for yourself. Who knows you well enough to make a hard call the way you would?",
+  'dementia':       "Let's gently look ahead at memory changes. If your memory faded, what would you want the people around you to understand?",
+  'legacy':         "Let's turn to the stories and legacy you want to leave. What's something you hope your family always remembers about you?"
+};
+
+function cgSeedKey() {
   try {
-    var seed = new URLSearchParams(window.location.search).get('seed');
-    if (!seed) return '';
-    var topics = {
-      'daily-routines': 'the daily routines and small things that still feel like you',
-      'what-matters':   'what matters most to you',
-      'medical':        'your medical care preferences',
-      'proxy':          "who you'd want to speak for you",
-      'dementia':       'planning ahead for memory changes',
-      'legacy':         'the stories and legacy you want to leave'
-    };
-    var t = topics[seed];
-    if (!t) return '';
-    return "You came in thinking about " + t + " — we'll get there, and we'll do it as a conversation, not a checklist.\n\n";
-  } catch (_) { return ''; }
+    var s = new URLSearchParams(window.location.search).get('seed');
+    return (s && CG_SEED_TOPICS[s]) ? s : null;
+  } catch (_) { return null; }
+}
+function cgGetLastSeed() { try { return localStorage.getItem('caregoals_last_seed') || ''; } catch (_) { return ''; } }
+function cgSetLastSeed(s) { try { localStorage.setItem('caregoals_last_seed', s || ''); } catch (_) {} }
+
+function cgSeedLine() {
+  var s = cgSeedKey();
+  if (!s) return '';
+  return "You came in thinking about " + CG_SEED_TOPICS[s] + " — we'll get there, and we'll do it as a conversation, not a checklist.\n\n";
+}
+
+// Resume case: a saved conversation exists but the URL carries a NEW seed (a
+// different value card than last time). Steer Sage to that topic with a
+// distinct question instead of silently re-showing the same resumed thread.
+// Non-destructive — it appends to the existing conversation.
+function cgPivotToSeed(seed) {
+  var q = CG_SEED_PIVOTS[seed];
+  if (!q) return;
+  addMsg(q, 'reed');
+  try { speak(q); } catch (_) {}
+  cgSetLastSeed(seed);
+  try { saveConversation(); } catch (_) {}
 }
 
 // Start — always show something
@@ -1745,8 +1777,14 @@ window.addEventListener('load', function() {
   setTimeout(function() {
     try {
       var resumed = loadConversation();
+      var seedNow = cgSeedKey();
       if (!resumed) {
         startFresh();
+        if (seedNow) cgSetLastSeed(seedNow);
+      } else if (seedNow && seedNow !== cgGetLastSeed()) {
+        // Resumed an existing conversation, but this is a DIFFERENT value card
+        // than last time — pivot Sage to the new topic so each box is unique.
+        setTimeout(function () { cgPivotToSeed(seedNow); }, 500);
       }
     } catch(e) {
       console.error('Start error:', e);
