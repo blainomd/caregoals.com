@@ -1,1941 +1,895 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>CareGoals — Your Story, Your Wishes</title>
-<meta name="description" content="A gentle conversation about what matters most to you. Document your wishes, your story, and the things you want your family to know.">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Conversations — CareGoals</title>
+<meta name="description" content="Explore the five conversation domains CareGoals covers — values, medical decisions, living preferences, who decides, and legacy."/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "surface-container-low": "#f6f3f2","surface-bright": "#fcf9f8","surface": "#fcf9f8",
+        "surface-container-highest": "#e5e2e1","background": "#fcf9f8","on-primary-container": "#98c27b",
+        "secondary": "#b02d21","secondary-container": "#fc6451","outline": "#73796c",
+        "on-surface-variant": "#43493d","surface-container-high": "#eae7e7","surface-container": "#f0eded",
+        "primary-container": "#2d5016","on-secondary": "#ffffff","on-primary": "#ffffff",
+        "on-surface": "#1c1b1b","outline-variant": "#c3c9b9","primary": "#173901",
+        "inverse-surface": "#313030","inverse-primary": "#a8d38a","on-background": "#1c1b1b"
+      },
+      borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+      fontFamily: { "headline": ["Inter"], "body": ["Inter"], "label": ["Inter"] }
+    }
+  }
+}
+</script>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  body { min-height: 100dvh; }
 
-:root {
-  --sage: #7c9a7c;
-  --sage-light: #a3bfa3;
-  --sage-dark: #5a7a5a;
-  --sage-dim: rgba(124,154,124,0.08);
-  --cream: #faf8f5;
-  --cream-dark: #f0ebe3;
-  --gold: #c9a96e;
-  --gold-dim: rgba(201,169,110,0.1);
-  --navy: #2c3e50;
-  --white: #ffffff;
-  --gray-200: #e5e7eb;
-  --gray-400: #9ca3af;
-  --gray-500: #6b7280;
-  --serif: 'Newsreader', Georgia, serif;
-  --sans: 'Inter', -apple-system, sans-serif;
-}
+  .domain-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    transition: all 0.18s ease;
+    font-family: 'Inter', sans-serif;
+  }
+  .domain-btn:hover {
+    background: #f0eded;
+    border-color: #c3c9b9;
+  }
+  .domain-btn.active {
+    background: #173901;
+    border-color: #173901;
+  }
+  .domain-btn.active .domain-label {
+    color: #fff;
+  }
+  .domain-btn.active .domain-icon {
+    color: #a8d38a;
+  }
+  .domain-icon { color: #43493d; font-size: 22px; transition: color 0.18s; }
+  .domain-label { font-size: 14px; font-weight: 700; color: #1c1b1b; transition: color 0.18s; }
 
-html, body { height: 100%; overflow: hidden; }
+  .question-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 22px 24px;
+    border: 1px solid #e5e2e1;
+    margin-bottom: 14px;
+    transition: box-shadow 0.2s;
+  }
+  .question-card:hover { box-shadow: 0 4px 20px rgba(23,57,1,0.07); }
 
-body {
-  font-family: var(--sans);
-  background: var(--cream);
-  color: var(--navy);
-  display: flex;
-  flex-direction: column;
-}
+  .answer-reveal {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s ease, opacity 0.35s ease;
+    opacity: 0;
+  }
+  .answer-reveal.open {
+    max-height: 300px;
+    opacity: 1;
+  }
 
-/* Header */
-.header {
-  padding: 14px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(250,248,245,0.96);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-  flex-shrink: 0;
-}
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.reed-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--sage);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.reed-avatar svg { width: 18px; height: 18px; color: var(--white); }
-.header-text h1 {
-  font-family: var(--serif);
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--navy);
-}
-.header-text p {
-  font-size: 11px;
-  color: var(--gray-500);
-}
-.header-actions { display: flex; gap: 8px; }
-.print-btn {
-  padding: 6px 14px;
-  border: 1px solid var(--gray-200);
-  border-radius: 8px;
-  font-size: 12px;
-  font-family: var(--sans);
-  color: var(--gray-500);
-  background: var(--white);
-  cursor: pointer;
-}
-.print-btn:hover { border-color: var(--sage); color: var(--sage); }
+  .reveal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #173901;
+    background: rgba(23,57,1,0.07);
+    border: none;
+    border-radius: 100px;
+    padding: 7px 14px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.15s;
+  }
+  .reveal-btn:hover { background: rgba(23,57,1,0.14); }
+  .reveal-btn.revealed { background: rgba(23,57,1,0.12); color: #2d5016; }
 
-/* Chat */
-.chat {
-  flex: 1;
-  overflow-y: auto;
-  padding: 24px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  -webkit-overflow-scrolling: touch;
-  max-width: 640px;
-  width: 100%;
-  margin: 0 auto;
-}
+  .summary-entry {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: #f6f3f2;
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .summary-entry.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-/* Messages */
-.msg { max-width: 88%; animation: fadeUp 0.4s ease; }
-.msg-reed { align-self: flex-start; }
-.msg-user { align-self: flex-end; }
-
-.msg-bubble {
-  padding: 14px 18px;
-  border-radius: 20px;
-  font-size: 16px;
-  line-height: 1.6;
-}
-.msg-reed .msg-bubble {
-  background: var(--white);
-  border: 1px solid rgba(0,0,0,0.05);
-  border-bottom-left-radius: 6px;
-  font-family: var(--serif);
-  font-size: 17px;
-  color: var(--navy);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-}
-.msg-user .msg-bubble {
-  background: var(--sage);
-  color: var(--white);
-  border-bottom-right-radius: 6px;
-}
-
-.msg-meta {
-  font-size: 11px;
-  color: var(--gray-400);
-  margin-top: 4px;
-  padding: 0 6px;
-}
-
-/* Typing */
-.typing {
-  display: flex;
-  gap: 5px;
-  padding: 14px 18px;
-  background: var(--white);
-  border: 1px solid rgba(0,0,0,0.05);
-  border-radius: 20px;
-  border-bottom-left-radius: 6px;
-  align-self: flex-start;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-}
-.typing span {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--sage-light);
-  animation: pulse 1.4s infinite;
-}
-.typing span:nth-child(2) { animation-delay: 0.2s; }
-.typing span:nth-child(3) { animation-delay: 0.4s; }
-
-/* Quick replies */
-.quick-replies {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  animation: fadeUp 0.3s ease;
-  align-self: flex-start;
-  max-width: 88%;
-}
-.qr {
-  padding: 10px 18px;
-  border: 1px solid var(--sage-light);
-  border-radius: 22px;
-  font-size: 14px;
-  font-family: var(--sans);
-  color: var(--sage-dark);
-  background: var(--white);
-  cursor: pointer;
-  transition: all 0.2s;
-  line-height: 1.3;
-}
-.qr:hover {
-  background: var(--sage);
-  color: var(--white);
-  border-color: var(--sage);
-}
-
-/* Care wishes summary card */
-.wishes-card {
-  background: var(--white);
-  border: 2px solid var(--sage-light);
-  border-radius: 16px;
-  padding: 24px;
-  margin: 8px 0;
-  max-width: 100%;
-  align-self: stretch;
-  animation: fadeUp 0.5s ease;
-}
-.wishes-card h3 {
-  font-family: var(--serif);
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--sage-dark);
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-}
-.wishes-row {
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.04);
-}
-.wishes-row:last-child { border-bottom: none; }
-.wishes-label {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--sage);
-  margin-bottom: 4px;
-}
-.wishes-value {
-  font-family: var(--serif);
-  font-size: 15px;
-  color: var(--navy);
-  line-height: 1.5;
-  font-style: italic;
-}
-
-/* Care wishes DOCUMENT (the upgraded, print-ready render) */
-.wd-doc {
-  font-family: var(--serif);
-  color: var(--navy);
-  background: var(--white);
-}
-.wd-header {
-  text-align: left;
-  padding-bottom: 16px;
-  border-bottom: 2px solid var(--sage-dark);
-  margin-bottom: 20px;
-}
-.wd-stamp {
-  font-family: var(--sans);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--sage-dark);
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-.wd-title {
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-  margin: 0 0 6px 0;
-  color: var(--navy);
-}
-.wd-meta {
-  font-family: var(--sans);
-  font-size: 12px;
-  color: var(--gray-500);
-}
-.wd-body { display: flex; flex-direction: column; gap: 16px; }
-.wd-section { padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.05); }
-.wd-section:last-child { border-bottom: none; }
-.wd-label {
-  font-family: var(--sans);
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--sage-dark);
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-.wd-value {
-  font-family: var(--serif);
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--navy);
-}
-.wd-value.wd-quote {
-  font-style: italic;
-  padding-left: 12px;
-  border-left: 2px solid var(--sage-light);
-}
-.wd-list {
-  margin: 0;
-  padding-left: 20px;
-  font-family: var(--serif);
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--navy);
-}
-.wd-list li { margin-bottom: 4px; }
-.wd-flag {
-  font-family: var(--sans);
-  font-size: 12px;
-  color: var(--terra, #C9644E);
-  margin-top: 4px;
-}
-.wd-footer {
-  margin-top: 24px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(0,0,0,0.08);
-}
-.wd-attest {
-  margin-bottom: 14px;
-}
-.wd-attest-line {
-  font-family: var(--sans);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gray-500);
-  margin-bottom: 16px;
-}
-.wd-attest-slot {
-  font-family: var(--sans);
-  letter-spacing: 0.05em;
-  color: var(--gray-300, #D5D2CC);
-  margin-bottom: 4px;
-}
-.wd-attest-meta {
-  font-family: var(--sans);
-  font-size: 11px;
-  color: var(--gray-500);
-  letter-spacing: 0.04em;
-}
-.wd-note {
-  font-family: var(--sans);
-  font-size: 11px;
-  color: var(--gray-500);
-  line-height: 1.5;
-  margin-top: 12px;
-}
-
-/* Emergency QR card — appears after saving to ComfortCard */
-.emergency-card {
-  margin: 1rem 0 0;
-  padding: 1.1rem 1.25rem;
-  background: #F0F4FF;
-  border: 1.5px solid #3D5A99;
-  border-radius: 14px;
-  display: flex;
-  align-items: flex-start;
-  gap: 1.1rem;
-  flex-wrap: wrap;
-  animation: fadeUp 0.4s ease;
-}
-.ec-qr { flex-shrink: 0; }
-.ec-qr img { width: 108px; height: 108px; border-radius: 8px; display: block; border: 1px solid rgba(61,90,153,0.18); }
-.ec-body { flex: 1; min-width: 160px; }
-.ec-title { font-weight: 700; font-size: 0.93rem; color: #1B2A4A; margin-bottom: 0.3rem; }
-.ec-desc { font-size: 0.82rem; color: #3B4158; line-height: 1.45; margin-bottom: 0.6rem; }
-.ec-actions { display: flex; gap: 0.45rem; flex-wrap: wrap; }
-.ec-btn {
-  padding: 5px 11px; border-radius: 8px; font-size: 0.78rem; font-weight: 600;
-  cursor: pointer; border: 1.5px solid #3D5A99; background: #fff; color: #1B2A4A;
-  text-decoration: none; display: inline-block; line-height: 1.5;
-}
-.ec-btn:hover { background: #EAF0FF; }
-
-/* "Send to Josh for review" CTA block on the wishes document */
-.review-cta {
-  margin: 18px 0 14px;
-  padding: 16px;
-  background: linear-gradient(135deg, var(--sage-light) 0%, rgba(229,239,217,0.55) 100%);
-  border: 1px solid var(--sage);
-  border-radius: 12px;
-}
-.review-cta-head {
-  font-family: var(--serif);
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--sage-dark);
-  margin-bottom: 6px;
-}
-.review-cta-body {
-  font-family: var(--sans);
-  font-size: 13px;
-  color: var(--navy);
-  line-height: 1.5;
-  margin-bottom: 12px;
-}
-.review-cta-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-}
-.review-cta-btn {
-  background: var(--sage-dark);
-  color: var(--white);
-  border: none;
-  padding: 9px 16px;
-  border-radius: 999px;
-  font-family: var(--sans);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s, transform 0.1s;
-}
-.review-cta-btn:hover { background: var(--sage); }
-.review-cta-btn:active { transform: scale(0.98); }
-.review-cta-cancel {
-  background: transparent;
-  color: var(--gray-500);
-  border: none;
-  padding: 9px 12px;
-  font-family: var(--sans);
-  font-size: 13px;
-  cursor: pointer;
-}
-.review-cta-cancel:hover { color: var(--navy); }
-.review-cta-meta {
-  font-family: var(--sans);
-  font-size: 11px;
-  color: var(--gray-500);
-  letter-spacing: 0.02em;
-}
-.review-form {
-  display: none;
-  margin-top: 12px;
-  padding: 12px;
-  background: var(--white);
-  border-radius: 8px;
-  border: 1px solid var(--sage);
-  position: relative;
-}
-.review-form.open { display: block; }
-.review-label {
-  display: block;
-  font-family: var(--sans);
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--sage-dark);
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-.review-form input[type="email"] {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1.5px solid var(--rule, #E6DCC7);
-  border-radius: 8px;
-  font-family: var(--sans);
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-.review-form input[type="email"]:focus { outline: none; border-color: var(--sage); }
-.review-form-actions { display: flex; gap: 8px; align-items: center; }
-.review-success {
-  display: none;
-  margin-top: 10px;
-  padding: 12px 14px;
-  background: var(--sage-dark);
-  color: var(--white);
-  border-radius: 8px;
-  font-family: var(--sans);
-  font-size: 13px;
-  line-height: 1.5;
-}
-.review-success.open { display: block; }
-
-/* Per-message Replay button — appears on Sage bubbles for tap-to-hear */
-.msg-reed .msg-bubble, .msg-sage .msg-bubble { position: relative; padding-right: 36px; }
-.replay-btn {
-  position: absolute;
-  right: 8px;
-  top: 8px;
-  background: transparent;
-  border: none;
-  padding: 4px;
-  border-radius: 999px;
-  color: var(--sage-dark);
-  cursor: pointer;
-  opacity: 0.45;
-  transition: opacity 0.15s, background 0.15s, color 0.15s;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-.replay-btn:hover { opacity: 1; background: var(--sage-light); color: var(--sage-dark); }
-.replay-btn:active { transform: scale(0.95); }
-.replay-btn:focus-visible { opacity: 1; outline: 2px solid var(--sage); outline-offset: 2px; }
-
-/* Speaker button visual state — clearer when active */
-.speaker-btn {
-  position: relative;
-}
-.speaker-btn.active {
-  background: var(--sage);
-  color: var(--white);
-  border-color: var(--sage);
-}
-.speaker-btn.active::before {
-  content: '';
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  margin-right: 6px;
-  vertical-align: 1px;
-  animation: voicePulse 1.6s ease-in-out infinite;
-}
-@keyframes voicePulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.45; }
-}
-
-/* Quick-reply chips parsed from [[CHOICES: a | b | c]] markers Claude can emit */
-.qr-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 4px 0 12px;
-  align-self: flex-start;
-  max-width: 100%;
-}
-.qr-chip {
-  background: var(--sage-light);
-  color: var(--sage-dark);
-  border: 1px solid var(--sage);
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-family: var(--sans);
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.15s, transform 0.1s;
-}
-.qr-chip:hover { background: var(--sage); color: var(--white); }
-.qr-chip:active { transform: scale(0.97); }
-
-/* Input */
-.input-area {
-  padding: 12px 16px 28px;
-  background: var(--white);
-  border-top: 1px solid rgba(0,0,0,0.05);
-  flex-shrink: 0;
-}
-.input-row {
-  display: flex;
-  gap: 10px;
-  max-width: 640px;
-  margin: 0 auto;
-}
-.input-field {
-  flex: 1;
-  padding: 14px 18px;
-  border: 1px solid var(--gray-200);
-  border-radius: 24px;
-  font-size: 16px;
-  font-family: var(--sans);
-  outline: none;
-  background: var(--cream);
-  color: var(--navy);
-  -webkit-appearance: none;
-}
-.input-field:focus { border-color: var(--sage); }
-.input-field::placeholder { color: var(--gray-400); }
-.send-btn {
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  border: none;
-  background: var(--sage);
-  color: var(--white);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background 0.15s;
-}
-.send-btn:hover { background: var(--sage-dark); }
-.send-btn svg { width: 20px; height: 20px; }
-.voice-btn {
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  border: 1px solid var(--gray-200);
-  background: var(--cream);
-  color: var(--gray-500);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.2s;
-}
-.voice-btn:hover { border-color: var(--sage); color: var(--sage); }
-.voice-btn.recording {
-  background: #fee2e2;
-  border-color: #ef4444;
-  color: #ef4444;
-  animation: pulse-ring 1.5s infinite;
-}
-.voice-btn svg { width: 20px; height: 20px; }
-@keyframes pulse-ring {
-  0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.3); }
-  70% { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
-  100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
-}
-/* Speaker toggle */
-.speaker-btn {
-  padding: 6px 14px;
-  border: 1px solid var(--gray-200);
-  border-radius: 8px;
-  font-size: 12px;
-  font-family: var(--sans);
-  color: var(--gray-500);
-  background: var(--white);
-  cursor: pointer;
-}
-.speaker-btn:hover { border-color: var(--sage); color: var(--sage); }
-.speaker-btn.active { background: var(--sage-dim); border-color: var(--sage); color: var(--sage-dark); }
-/* Save banner */
-.save-banner {
-  padding: 10px 16px;
-  background: var(--sage-dim);
-  border: 1px solid var(--sage-light);
-  border-radius: 12px;
-  font-size: 13px;
-  color: var(--sage-dark);
-  text-align: center;
-  animation: fadeUp 0.3s ease;
-  align-self: stretch;
-}
-
-/* Animations */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes pulse {
-  0%, 80%, 100% { opacity: 0.4; transform: scale(0.8); }
-  40% { opacity: 1; transform: scale(1); }
-}
-
-/* Print — when a wishes-card is on screen, ONLY the document prints.
-   Otherwise (no card yet), the conversation prints clean. */
-@media print {
-  .header, .input-area, .quick-replies, .typing, .msg-meta,
-  .replay-btn, .qr-chips, .save-banner, footer, .review-cta, #review-modal { display: none !important; }
-  body { background: white; overflow: visible; color: #1A2536; }
-  .chat { overflow: visible; max-width: 100%; padding: 0; display: block; }
-
-  /* If a wishes-card exists on the page, hide everything else and render
-     the document full-bleed for a hospital-grade printout. */
-  body:has(.wishes-card) .msg,
-  body:has(.wishes-card) #qr-chips,
-  body:has(.wishes-card) .save-banner { display: none !important; }
-  body:has(.wishes-card) .wishes-card { border: none; padding: 0; margin: 0; }
-
-  /* Document styling for print */
-  .wishes-card { break-inside: avoid; border-width: 1px; padding: 24px; box-shadow: none; }
-  .wd-doc { font-family: 'Georgia', 'Times New Roman', serif; }
-  .wd-section { break-inside: avoid; padding: 8px 0; }
-  .wd-attest-slot { color: #999; }
-
-  /* Fallback for browsers without :has() — still hides chat msgs when
-     wishes-card sits at the bottom of the chat. */
-  .msg-reed .msg-bubble { border: none; box-shadow: none; padding: 8px 0; font-size: 14px; background: none; }
-  .msg-user .msg-bubble { background: #f4f4f0; color: #333; padding: 8px 12px; border-radius: 6px; }
-}
+  .domain-panel {
+    display: none;
+  }
+  .domain-panel.active {
+    display: block;
+  }
 </style>
 </head>
-<body>
+<body class="bg-background text-on-surface font-body">
 
-<div class="header">
-  <div class="header-left">
-    <div class="reed-avatar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="15" cy="9" r="1" fill="currentColor"/></svg>
-    </div>
-    <div class="header-text">
-      <h1>Sage</h1>
-      <p>Your care companion</p>
-    </div>
+<header class="fixed top-0 left-0 right-0 z-50" style="background:rgba(252,249,248,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(115,121,108,0.12);">
+  <div class="max-w-6xl mx-auto px-6 flex items-center justify-between" style="height:60px;">
+    <a href="/" class="font-extrabold text-lg tracking-tight text-primary" style="text-decoration:none;">CareGoals</a>
+    <nav class="hidden md:flex items-center gap-7">
+      <a href="conversation.html" class="text-sm font-medium text-primary" style="text-decoration:none;">Conversations</a>
+      <a href="features.html" class="text-sm font-medium text-on-surface-variant hover:text-primary" style="text-decoration:none;">Features</a>
+      <a href="https://co-op.care" class="text-sm font-medium text-on-surface-variant hover:text-primary" style="text-decoration:none;">co-op.care</a>
+      <a href="sage-onboarding.html" class="text-sm font-bold text-white px-5 py-2.5 rounded-full" style="background:#fc6451;text-decoration:none;">Start with Sage</a>
+    </nav>
   </div>
-  <div class="header-actions">
-    <button class="speaker-btn" id="speakerBtn" onclick="toggleSpeaker()">Voice On</button>
-    <button class="print-btn" onclick="showWishesCard()">My Wishes</button>
-    <button class="print-btn" onclick="window.print()">Print</button>
-    <button class="print-btn" onclick="saveToLocal()">Save</button>
-    <button class="print-btn" onclick="startOver()" title="Clear this conversation and start a new one">Start over</button>
+</header>
+<div style="height:60px;"></div>
+
+<!-- Hero -->
+<section style="background:linear-gradient(135deg,#173901 0%,#2d5016 100%);padding:64px 24px 72px;">
+  <div style="max-width:720px;margin:0 auto;text-align:center;">
+    <h1 style="font-family:'Inter',sans-serif;font-size:clamp(28px,4.5vw,52px);font-weight:900;color:#fff;line-height:1.15;margin-bottom:16px;">The conversations worth having</h1>
+    <p style="font-family:'Inter',sans-serif;font-size:18px;color:rgba(255,255,255,0.75);line-height:1.65;max-width:560px;margin:0 auto;">Five conversation domains. Each one designed to surface what matters most — not just what's legally required. Explore them below, then see real answers from real conversations.</p>
   </div>
-</div>
+</section>
 
-<div class="chat" id="chat"></div>
-
-<div class="input-area">
-  <div class="input-row">
-    <input type="text" class="input-field" id="input" placeholder="Share what's on your heart..." autocomplete="off">
-    <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()" aria-label="Voice input">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-    </button>
-    <button class="send-btn" onclick="sendMessage()" aria-label="Send">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
-    </button>
+<!-- Interactive explorer instruction bar -->
+<div style="background:#f6f3f2;border-bottom:1px solid #e5e2e1;padding:16px 24px;">
+  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:10px;">
+    <span class="material-symbols-outlined" style="color:#173901;font-size:18px;">touch_app</span>
+    <span style="font-family:'Inter',sans-serif;font-size:14px;color:#43493d;">Select a domain on the left. Open any question to see a sample answer. Your care summary preview builds as you explore.</span>
   </div>
 </div>
 
-<script>
-const chat = document.getElementById('chat');
-const input = document.getElementById('input');
+<!-- MAIN INTERACTIVE EXPLORER -->
+<section style="padding:48px 24px 80px;background:#fcf9f8;">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:240px 1fr 300px;gap:32px;align-items:start;">
 
-let step = 0;
-let wishes = {};
-let name = '';
+    <!-- LEFT: Domain nav -->
+    <div style="position:sticky;top:84px;">
+      <div style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#73796c;margin-bottom:12px;padding-left:4px;">Conversation domains</div>
+      <button class="domain-btn active" onclick="selectDomain(0)" id="domain-btn-0">
+        <span class="material-symbols-outlined domain-icon">favorite</span>
+        <span class="domain-label">What matters most</span>
+      </button>
+      <button class="domain-btn" onclick="selectDomain(1)" id="domain-btn-1">
+        <span class="material-symbols-outlined domain-icon">medical_services</span>
+        <span class="domain-label">Medical decisions</span>
+      </button>
+      <button class="domain-btn" onclick="selectDomain(2)" id="domain-btn-2">
+        <span class="material-symbols-outlined domain-icon">home</span>
+        <span class="domain-label">How you want to live</span>
+      </button>
+      <button class="domain-btn" onclick="selectDomain(3)" id="domain-btn-3">
+        <span class="material-symbols-outlined domain-icon">record_voice_over</span>
+        <span class="domain-label">Who speaks for you</span>
+      </button>
+      <button class="domain-btn" onclick="selectDomain(4)" id="domain-btn-4">
+        <span class="material-symbols-outlined domain-icon">auto_stories</span>
+        <span class="domain-label">Your legacy</span>
+      </button>
 
-// Render a message safely: escape HTML (API replies + pasted input are
-// untrusted), then apply minimal inline markdown (**bold**, *italic*) and
-// preserve line breaks. Fixes Sage replies that previously showed literal
-// asterisks, and closes the prior raw-innerHTML injection path.
-function renderRich(text) {
-  var esc = String(text == null ? '' : text)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-  esc = esc.replace(/\*\*([\s\S]+?)\*\*/g, '<strong>$1</strong>');
-  esc = esc.replace(/\*([^*\n]+?)\*/g, '<em>$1</em>');
-  return esc.replace(/\n/g, '<br>');
-}
+      <div style="margin-top:24px;padding:16px;background:#f6f3f2;border-radius:10px;">
+        <div style="font-family:'Inter',sans-serif;font-size:12px;color:#73796c;line-height:1.6;">Select any question and reveal its answer. Your care summary builds automatically.</div>
+      </div>
+    </div>
 
-function addMsg(text, sender) {
-  return new Promise(resolve => {
-    const d = document.createElement('div');
-    d.className = `msg msg-${sender}`;
-    const b = document.createElement('div');
-    b.className = 'msg-bubble';
-    b.innerHTML = renderRich(text);
-    d.appendChild(b);
-    // Replay button on every Sage message — works regardless of Voice toggle.
-    if (sender === 'reed' || sender === 'sage') {
-      try { attachReplayButton(b, text); } catch (_) {}
-    }
-    chat.appendChild(d);
-    chat.scrollTop = chat.scrollHeight;
-    setTimeout(resolve, 100);
-  });
-}
+    <!-- CENTER: Domain panels -->
+    <div>
 
-function showTyping() {
-  const t = document.createElement('div');
-  t.className = 'typing'; t.id = 'typing';
-  t.innerHTML = '<span></span><span></span><span></span>';
-  chat.appendChild(t);
-  chat.scrollTop = chat.scrollHeight;
-}
+      <!-- Domain 0: What matters most -->
+      <div class="domain-panel active" id="panel-0">
+        <div style="margin-bottom:28px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <div style="width:44px;height:44px;background:#173901;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span class="material-symbols-outlined" style="color:#a8d38a;font-size:22px;">favorite</span>
+            </div>
+            <h2 style="font-family:'Inter',sans-serif;font-size:22px;font-weight:900;color:#173901;">What matters most</h2>
+          </div>
+          <p style="font-family:'Inter',sans-serif;font-size:15px;color:#43493d;line-height:1.75;">Sage starts here — before any medical questions. Understanding what makes life meaningful shapes every answer that follows. These aren't hypotheticals. They're about right now.</p>
+        </div>
 
-function hideTyping() {
-  const t = document.getElementById('typing');
-  if (t) t.remove();
-}
+        <div class="question-card">
+          <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#1c1b1b;line-height:1.6;font-style:italic;">"Describe what a really good day feels like for you right now."</p>
+          <button class="reveal-btn" onclick="revealAnswer(this, 0, 0)">
+            <span class="material-symbols-outlined" style="font-size:15px;">visibility</span>
+            See a sample answer
+          </button>
+          <div class="answer-reveal">
+            <div style="margin-top:14px;padding:16px;background:#f6f3f2;border-radius:8px;border-left:3px solid #a8d38a;">
+              <p style="font-family:'Inter',sans-serif;font-size:14px;color:#1c1b1b;line-height:1.75;font-style:italic;">"A slow morning — coffee before anyone needs anything from me. A walk. Reading. Something creative in the afternoon. Ending the day having talked to someone I love."</p>
+            </div>
+          </div>
+        </div>
 
-function showQR(replies) {
-  if (!replies || !replies.length) return;
-  const c = document.createElement('div');
-  c.className = 'quick-replies'; c.id = 'qr';
-  replies.forEach(text => {
-    const btn = document.createElement('button');
-    btn.className = 'qr';
-    btn.textContent = text;
-    btn.onclick = () => { c.remove(); handleMsg(text); };
-    c.appendChild(btn);
-  });
-  chat.appendChild(c);
-  chat.scrollTop = chat.scrollHeight;
-}
+        <div class="question-card">
+          <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#1c1b1b;line-height:1.6;font-style:italic;">"What activities or experiences are so important to you that life wouldn't feel like yours without them?"</p>
+          <button class="reveal-btn" onclick="revealAnswer(this, 0, 1)">
+            <span class="material-symbols-outlined" style="font-size:15px;">visibility</span>
+            See a sample answer
+          </button>
+          <div class="answer-reveal">
+            <div style="margin-top:14px;padding:16px;background:#f6f3f2;border-radius:8px;border-left:3px solid #a8d38a;">
+              <p style="font-family:'Inter',sans-serif;font-size:14px;color:#1c1b1b;line-height:1.75;font-style:italic;">"Gardening. Cooking Sunday dinners for my family. Following my grandchildren's lives closely."</p>
+            </div>
+          </div>
+        </div>
 
-// Care Wishes document — Claude extracts structured fields from the live
-// transcript, then we render a print-ready document. Falls back to the
-// best-effort `wishes` collected during the chat if extraction fails.
-const EXTRACT_ENDPOINT = 'https://solvinghealth.com/api/extract-wishes';
-
-function escapeHtml(s) {
-  if (s == null) return '';
-  return String(s)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-}
-
-async function extractWishes() {
-  const messages = buildHistory();
-  // Need at least one user turn AND one Sage turn to extract usefully.
-  const userCount = messages.filter(m => m.role === 'user').length;
-  if (userCount < 1) return null;
-  try {
-    const r = await fetch(EXTRACT_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages })
-    });
-    if (!r.ok) return null;
-    const data = await r.json();
-    return (data && data.wishes) || null;
-  } catch (e) {
-    console.warn('extractWishes failed', e);
-    return null;
-  }
-}
-
-function renderWishesDoc(w) {
-  const docName = (w && w.name) || name || 'You';
-  const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-
-  const treatmentLabel = {
-    full_code: 'Try every treatment available',
-    comfort_focused: 'Focus on comfort, not prolonging life',
-    conditional: 'Depends on the situation',
-    undecided: 'Still working through this'
-  }[w && w.treatment_preference] || null;
-
-  const cprLabel = {
-    yes: 'Yes — try to restart my heart',
-    no: 'No — if my heart stops, let it stop',
-    conditional: 'Only if there\'s a real chance',
-    undecided: 'I haven\'t decided yet'
-  }[w && w.cpr_preference] || null;
-
-  // Section helper — only render if value is meaningful.
-  const section = (label, value, opts) => {
-    if (value == null) return '';
-    if (Array.isArray(value)) {
-      if (value.length === 0) return '';
-      const items = value.map(v => `<li>${escapeHtml(v)}</li>`).join('');
-      return `<div class="wd-section"><div class="wd-label">${escapeHtml(label)}</div><ul class="wd-list">${items}</ul></div>`;
-    }
-    const text = String(value).trim();
-    if (!text) return '';
-    const cls = (opts && opts.quote) ? 'wd-value wd-quote' : 'wd-value';
-    return `<div class="wd-section"><div class="wd-label">${escapeHtml(label)}</div><div class="${cls}">${escapeHtml(text)}</div></div>`;
-  };
-
-  const proxy = (w && w.speaks_for_me) || {};
-  const proxyText = proxy.who
-    ? (proxy.why ? `${proxy.who} — ${proxy.why}` : proxy.who)
-    : null;
-
-  const html = `
-    <div class="wd-doc" id="wishes-doc">
-      <header class="wd-header">
-        <div class="wd-stamp">CARE WISHES · physician-attestable</div>
-        <h2 class="wd-title">${escapeHtml(docName)}'s wishes, in their words.</h2>
-        <div class="wd-meta">Documented ${today} · caregoals.com</div>
-      </header>
-
-      <div class="wd-body">
-        ${section('Who I am', w && w.about_me, { quote: true })}
-        ${section('A good day, for me', w && w.good_day, { quote: true })}
-        ${section('What brings me joy', w && w.joy, { quote: true })}
-        ${section('Who speaks for me when I can\'t', proxyText)}
-        ${proxy.told_them === false ? '<div class="wd-flag">↳ I haven\'t told them yet.</div>' : ''}
-        ${section('My treatment preference', treatmentLabel)}
-        ${section('CPR', cprLabel)}
-        ${section('What I want', w && w.what_i_want)}
-        ${section('What I do not want', w && w.what_i_dont_want)}
-        ${section('What comfort looks like', w && w.comfort_environment, { quote: true })}
-        ${section('What calms me', w && w.comfort_calming, { quote: true })}
-        ${section('How to treat me when I can\'t respond', w && w.dignity, { quote: true })}
-        ${section('What I want my family to hear', w && w.message_to_family, { quote: true })}
-        ${section('Unfinished', w && w.unfinished_business, { quote: true })}
-        ${section('My faith / spiritual practice', w && w.faith)}
+        <div class="question-card">
+          <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#1c1b1b;line-height:1.6;font-style:italic;">"What does independence mean to you, specifically?"</p>
+          <button class="reveal-btn" onclick="revealAnswer(this, 0, 2)">
+            <span class="material-symbols-outlined" style="font-size:15px;">visibility</span>
+            See a sample answer
+          </button>
+          <div class="answer-reveal">
+            <div style="margin-top:14px;padding:16px;background:#f6f3f2;border-radius:8px;border-left:3px solid #a8d38a;">
+              <p style="font-family:'Inter',sans-serif;font-size:14px;color:#1c1b1b;line-height:1.75;font-style:italic;">"Being able to decide my own schedule. Not needing to ask permission for things I've always managed myself. Staying in my own home."</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <footer class="wd-footer">
-        <div class="wd-attest">
-          <div class="wd-attest-line">Reviewed and signed by:</div>
-          <div class="wd-attest-slot">______________________________________</div>
-          <div class="wd-attest-meta">Physician name · NPI · Date</div>
-        </div>
-
-        <div class="cc-save-cta" style="margin:1.25rem 0;padding:1.1rem 1.25rem;background:#EAF1EA;border:1px solid #4A7A5A;border-radius:14px;">
-          <div style="font-weight:700;font-size:1.08rem;color:#1f3d2a;margin-bottom:0.35rem;">Keep your wishes in your ComfortCard.</div>
-          <div style="font-size:0.92rem;line-height:1.5;color:#44524a;margin-bottom:0.9rem;">Save this to your ComfortCard — your private health-identity wallet. It is stored securely in one place you control, ready whenever you need it.</div>
-          <button type="button" id="cc-save-btn" class="review-cta-btn" onclick="saveToComfortCard()">Save to your ComfortCard →</button>
-          <div id="cc-save-status" style="display:none;margin-top:0.7rem;font-size:0.9rem;line-height:1.45;color:#2E5238;"></div>
-        </div>
-
-        <div class="review-cta" id="review-cta">
-          <div class="review-cta-head">Make this part of your medical record.</div>
-          <div class="review-cta-body">A 50-state-licensed physician (Josh Emdur, DO) will review what you wrote, sign it, and send back a version your hospital and family can use. We'll also flag anything worth discussing with your own doctor.</div>
-          <div class="review-cta-actions">
-            <button type="button" class="review-cta-btn" onclick="openReviewForm()">Send to Josh for review →</button>
-            <span class="review-cta-meta">Free for co-op.care members · $199 standalone · ~24 hour turnaround</span>
-          </div>
-          <form id="review-form" class="review-form" onsubmit="return submitReview(event)">
-            <label for="review-email" class="review-label">Where should we send the signed document?</label>
-            <input type="email" id="review-email" name="email" placeholder="you@example.com" required autocomplete="email" />
-            <input type="text" id="review-honeypot" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;" />
-            <div class="review-form-actions">
-              <button type="submit" class="review-cta-btn">Send for review</button>
-              <button type="button" class="review-cta-cancel" onclick="closeReviewForm()">Not now</button>
+      <!-- Domain 1: Medical decisions -->
+      <div class="domain-panel" id="panel-1">
+        <div style="margin-bottom:28px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <div style="width:44px;height:44px;background:#173901;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span class="material-symbols-outlined" style="color:#a8d38a;font-size:22px;">medical_services</span>
             </div>
-          </form>
-          <div id="review-success" class="review-success">Sent. Josh will be in touch within 24 hours at the email you provided. Your wishes are saved here whenever you want to come back.</div>
+            <h2 style="font-family:'Inter',sans-serif;font-size:22px;font-weight:900;color:#173901;">Medical decisions</h2>
+          </div>
+          <p style="font-family:'Inter',sans-serif;font-size:15px;color:#43493d;line-height:1.75;">These are the questions families face at 2am in the ICU. Sage asks them in plain language, grounded in what the person already told Sage they value. The reasoning behind the answer matters as much as the answer itself.</p>
         </div>
 
-        <div class="wd-note">A licensed physician can review and sign this document, making it part of your medical record. CareGoals provides advance care planning tools, not medical or legal advice.</div>
-      </footer>
+        <div class="question-card">
+          <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#1c1b1b;line-height:1.6;font-style:italic;">"If you were seriously ill and the medical team offered a treatment that might help but would mean weeks in the hospital — how would you weigh that decision?"</p>
+          <button class="reveal-btn" onclick="revealAnswer(this, 1, 0)">
+            <span class="material-symbols-outlined" style="font-size:15px;">visibility</span>
+            See a sample answer
+          </button>
+          <div class="answer-reveal">
+            <div style="margin-top:14px;padding:16px;background:#f6f3f2;border-radius:8px;border-left:3px solid #fc6451;">
+              <p style="font-family:'Inter',sans-serif;font-size:14px;color:#1c1b1b;line-height:1.75;font-style:italic;">"It would depend on what 'might help' actually means. I'd want to know the realistic odds. I'm not afraid of discomfort if there's real hope. But I don't want to spend my last weeks in a hospital bed for a 5% chance."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#1c1b1b;line-height:1.6;font-style:italic;">"What does 'quality of life' mean to you, concretely?"</p>
+          <button class="reveal-btn" onclick="revealAnswer(this, 1, 1)">
+            <span class="material-symbols-outlined" style="font-size:15px;">visibility</span>
+            See a sample answer
+          </button>
+          <div class="answer-reveal">
+            <div style="margin-top:14px;padding:16px;background:#f6f3f2;border-radius:8px;border-left:3px solid #fc6451;">
+              <p style="font-family:'Inter',sans-serif;font-size:14px;color:#1c1b1b;line-height:1.75;font-style:italic;">"Being able to recognize my family. Having some control over my day. Not being in constant pain. Those are the things that make life feel like mine."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#1c1b1b;line-height:1.6;font-style:italic;">"If you could no longer communicate, what would you most want your care team to know about how to treat you?"</p>
+          <button class="reveal-btn" onclick="revealAnswer(this, 1, 2)">
+            <span class="material-symbols-outlined" style="font-size:15px;">visibility</span>
+            See a sample answer
+          </button>
+          <div class="answer-reveal">
+            <div style="margin-top:14px;padding:16px;background:#f6f3f2;border-radius:8px;border-left:3px solid #fc6451;">
+              <p style="font-family:'Inter',sans-serif;font-size:14px;color:#1c1b1b;line-height:1.75;font-style:italic;">"That I value being talked to, not talked about. That even if I can't respond, I may still be aware. That comfort and dignity matter more to me than extending time."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Domain 2: How you want to live -->
+      <div class="domain-panel" id="panel-2">
+        <div style="margin-bottom:28px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <div style="width:44px;height:44px;background:#173901;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span class="material-symbols-outlined" style="color:#a8d38a;font-size:22px;">home</span>
+            </div>
+            <h2 style="font-family:'Inter',sans-serif;font-size:22px;font-weight:900;color:#173901;">How you want to live</h2>
+          </div>
+          <p style="font-family:'Inter',sans-serif;font-size:15px;color:#43493d;line-height:1.75;">Where you are, what surrounds you, and how a caregiver should treat you — these aren't luxuries. When someone can no longer advocate for themselves, these details prevent months of family debate and let caregivers provide genuinely personal care.</p>
+        </div>
+
+        <div class="question-card">
+          <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#1c1b1b;line-height:1.6;font-style:italic;">"If you needed ongoing care, where would you most want to receive it?"</p>
+          <button class="reveal-btn" onclick="revealAnswer(this, 2, 0)">
+            <span class="material-symbols-outlined" style="font-size:15px;">visibility</span>
+            See a sample answer
+          </button>
+          <div class="answer-reveal">
+            <div style="margin-top:14px;padding:16px;background:#f6f3f2;border-radius:8px;border-left:3px solid #2d5016;">
+              <p style="font-family:'Inter',sans-serif;font-size:14px;color:#1c1b1b;line-height:1.75;font-style:italic;">"Home, unquestionably. My own bedroom. My own kitchen. Even if I needed someone there all day — I'd want it to be in my home."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#1c1b1b;line-height:1.6;font-style:italic;">"What would your ideal care environment feel like on a typical day?"</p>
+          <button class="reveal-btn" onclick="revealAnswer(this, 2, 1)">
+            <span class="material-symbols-outlined" style="font-size:15px;">visibility</span>
+            See a sample answer
+          </button>
+          <div class="answer-reveal">
+            <div style="margin-top:14px;padding:16px;background:#f6f3f2;border-radius:8px;border-left:3px solid #2d5016;">
+              <p style="font-family:'Inter',sans-serif;font-size:14px;color:#1c1b1b;line-height:1.75;font-style:italic;">"Quiet in the morning. Visitors I actually want to see in the afternoon. A caregiver who feels more like a neighbor than an employee. Music, natural light, my own things around me."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#1c1b1b;line-height:1.6;font-style:italic;">"Are there things about your daily routine that are non-negotiable to you?"</p>
+          <button class="reveal-btn" onclick="revealAnswer(this, 2, 2)">
+            <span class="material-symbols-outlined" style="font-size:15px;">visibility</span>
+            See a sample answer
+          </button>
+          <div class="answer-reveal">
+            <div style="margin-top:14px;padding:16px;background:#f6f3f2;border-radius:8px;border-left:3px solid #2d5016;">
+              <p style="font-family:'Inter',sans-serif;font-size:14px;color:#1c1b1b;line-height:1.75;font-style:italic;">"Morning coffee before anyone talks to me. A window I can look out of. My garden nearby if possible. These aren't luxuries — they're what makes life feel continuous."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Domain 3: Who speaks for you -->
+      <div class="domain-panel" id="panel-3">
+        <div style="margin-bottom:28px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <div style="width:44px;height:44px;background:#173901;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span class="material-symbols-outlined" style="color:#a8d38a;font-size:22px;">record_voice_over</span>
+            </div>
+            <h2 style="font-family:'Inter',sans-serif;font-size:22px;font-weight:900;color:#173901;">Who speaks for you</h2>
+          </div>
+          <p style="font-family:'Inter',sans-serif;font-size:15px;color:#43493d;line-height:1.75;">A healthcare proxy is the person who speaks for you when you can't. This is among the most consequential designations in advance care planning — and it's often undermined by family conflict when it hasn't been explicitly named and explained.</p>
+        </div>
+
+        <div class="question-card">
+          <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#1c1b1b;line-height:1.6;font-style:italic;">"Who in your life knows you well enough to make hard decisions on your behalf — and would actually make the choice you'd make?"</p>
+          <button class="reveal-btn" onclick="revealAnswer(this, 3, 0)">
+            <span class="material-symbols-outlined" style="font-size:15px;">visibility</span>
+            See a sample answer
+          </button>
+          <div class="answer-reveal">
+            <div style="margin-top:14px;padding:16px;background:#f6f3f2;border-radius:8px;border-left:3px solid #a8d38a;">
+              <p style="font-family:'Inter',sans-serif;font-size:14px;color:#1c1b1b;line-height:1.75;font-style:italic;">"My son David. We've talked about this. He doesn't flinch from hard things. He knows I wouldn't want to be kept alive if there was no meaningful chance of recovery. He'd honor that, even if it was painful for him."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#1c1b1b;line-height:1.6;font-style:italic;">"What do you want your healthcare proxy to know that they might not already know?"</p>
+          <button class="reveal-btn" onclick="revealAnswer(this, 3, 1)">
+            <span class="material-symbols-outlined" style="font-size:15px;">visibility</span>
+            See a sample answer
+          </button>
+          <div class="answer-reveal">
+            <div style="margin-top:14px;padding:16px;background:#f6f3f2;border-radius:8px;border-left:3px solid #a8d38a;">
+              <p style="font-family:'Inter',sans-serif;font-size:14px;color:#1c1b1b;line-height:1.75;font-style:italic;">"That I've thought about this. That my preferences aren't a crisis response — I've been at peace with this for years. I want them to act without guilt."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#1c1b1b;line-height:1.6;font-style:italic;">"Are there family members who might challenge decisions your proxy makes — and have you prepared for that?"</p>
+          <button class="reveal-btn" onclick="revealAnswer(this, 3, 2)">
+            <span class="material-symbols-outlined" style="font-size:15px;">visibility</span>
+            See a sample answer
+          </button>
+          <div class="answer-reveal">
+            <div style="margin-top:14px;padding:16px;background:#f6f3f2;border-radius:8px;border-left:3px solid #a8d38a;">
+              <p style="font-family:'Inter',sans-serif;font-size:14px;color:#1c1b1b;line-height:1.75;font-style:italic;">"My daughter and I don't always see eye to eye on this. She's more 'do everything possible.' I need to have a real conversation with her before anything happens. This process is helping me realize I've been putting that off."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Domain 4: Legacy -->
+      <div class="domain-panel" id="panel-4">
+        <div style="margin-bottom:28px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <div style="width:44px;height:44px;background:#173901;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span class="material-symbols-outlined" style="color:#a8d38a;font-size:22px;">auto_stories</span>
+            </div>
+            <h2 style="font-family:'Inter',sans-serif;font-size:22px;font-weight:900;color:#173901;">Your legacy</h2>
+          </div>
+          <p style="font-family:'Inter',sans-serif;font-size:15px;color:#43493d;line-height:1.75;">This section is different from the others. It's not about decisions — it's about meaning. Families who complete this section often describe it as the most emotionally significant part. It turns a care planning document into something that endures.</p>
+        </div>
+
+        <div class="question-card">
+          <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#1c1b1b;line-height:1.6;font-style:italic;">"What do you want people to say about you at your memorial — not the achievements, but the way you made them feel?"</p>
+          <button class="reveal-btn" onclick="revealAnswer(this, 4, 0)">
+            <span class="material-symbols-outlined" style="font-size:15px;">visibility</span>
+            See a sample answer
+          </button>
+          <div class="answer-reveal">
+            <div style="margin-top:14px;padding:16px;background:#f6f3f2;border-radius:8px;border-left:3px solid #173901;">
+              <p style="font-family:'Inter',sans-serif;font-size:14px;color:#1c1b1b;line-height:1.75;font-style:italic;">"That I showed up. That I was the person people called when something hard happened. That I made things a little less scary."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#1c1b1b;line-height:1.6;font-style:italic;">"Is there something important about your life that most people don't know?"</p>
+          <button class="reveal-btn" onclick="revealAnswer(this, 4, 1)">
+            <span class="material-symbols-outlined" style="font-size:15px;">visibility</span>
+            See a sample answer
+          </button>
+          <div class="answer-reveal">
+            <div style="margin-top:14px;padding:16px;background:#f6f3f2;border-radius:8px;border-left:3px solid #173901;">
+              <p style="font-family:'Inter',sans-serif;font-size:14px;color:#1c1b1b;line-height:1.75;font-style:italic;">"That I almost became a musician. I spent two years playing in a jazz band in my twenties. I gave it up for practical reasons. Music has been the private language of my inner life ever since."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#1c1b1b;line-height:1.6;font-style:italic;">"What values do you most want to pass on — to your children, grandchildren, the people you've loved?"</p>
+          <button class="reveal-btn" onclick="revealAnswer(this, 4, 2)">
+            <span class="material-symbols-outlined" style="font-size:15px;">visibility</span>
+            See a sample answer
+          </button>
+          <div class="answer-reveal">
+            <div style="margin-top:14px;padding:16px;background:#f6f3f2;border-radius:8px;border-left:3px solid #173901;">
+              <p style="font-family:'Inter',sans-serif;font-size:14px;color:#1c1b1b;line-height:1.75;font-style:italic;">"Curiosity. The belief that learning doesn't stop. And a kind of stubborn faith that things can get better — that the future is worth showing up for."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end center panels -->
+
+    <!-- RIGHT: Care Summary Preview -->
+    <div style="position:sticky;top:84px;">
+      <div style="background:#fff;border-radius:16px;padding:24px;border:1px solid #e5e2e1;box-shadow:0 4px 24px rgba(23,57,1,0.06);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <span class="material-symbols-outlined" style="color:#173901;font-size:18px;">description</span>
+          <div style="font-family:'Inter',sans-serif;font-size:14px;font-weight:800;color:#173901;">Your care summary</div>
+        </div>
+        <p style="font-family:'Inter',sans-serif;font-size:12px;color:#73796c;margin-bottom:18px;line-height:1.55;">Reveal answers to see your summary build.</p>
+
+        <div id="summary-empty" style="text-align:center;padding:20px 0;">
+          <span class="material-symbols-outlined" style="color:#c3c9b9;font-size:36px;display:block;margin-bottom:8px;">pending</span>
+          <p style="font-family:'Inter',sans-serif;font-size:13px;color:#73796c;line-height:1.55;">Open any question to start building your care summary.</p>
+        </div>
+
+        <div id="summary-entries"></div>
+
+        <div id="summary-cta" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid #f0eded;">
+          <a href="sage-onboarding.html" style="display:flex;align-items:center;justify-content:center;gap:6px;background:#fc6451;color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;padding:12px 16px;border-radius:100px;text-decoration:none;">
+            Build your real summary
+            <span class="material-symbols-outlined" style="font-size:15px;">arrow_forward</span>
+          </a>
+          <p style="font-family:'Inter',sans-serif;font-size:11px;color:#73796c;text-align:center;margin-top:8px;line-height:1.5;">Free · 20 minutes · Nothing is final</p>
+        </div>
+      </div>
     </div>
-  `;
-  return html;
-}
 
-// Inline "Send to Josh" review-request flow.
-function openReviewForm() {
-  const form = document.getElementById('review-form');
-  if (form) {
-    form.classList.add('open');
-    setTimeout(() => { const e = document.getElementById('review-email'); if (e) e.focus(); }, 50);
-  }
-}
-function closeReviewForm() {
-  const form = document.getElementById('review-form');
-  if (form) form.classList.remove('open');
-}
+  </div><!-- end grid -->
+</section>
 
-async function submitReview(ev) {
-  if (ev) ev.preventDefault();
-  const emailEl = document.getElementById('review-email');
-  const honeypotEl = document.getElementById('review-honeypot');
-  const success = document.getElementById('review-success');
-  const form = document.getElementById('review-form');
-  if (!emailEl) return false;
-  const email = (emailEl.value || '').trim();
-  if (!email || !email.includes('@')) { emailEl.focus(); return false; }
-  // Honeypot — bots auto-fill; real users leave it empty.
-  const botcheck = (honeypotEl && honeypotEl.value) || '';
+<!-- Bottom CTA -->
+<section style="background:#173901;padding:72px 24px;text-align:center;">
+  <div style="max-width:560px;margin:0 auto;">
+    <h2 style="font-family:'Inter',sans-serif;font-size:clamp(22px,3.5vw,36px);font-weight:900;color:#fff;margin-bottom:16px;">Start your own conversation</h2>
+    <p style="font-family:'Inter',sans-serif;font-size:16px;color:rgba(255,255,255,0.75);margin-bottom:36px;line-height:1.7;">Sage will guide you through every domain at your pace. Nothing is final — every answer can be updated anytime. Your family will thank you for it.</p>
+    <a href="sage-onboarding.html" style="display:inline-flex;align-items:center;gap:8px;background:#fc6451;color:#fff;font-family:'Inter',sans-serif;font-size:16px;font-weight:700;padding:16px 36px;border-radius:100px;text-decoration:none;">
+      Begin with Sage
+      <span class="material-symbols-outlined" style="font-size:18px;">arrow_forward</span>
+    </a>
+  </div>
+</section>
 
-  // Build payload — full wishes JSON goes in notes so Josh has context.
-  const wishesSnapshot = (wishes && wishes.__extracted) || wishes || {};
-  const transcript = buildHistory().slice(-30); // last 30 turns is plenty
-  const payload = {
-    email: email,
-    source: 'caregoals_physician_review',
-    brand: 'caregoals.com',
-    intent: 'physician_review_lmn',
-    path: 'conversation',
-    botcheck: botcheck,
-    notes: JSON.stringify({
-      wishes: wishesSnapshot,
-      name: name || null,
-      transcript_tail: transcript,
-      submitted_at: new Date().toISOString()
-    }).slice(0, 8000)
-  };
+<footer style="background:#173901;color:rgba(255,255,255,0.75);padding:48px 24px 32px;border-top:1px solid rgba(255,255,255,0.08);">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:40px;">
+      <div><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:18px;color:#fff;margin-bottom:12px;">CareGoals</div>
+        <p style="font-family:'Inter',sans-serif;font-size:13px;line-height:1.7;color:rgba(255,255,255,0.65);">AI-guided advance care planning. A co-op.care product.</p></div>
+      <div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:12px;">Plan</div>
+        <a href="conversation.html" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">Conversations</a>
+        <a href="first-session.html" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">First Session</a></div>
+      <div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:12px;">Learn</div>
+        <a href="features.html" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">Features</a>
+        <a href="gallery.html" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">Stories</a></div>
+      <div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:12px;">Company</div>
+        <a href="https://co-op.care" style="display:block;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:8px;">co-op.care</a></div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <span style="font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.4);">© 2026 CareGoals · A co-op.care product</span>
+      <a href="https://co-op.care" style="font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.5);text-decoration:none;">co-op.care →</a>
+    </div>
+  </div>
+</footer>
 
-  // Optimistic UX — show success right away if we got an email; the network
-  // call happens in the background and is logged either way.
-  if (form) form.classList.remove('open');
-  if (success) success.classList.add('open');
-  try {
-    await fetch('https://solvinghealth.com/api/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-  } catch (e) {
-    console.warn('review submit network failed', e);
-    // Don't surface failure — the user already saw success. We have local state.
-  }
-  // Persist locally so we can show "you already requested review" on return.
-  try {
-    localStorage.setItem('caregoals_review_requested', JSON.stringify({ email, ts: Date.now() }));
-  } catch (_) {}
-  return false;
-}
-
-async function showWishesCard() {
-  // Insert a "drafting" placeholder while we extract.
-  const placeholder = document.createElement('div');
-  placeholder.className = 'wishes-card';
-  placeholder.id = 'wishes-pending';
-  placeholder.innerHTML = '<div style="padding:18px;text-align:center;color:var(--gray-500);font-family:var(--sans);font-size:14px;">Drafting your Care Wishes document…</div>';
-  chat.appendChild(placeholder);
-  chat.scrollTop = chat.scrollHeight;
-
-  const extracted = await extractWishes();
-
-  // Fallback to whatever was best-effort captured during the chat.
-  const w = extracted || {
-    name: name || null,
-    about_me: wishes.values || wishes.aboutYou || null,
-    good_day: wishes.goodDay || null,
-    speaks_for_me: { who: wishes.proxy || null, why: null, told_them: null },
-    treatment_preference: null,
-    cpr_preference: null,
-    what_i_want: [],
-    what_i_dont_want: wishes.wouldNotWant ? [wishes.wouldNotWant] : [],
-    comfort_environment: null,
-    comfort_calming: null,
-    dignity: null,
-    message_to_family: wishes.message || null,
-    unfinished_business: null,
-    joy: wishes.joy || null,
-    faith: null,
-  };
-
-  const card = document.createElement('div');
-  card.className = 'wishes-card';
-  card.innerHTML = renderWishesDoc(w);
-
-  const pending = document.getElementById('wishes-pending');
-  if (pending) pending.replaceWith(card);
-  else chat.appendChild(card);
-  chat.scrollTop = chat.scrollHeight;
-
-  // Persist the extracted structure for re-renders / print.
-  if (extracted) {
-    wishes.__extracted = extracted;
-    try { saveConversation(); } catch (_) {}
-  }
-}
-
-async function reedReply(text, qr, delay) {
-  showTyping();
-  return new Promise(resolve => {
-    setTimeout(async () => {
-      hideTyping();
-      await addMsg(text, 'reed');
-      try { speak(text); } catch(e) {}
-      try { saveConversation(); } catch(e) {}
-      if (qr && qr.length > 0) setTimeout(() => { showQR(qr); resolve(); }, 400);
-      else resolve();
-    }, delay || Math.min(1200 + text.length * 6, 2800));
-  });
-}
-
-// ── Sage: Claude-driven conversation engine ──────────────────────────
-// Replaces the old hardcoded STEPS finite-state machine.
-// Sage listens via /api/sage (Claude Haiku) with full conversation history.
-// Cross-origin to solvinghealth.com because that's where the ANTHROPIC_API_KEY
-// is configured. sage.js sets Access-Control-Allow-Origin: '*' so this works.
-const SAGE_ENDPOINT = 'https://solvinghealth.com/api/sage';
-
-// Build the message history Claude needs (everything except the message we're
-// about to send). Treat 'reed' / 'sage' message DOM classes as assistant turns.
-function buildHistory() {
-  return Array.from(chat.querySelectorAll('.msg')).map(m => {
-    const isUser = m.classList.contains('msg-user');
-    return {
-      role: isUser ? 'user' : 'assistant',
-      content: m.querySelector('.msg-bubble').textContent || ''
-    };
-  }).filter(m => m.content.trim().length > 0);
-}
-
-// Parse [[CHOICES: a | b | c]] markers Claude may include when asking a
-// question with discrete answers. Returns { text, choices }.
-function parseChoiceMarkers(raw) {
-  if (!raw) return { text: '', choices: [] };
-  const re = /\[\[\s*CHOICES?\s*:\s*([^\]]+?)\s*\]\]/i;
-  const m = raw.match(re);
-  if (!m) return { text: raw, choices: [] };
-  const choices = m[1].split('|').map(s => s.trim()).filter(s => s.length > 0 && s.length < 80).slice(0, 5);
-  return { text: raw.replace(re, '').trim(), choices };
-}
-
-async function callSage(message) {
-  const history = buildHistory();
-  try {
-    const r = await fetch(SAGE_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message, site: 'caregoals', history })
-    });
-    if (!r.ok) {
-      console.warn('reed http error', r.status);
-      return { text: "Hm — give me a second. Say that one more time?", choices: [] };
-    }
-    const data = await r.json();
-    const raw = (data && data.response) ? data.response : "I'm here. What's on your mind?";
-    return parseChoiceMarkers(raw);
-  } catch (e) {
-    console.warn('reed network error', e);
-    return { text: "Lost the thread for a second — could you say that again?", choices: [] };
-  }
-}
-
-// Render quick-reply chips. Click → fill input → send.
-function showQRChips(choices) {
-  if (!choices || choices.length === 0) return;
-  // Remove any prior chip group.
-  const old = document.getElementById('qr-chips');
-  if (old) old.remove();
-  const wrap = document.createElement('div');
-  wrap.id = 'qr-chips';
-  wrap.className = 'qr-chips';
-  choices.forEach(c => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'qr-chip';
-    btn.textContent = c;
-    btn.addEventListener('click', () => {
-      input.value = c;
-      const node = document.getElementById('qr-chips');
-      if (node) node.remove();
-      sendMessage();
-    });
-    wrap.appendChild(btn);
-  });
-  chat.appendChild(wrap);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-// Best-effort name capture from any user turn. Won't overwrite if already set.
-function maybeCaptureName(text) {
-  if (name) return;
-  const t = text.trim();
-  if (t.length < 2 || t.length > 60) return;
-  // Try common patterns first
-  const patterns = [
-    /(?:my name is|i'?m|it'?s|call me|they call me|name's)\s+([A-Za-z][A-Za-z'-]{1,30})/i,
-  ];
-  let candidate = '';
-  for (const p of patterns) {
-    const m = t.match(p);
-    if (m) { candidate = m[1]; break; }
-  }
-  // Otherwise: if it's a single word that looks like a name, take it
-  if (!candidate && /^[A-Za-z][A-Za-z'-]{1,30}$/.test(t)) candidate = t;
-  if (!candidate) return;
-  const blocklist = ['hi','hello','hey','yes','no','ok','okay','sure','ready','thanks','umm','well','nope','yep','yeah','hmm','ugh'];
-  if (blocklist.includes(candidate.toLowerCase())) return;
-  name = candidate.charAt(0).toUpperCase() + candidate.slice(1).toLowerCase();
-}
-
-// Lightweight transcript-based wishes accumulation. Sage naturally surfaces
-// these themes via the system prompt; we lift them out for the wishes card.
-function maybeCaptureWishes(userText) {
-  const lower = userText.toLowerCase();
-  // Don't overwrite richer answers with shorter ones
-  const better = (curr, nxt) => (!curr || nxt.length > curr.length * 1.2) ? nxt : curr;
-  if (/(good day|joy|love|happy|happiest|brings me)/.test(lower) && userText.length > 30) {
-    if (!wishes.goodDay) wishes.goodDay = userText;
-    else if (/joy|happi/.test(lower)) wishes.joy = better(wishes.joy, userText);
-  }
-  if (/(speak for|proxy|spouse|husband|wife|partner|daughter|son|sister|brother|friend)/.test(lower) && userText.length < 200) {
-    wishes.proxy = better(wishes.proxy, userText);
-  }
-  if (/(don'?t want|wouldn'?t want|never want|hate the idea|comfortable|let me go|gentle|peace)/.test(lower)) {
-    wishes.wouldNotWant = better(wishes.wouldNotWant, userText);
-  }
-  if (/(matters|matter most|important|values|believe|faith|family|garden|music|outside)/.test(lower) && userText.length > 25) {
-    wishes.values = better(wishes.values, userText);
-  }
-  if (/(want them to know|tell my|message|say to my|love you|proud)/.test(lower) && userText.length > 15) {
-    wishes.message = better(wishes.message, userText);
-  }
-}
-
-const STEPS_LEGACY_PLACEHOLDER = [
-  // Retained as a placeholder so save/load step counters don't break.
-  // The new engine ignores STEPS entirely — Claude handles every turn.
-  {
-    reed: "Hi. I'm Sage.\n\nI'm glad you're here. What we're going to do is simple — just talk. About you. About what matters to you. About the things you want the people you love to understand.\n\nBy the end, you'll have something real — a document in your own words that your family and your doctor can hold onto. Not medical language. Your language.\n\nWhat's your name?",
-    qr: [],
-  },
-  // (Legacy steps 1-14 removed — Claude handles every turn now via callSage.)
-  /* legacy_steps_removed_marker
-  {
-    handler: (msg) => {
-      // Extract name — handle "My name is X", "I'm X", "It's X", "X", etc.
-      let raw = msg.trim();
-      const patterns = [
-        /my name is (\w+)/i,
-        /i'?m (\w+)/i,
-        /it'?s (\w+)/i,
-        /call me (\w+)/i,
-        /they call me (\w+)/i,
-      ];
-      for (const p of patterns) {
-        const m = raw.match(p);
-        if (m) { raw = m[1]; break; }
-      }
-      name = raw.split(/\s+/)[0].replace(/[^a-zA-Z'-]/g, '');
-      if (name.length < 2 || ['yes','hi','hello','ok','sure','ready','hey','my','the','its','im'].includes(name.toLowerCase())) {
-        name = '';
-        return { sage: "Just your first name is perfect.", qr: [] };
-      }
-      name = name.charAt(0).toUpperCase() + name.slice(1);
-      return {
-        sage: `Hi, ${name}. It's nice to meet you.\n\nBefore we get into the big stuff, I'd love to just know a little about you. Tell me something about your life right now — it doesn't have to be about health or illness. Just... what's your life like these days?`,
-        qr: [],
-      };
-    }
-  },
-  // 2: Listen, reflect, then gently open the door
-  {
-    handler: (msg) => {
-      wishes.aboutYou = msg;
-      const lower = msg.toLowerCase();
-      let reflection;
-      if (lower.includes('grandkid') || lower.includes('grandchild') || lower.includes('family')) {
-        reflection = "Family. That says a lot about what matters to you.";
-      } else if (lower.includes('garden') || lower.includes('outside') || lower.includes('walk') || lower.includes('nature')) {
-        reflection = "There's something about being close to the earth that keeps us honest.";
-      } else if (lower.includes('read') || lower.includes('book') || lower.includes('music') || lower.includes('paint') || lower.includes('art')) {
-        reflection = "The things that feed your mind and spirit — those matter.";
-      } else if (lower.includes('tired') || lower.includes('hard') || lower.includes('sick') || lower.includes('pain') || lower.includes('difficult')) {
-        reflection = "Thank you for being honest about that. You don't have to pretend here.";
-      } else if (lower.includes('good') || lower.includes('fine') || lower.includes('okay')) {
-        reflection = "I'm glad to hear that.";
-      } else {
-        reflection = "Thank you for sharing that with me.";
-      }
-      return {
-        sage: `${reflection}\n\n${name}, here's why I asked. Everything we talk about today is going to be shaped by who you are — not your diagnosis, not your chart. You.\n\nSo let me ask you this: when you think about a really good day — not a perfect one, just one where you'd lay your head down and think, "yeah, that was good" — what does that day look like?`,
-        qr: [],
-      };
-    }
-  },
-  // 3: Good day captured — transition to proxy naturally
-  {
-    handler: (msg) => {
-      wishes.goodDay = msg;
-      return {
-        sage: `I love that picture. I want you to know — when your family reads this someday, that's the part they'll hold onto. Not the medical stuff. That.\n\nCan I ask you something a little harder now? You can always say "not yet" and we'll come back to it.\n\nIf you got really sick — too sick to tell the doctors what you want — who would you trust to speak for you? Not just someone who'd be willing, but someone who really knows you. Who really gets what you'd want.`,
-        qr: ["My spouse", "My daughter", "My son", "Let me think about that"],
-      };
-    }
-  },
-  // 4: Proxy — follow up with warmth
-  {
-    handler: (msg) => {
-      wishes.proxy = msg;
-      const lower = msg.toLowerCase();
-      let followUp;
-      if (lower.includes('spouse') || lower.includes('husband') || lower.includes('wife') || lower.includes('partner')) {
-        followUp = "Your partner. That makes sense — they know the rhythms of your days, the things you'd never put on a form.";
-      } else if (lower.includes('daughter')) {
-        followUp = "Your daughter. There's something powerful about a daughter carrying her parent's voice. She probably already knows more than you think.";
-      } else if (lower.includes('son')) {
-        followUp = "Your son. That's a big thing to hand someone. I hope he knows you trust him with it.";
-      } else if (lower.includes('friend')) {
-        followUp = "A friend. Sometimes the people who choose us know us differently than the people who are born to us. That's a beautiful choice.";
-      } else if (lower.includes('think') || lower.includes('sure') || lower.includes('know')) {
-        followUp = "That's okay. You don't have to decide right now. Just hold the question. The right person will come to mind.";
-      } else {
-        followUp = "Good. That's someone important. Make sure they know — not just that you chose them, but why.";
-      }
-      return {
-        sage: `${followUp}\n\nHave you told them? Sometimes we assume people know, but it means the world to hear it directly.`,
-        qr: ["Yes, they know", "No, I haven't told them yet", "I will after this"],
-      };
-    }
-  },
-  // 5: Transition to treatment — gently, not clinically
-  {
-    handler: (msg) => {
-      wishes.proxyTold = msg;
-      return {
-        sage: `Okay. Here's where the conversation gets a little heavier. But I want you to know — there's no right answer. There's only your answer.\n\nSome people, when they get very sick, want doctors to try everything — every machine, every treatment, every chance. And that's completely valid.\n\nOther people reach a point where they say, "I've had a full life. When it's time, let me go gently." And that's valid too.\n\nWhere do you fall, ${name}? Not what you think you're supposed to say. What you actually feel.`,
-        qr: ["Try everything — I'm not ready to go", "I want to be comfortable, not prolonged", "Somewhere in between", "I honestly don't know"],
-      };
-    }
-  },
-  // 6: Dig deeper on treatment — specific and gentle
-  {
-    handler: (msg) => {
-      wishes.treatmentGeneral = msg;
-      const lower = msg.toLowerCase();
-      let followUp;
-      if (lower.includes('everything') || lower.includes('not ready') || lower.includes('fight')) {
-        followUp = "That fire in you — that matters. Your family should know that about you. You want to fight, and they should fight with you.";
-        wishes.codeStatus = 'full code';
-      } else if (lower.includes('comfortable') || lower.includes('gentle') || lower.includes('let me go') || lower.includes('not prolonged')) {
-        followUp = "That takes a kind of courage most people don't talk about. Choosing peace over fear. Your family needs to hear that from you — so they don't carry the guilt of that decision themselves.";
-        wishes.codeStatus = 'comfort-focused';
-      } else if (lower.includes('between') || lower.includes('depends')) {
-        followUp = "That's honest. Most people are somewhere in between. Let me ask it a different way.";
-        wishes.codeStatus = 'conditional';
-      } else {
-        followUp = "That's okay. You don't have to have it figured out. Let me make it more concrete.";
-        wishes.codeStatus = 'undecided';
-      }
-      return {
-        sage: `${followUp}\n\nLet me put it simply: if your heart stopped, would you want them to try to restart it? Chest compressions, electric paddles, a tube down your throat. It's aggressive, and it doesn't always work the way TV shows it.\n\nSome people say yes. Some say no. Some say "only if the doctors think I have a real chance." All of those are okay.`,
-        qr: ["Yes, try to restart it", "No — if my heart stops, let it stop", "Only if there's a real chance", "I don't want to decide that right now"],
-      };
-    }
-  },
-  // 7: Comfort — shift to warmth
-  {
-    handler: (msg) => {
-      wishes.cpr = msg;
-      return {
-        sage: `Thank you, ${name}. You just did something most people avoid their entire lives. You said it out loud. That's brave.\n\nLet's shift to something gentler now.\n\nIf you were very sick, and the focus shifted from trying to cure you to making sure you were comfortable — what would comfort look like for you?\n\nI don't mean hospital stuff. I mean... where would you want to be? What sounds, what smells, what people around you? What makes you feel safe?`,
-        qr: [],
-      };
-    }
-  },
-  // 8: Comfort details — the small things
-  {
-    handler: (msg) => {
-      wishes.comfort = msg;
-      return {
-        sage: `That's exactly the kind of thing that gets lost in a medical chart. But it's the thing that actually matters when someone is caring for you.\n\nI'm going to ask one more comfort question, because these small details are gold for the people taking care of you:\n\nIs there a specific thing — music, a blanket, a pet, someone's hand, a window open, a prayer, total quiet — that calms you down when things feel hard?`,
-        qr: ["Music — let me tell you what kind", "Quiet. Just quiet.", "Someone's hand in mine", "Being outside or near a window", "Prayer or spiritual practice"],
-      };
-    }
-  },
-  // 9: Dignity — how you want to be treated
-  {
-    handler: (msg) => {
-      wishes.comfortDetail = msg;
-      return {
-        sage: `I'll make sure that's in your document. The people caring for you will know.\n\n${name}, here's one that surprises people — but it matters deeply.\n\nEven if you can't talk, can't open your eyes, can't respond at all — you're still you. How do you want to be treated in those moments?\n\nSome people say, "Talk to me. I might still hear you." Others say, "Don't let me look like someone I wouldn't recognize." Others say, "Just don't leave me alone in a room."\n\nWhat matters to you?`,
-        qr: [],
-      };
-    }
-  },
-  // 10: The big one — message to family
-  {
-    handler: (msg) => {
-      wishes.dignity = msg;
-      return {
-        sage: `${name}, I want you to know — what you just said? That's the part of this document that will mean the most to the people who love you. The machines, the codes, the medical decisions — those matter. But what you just told me about how you want to be treated as a person? That's what they'll carry with them.\n\nWe're almost done. This last part isn't medical at all.\n\nIf you could say one thing to the people you love — one thing you want them to hear from you, in your voice — what would it be?`,
-        qr: [],
-      };
-    }
-  },
-  // 11: Forgiveness / peace
-  {
-    handler: (msg) => {
-      wishes.message = msg;
-      return {
-        sage: `They need to hear that. More than you know.\n\nOne last thing. And you can skip this if you want — but I've found that most people feel lighter after they say it.\n\nIs there anything unfinished between you and someone you love? Something you wish you'd said, or something you'd like to let go of? Not because you have to. Because sometimes putting it into words is the thing that sets it down.`,
-        qr: ["Yes, there's something", "I think I'm at peace", "I'd rather keep that private"],
-      };
-    }
-  },
-  // 12: Joy — end on light
-  {
-    handler: (msg) => {
-      wishes.peace = msg;
-      return {
-        sage: `Thank you for trusting me with that.\n\nOkay, ${name}. Last question. And this one's easy — I promise.\n\nWhat has brought you the most joy in your life? Not what should bring you joy. What actually does. The thing that, just thinking about it right now, makes something in your chest soften a little.`,
-        qr: [],
-      };
-    }
-  },
-  // 13: Summary — show the card
-  {
-    handler: (msg) => {
-      wishes.joy = msg;
-      return {
-        sage: `${name}.\n\nDo you know what you just did? You put your whole self into words. Not your diagnosis. Not your chart number. You.\n\nI've gathered everything you shared into a document — your Care Wishes. It's below this message. You can print it and give it to:\n\n- The person who speaks for you, so they know exactly what you want\n- Your family, so they never have to guess\n- Your doctor, so it becomes part of your record\n\nA physician can review this and help make it legally binding. But even without that — what you said here today is a gift. Your family will never have to wonder. They'll know. Because you told them.`,
-        qr: ["Print my wishes", "I want to keep talking", "Thank you, Sage"],
-        showCard: true,
-      };
-    }
-  },
-  // 14+: Open-ended continuation
-  {
-    handler: (msg) => {
-      const lower = msg.toLowerCase();
-      if (lower.includes('print')) {
-        window.print();
-        return {
-          sage: "The print dialog should be open. It'll print just the document — clean, without our conversation.\n\nOne copy for your family. One for your doctor. And one somewhere it can be found.",
-          qr: ["I want to keep talking", "I think I'm done"],
-        };
-      }
-      if (lower.includes('thank') || lower.includes('done') || lower.includes('goodbye') || lower.includes('think i')) {
-        return {
-          sage: `${name}. It's been an honor.\n\nWhat you did today — sitting here, saying these things out loud — most people never do it. You did. And because you did, the people who love you will never have to carry the weight of guessing.\n\nYour words live here now. And they'll live in your family.\n\nCome back anytime. I don't forget.\n\nWith care,\nSage`,
-          qr: [],
-        };
-      }
-      if (lower.includes('afraid') || lower.includes('scared') || lower.includes('fear') || lower.includes('dying') || lower.includes('die')) {
-        return {
-          sage: `I'm not going to pretend that's not real, ${name}. It is real. And you're allowed to feel all of it.\n\nCan I tell you something? The fact that you're here, doing this, means you're not running from it. Most people run. You sat down. That's not nothing.\n\nWhat's the hardest part for you right now? Not what you think I want to hear. The real thing.`,
-          qr: [],
-        };
-      }
-      if (lower.includes('add') || lower.includes('change') || lower.includes('forgot') || lower.includes('want to say')) {
-        return {
-          sage: `Of course. Tell me — I'll add it to your document.`,
-          qr: [],
-        };
-      }
-      if (lower.includes('god') || lower.includes('pray') || lower.includes('faith') || lower.includes('heaven') || lower.includes('spirit') || lower.includes('church')) {
-        return {
-          sage: `Your faith matters here, ${name}. If that's part of how you understand what's happening — I want to honor that.\n\nIs there something specific you'd like included in your wishes about your spiritual care? A prayer, a person you'd want to visit you, a practice that brings you peace?`,
-          qr: [],
-        };
-      }
-      return {
-        sage: `I'm still here, ${name}. No clock, no agenda. If something comes to mind — something you forgot to say, something you want to add, something that's just sitting in your chest — say it. This is your space.`,
-        qr: ["I want to add something", "Tell me what happens next with this document", "I think I'm okay for now"],
-      };
-    }
-  },
-  end_of_legacy_steps_block */
-];
-
-async function handleMsg(text) {
-  await addMsg(text, 'user');
-  // Clear any prior quick-reply chips when the user types/sends.
-  const oldQr = document.getElementById('qr');
-  if (oldQr) oldQr.remove();
-  const oldChips = document.getElementById('qr-chips');
-  if (oldChips) oldChips.remove();
-
-  // Best-effort: lift name + structured wishes from this turn for the document.
-  try { maybeCaptureName(text); maybeCaptureWishes(text); } catch (_) {}
-
-  // Show typing dots immediately so the user knows Sage is thinking,
-  // and ensure they show for at least ~700ms even when Claude is fast.
-  showTyping();
-  const t0 = Date.now();
-  let parsed;
-  try {
-    parsed = await callSage(text);
-  } catch (e) {
-    parsed = { text: "Lost the thread for a second — could you say that again?", choices: [] };
-  }
-  const elapsed = Date.now() - t0;
-  if (elapsed < 700) await new Promise(r => setTimeout(r, 700 - elapsed));
-  hideTyping();
-
-  const replyText = (parsed && parsed.text) || "I'm here.";
-  const replyChoices = (parsed && parsed.choices) || [];
-
-  await addMsg(replyText, 'reed');
-  try { speak(replyText); } catch (_) {}
-
-  if (replyChoices.length > 0) {
-    setTimeout(() => showQRChips(replyChoices), 350);
-  }
-
-  try { saveConversation(); } catch (_) {}
-
-  // Step counter kept monotonic for save-state continuity. Not used for
-  // control flow — Claude drives the conversation now.
-  step++;
-
-  // After enough turns or when Sage signals closure, surface the wishes card.
-  const userTurns = chat.querySelectorAll('.msg-user').length;
-  const replyLower = replyText.toLowerCase();
-  const closing = /\bcare wishes\b|\byour document\b|\byour family will\b|\bone-page\b|\bsummariz/.test(replyLower);
-  if (userTurns >= 8 && closing && !document.querySelector('.wishes-card')) {
-    setTimeout(() => { try { showWishesCard(); } catch (_) {} }, 800);
-  }
-}
-
-function sendMessage() {
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  handleMsg(text);
-}
-
-input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
-
-// ============================================================
-// VOICE — Web Speech API
-// ============================================================
-
-// Persist voice preference across sessions — older users especially prefer
-// audio, and toggling it on every visit is friction.
-let speakEnabled = (function() {
-  try { return localStorage.getItem('caregoals_voice') === '1'; } catch (_) { return false; }
-})();
-let recognition = null;
-let isRecording = false;
-
-function pickVoice() {
-  if (!window.speechSynthesis) return null;
-  const voices = window.speechSynthesis.getVoices();
-  return voices.find(v => v.name.includes('Samantha')) ||
-         voices.find(v => v.name.includes('Karen')) ||
-         voices.find(v => v.name.includes('Google') && v.lang === 'en-US') ||
-         voices.find(v => v.lang === 'en-US' && v.localService) ||
-         voices.find(v => v.lang === 'en-US') ||
-         voices[0] || null;
-}
-
-// Text-to-Speech: Sage speaks. `force=true` plays even if speakEnabled is
-// false (used by the per-message Replay button + the test phrase on toggle-on).
-function speak(text, force) {
-  if (!window.speechSynthesis) return false;
-  if (!speakEnabled && !force) return false;
-  try {
-    window.speechSynthesis.cancel();
-    const clean = String(text || '').replace(/\n/g, '. ').replace(/\*\*/g, '').replace(/\s+/g, ' ').trim();
-    if (!clean) return false;
-    const utterance = new SpeechSynthesisUtterance(clean);
-    utterance.rate = 0.92;
-    utterance.pitch = 1.0;
-    utterance.volume = 1.0;
-    const v = pickVoice();
-    if (v) utterance.voice = v;
-    window.speechSynthesis.speak(utterance);
-    return true;
-  } catch (e) {
-    console.warn('speak failed', e);
-    return false;
-  }
-}
-
-// Pre-warm voices (Chrome loads them async; sometimes the first getVoices()
-// returns []. Re-fetching after onvoiceschanged ensures pickVoice() finds Samantha.)
-if (window.speechSynthesis) {
-  window.speechSynthesis.onvoiceschanged = () => { try { window.speechSynthesis.getVoices(); } catch (_) {} };
-  window.speechSynthesis.getVoices();
-}
-
-function updateSpeakerBtn() {
-  const btn = document.getElementById('speakerBtn');
-  if (!btn) return;
-  // Show CURRENT STATE (the bug was the label looked like the action).
-  btn.textContent = speakEnabled ? 'Voice: on' : 'Voice: off';
-  btn.classList.toggle('active', speakEnabled);
-  btn.setAttribute('aria-pressed', speakEnabled ? 'true' : 'false');
-  btn.title = speakEnabled ? 'Click to mute Sage' : 'Click to hear Sage read responses aloud';
-}
-
-function toggleSpeaker() {
-  speakEnabled = !speakEnabled;
-  try { localStorage.setItem('caregoals_voice', speakEnabled ? '1' : '0'); } catch (_) {}
-  updateSpeakerBtn();
-  if (speakEnabled) {
-    // Confirmation phrase so the user knows it works AND so the browser's
-    // auto-play policy gets satisfied via this user-gesture click.
-    speak("Voice on. I'll read what I say from here.", true);
-  } else {
-    try { window.speechSynthesis.cancel(); } catch (_) {}
-  }
-}
-
-// Per-message Replay button — appears on hover or focus on any Sage bubble.
-// Clicking it forces playback of that exact message regardless of voice toggle.
-function attachReplayButton(bubble, text) {
-  if (!bubble || bubble.querySelector('.replay-btn')) return;
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = 'replay-btn';
-  btn.setAttribute('aria-label', 'Hear this message');
-  btn.title = 'Hear this message';
-  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1.5a1 1 0 0 0-1.6-.8L3.4 3.5H1.5A1.5 1.5 0 0 0 0 5v6a1.5 1.5 0 0 0 1.5 1.5h1.9l3 2.8A1 1 0 0 0 8 14.5v-13zm3.5 1.7a.75.75 0 0 1 1.05.18A8 8 0 0 1 14 8a8 8 0 0 1-1.45 4.62.75.75 0 0 1-1.23-.86A6.5 6.5 0 0 0 12.5 8a6.5 6.5 0 0 0-1.18-3.76.75.75 0 0 1 .18-1.04zm-1.7 2a.75.75 0 0 1 1.04.2A5.5 5.5 0 0 1 12 8a5.5 5.5 0 0 1-1.16 3.6.75.75 0 0 1-1.18-.93A4 4 0 0 0 10.5 8a4 4 0 0 0-.84-2.67.75.75 0 0 1 .14-1.13z"/></svg>';
-  btn.addEventListener('click', (ev) => {
-    ev.stopPropagation();
-    speak(text, true);
-  });
-  bubble.appendChild(btn);
-}
-
-// Speech-to-Text: User talks
-function toggleVoice() {
-  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-    alert('Voice input is not supported in this browser. Please use Chrome or Safari.');
-    return;
-  }
-
-  if (isRecording) {
-    recognition.stop();
-    return;
-  }
-
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SpeechRecognition();
-  recognition.continuous = false;
-  recognition.interimResults = true;
-  recognition.lang = 'en-US';
-
-  const voiceBtn = document.getElementById('voiceBtn');
-
-  recognition.onstart = () => {
-    isRecording = true;
-    voiceBtn.classList.add('recording');
-    input.placeholder = 'Listening...';
-  };
-
-  recognition.onresult = (event) => {
-    let transcript = '';
-    for (let i = event.resultIndex; i < event.results.length; i++) {
-      transcript += event.results[i][0].transcript;
-    }
-    input.value = transcript;
-    // If final result, send automatically
-    if (event.results[event.results.length - 1].isFinal) {
-      setTimeout(() => {
-        if (input.value.trim()) sendMessage();
-      }, 500);
-    }
-  };
-
-  recognition.onerror = (event) => {
-    console.log('Speech error:', event.error);
-    isRecording = false;
-    voiceBtn.classList.remove('recording');
-    input.placeholder = 'Share what\'s on your heart...';
-  };
-
-  recognition.onend = () => {
-    isRecording = false;
-    voiceBtn.classList.remove('recording');
-    input.placeholder = 'Share what\'s on your heart...';
-  };
-
-  recognition.start();
-}
-
-// ============================================================
-// PERSISTENCE — localStorage + export
-// ============================================================
-
-function saveConversation() {
-  const data = {
-    name: name,
-    wishes: wishes,
-    step: step,
-    timestamp: new Date().toISOString(),
-    messages: Array.from(chat.querySelectorAll('.msg')).map(m => {
-      // Sage messages can have class 'msg-reed' (current) or 'msg-sage' (legacy).
-      // User messages have 'msg-user'. Default-treat anything not 'msg-user' as Sage.
-      const isUser = m.classList.contains('msg-user');
-      return {
-        sender: isUser ? 'user' : 'reed',
-        text: m.querySelector('.msg-bubble').textContent,
-      };
-    }),
-  };
-  localStorage.setItem('caregoals_conversation', JSON.stringify(data));
-}
-
-function saveToLocal() {
-  saveConversation();
-  const banner = document.createElement('div');
-  banner.className = 'save-banner';
-  banner.textContent = 'Conversation saved. Your wishes are stored on this device and ready for your next visit.';
-  chat.appendChild(banner);
-  chat.scrollTop = chat.scrollHeight;
-  setTimeout(() => banner.remove(), 4000);
-}
-
-function loadConversation() {
-  try {
-    const saved = localStorage.getItem('caregoals_conversation');
-    if (!saved) return false;
-    const data = JSON.parse(saved);
-    if (!data || !data.messages || !Array.isArray(data.messages) || data.messages.length < 3) {
-      localStorage.removeItem('caregoals_conversation');
-      return false;
-    }
-    name = data.name || '';
-    wishes = data.wishes || {};
-    step = data.step || 0;
-    data.messages.forEach(function(m) {
-      var d = document.createElement('div');
-      // Normalize legacy 'sage' sender → 'reed' so styles + replay attach correctly.
-      var sender = (m.sender === 'sage') ? 'reed' : (m.sender || 'user');
-      d.className = 'msg msg-' + sender;
-      var b = document.createElement('div');
-      b.className = 'msg-bubble';
-      b.innerHTML = renderRich(m.text);
-      d.appendChild(b);
-      // Attach replay button to historical Sage bubbles too.
-      if (sender !== 'user') {
-        try { attachReplayButton(b, m.text); } catch (_) {}
-      }
-      chat.appendChild(d);
-    });
-    if (step >= 13 && Object.keys(wishes).length >= 5) {
-      showWishesCard();
-    }
-    chat.scrollTop = chat.scrollHeight;
-    // Welcome-back rule: only greet if the LAST message is from the user. If
-    // the last message is already from Sage (because we just reloaded after
-    // Sage's last reply, or after a previous welcome-back), don't stack
-    // another greeting on top — that's the "Hey there. Good to see you back."
-    // pile-up that confused things.
-    const lastMsg = data.messages[data.messages.length - 1];
-    const lastIsSage = lastMsg && (lastMsg.sender === 'reed' || lastMsg.sender === 'sage');
-    if (lastIsSage) {
-      return true; // Just resume — no welcome-back needed.
-    }
-    // Claude-driven welcome-back when the user left mid-thought (last msg was theirs).
-    setTimeout(async function() {
-      const fallback = (name || 'Friend') + ", welcome back. I remember where we were — keep going whenever you're ready.";
-      try {
-        const r = await fetch(SAGE_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            message: '[The user just opened this page again after some time away. Greet them briefly (1-2 sentences) and pick up where we left off — they left mid-thought after their own message. Reference what they just said. Do not summarize the whole conversation.]',
-            site: 'caregoals',
-            history: buildHistory()
-          })
-        });
-        const respData = await (r.ok ? r.json() : Promise.resolve({}));
-        const text = (respData && respData.response) ? respData.response : fallback;
-        const parsed = parseChoiceMarkers(text);
-        await addMsg(parsed.text || fallback, 'reed');
-        try { speak(parsed.text || fallback); } catch (_) {}
-        try { saveConversation(); } catch (_) {}
-      } catch (e) {
-        console.warn('welcome-back claude call failed, using fallback', e);
-        try { reedReply(fallback); } catch (_) {}
-      }
-    }, 800);
-    return true;
-  } catch(e) {
-    console.error('Load error:', e);
-    localStorage.removeItem('caregoals_conversation');
-    return false;
-  }
-}
-
-// Clear the saved conversation and start over. Confirms first because this
-// is destructive of the user's prior work.
-function startOver() {
-  const ok = window.confirm("Start a new conversation? Your current one will be cleared. (You can always print or save first.)");
-  if (!ok) return;
-  try {
-    localStorage.removeItem('caregoals_conversation');
-    localStorage.removeItem('caregoals_review_requested');
-    if (window.speechSynthesis) window.speechSynthesis.cancel();
-  } catch (_) {}
-  location.reload();
-}
-
-// Read ?seed=<topic> (set by the homepage value cards + MOST CTA) and turn it
-// into a one-line acknowledgment woven into Sage's opener. buildHistory()
-// includes this opener, so the chosen topic also flows into the /api/sage
-// context — Sage gently steers there once the conversation gets going.
-// Seed topics shared by the opener (fresh start) and the pivot (resume). The
-// homepage value cards + MOST CTA pass ?seed=<topic>; each MUST lead to its own
-// distinct content, never the same resumed conversation.
-var CG_SEED_TOPICS = {
-  'daily-routines': 'the daily routines and small things that still feel like you',
-  'what-matters':   'what matters most to you',
-  'medical':        'your medical care preferences',
-  'proxy':          "who you'd want to speak for you",
-  'dementia':       'planning ahead for memory changes',
-  'legacy':         'the stories and legacy you want to leave'
-};
-// A genuinely different opening question per topic — this is what makes each
-// value card open UNIQUE content instead of the same resumed conversation.
-var CG_SEED_PIVOTS = {
-  'daily-routines': "Let's talk about the small things that still feel like you. What's one part of an ordinary day you'd never want to give up?",
-  'what-matters':   "Let's talk about what matters most to you. If a lot were taken away, what would you most want to hold onto?",
-  'medical':        "Let's turn to your medical care preferences. When you picture being seriously ill, what matters most about how you're treated?",
-  'proxy':          "Let's talk about who speaks for you if you can't speak for yourself. Who knows you well enough to make a hard call the way you would?",
-  'dementia':       "Let's gently look ahead at memory changes. If your memory faded, what would you want the people around you to understand?",
-  'legacy':         "Let's turn to the stories and legacy you want to leave. What's something you hope your family always remembers about you?"
-};
-
-function cgSeedKey() {
-  try {
-    var s = new URLSearchParams(window.location.search).get('seed');
-    return (s && CG_SEED_TOPICS[s]) ? s : null;
-  } catch (_) { return null; }
-}
-function cgGetLastSeed() { try { return localStorage.getItem('caregoals_last_seed') || ''; } catch (_) { return ''; } }
-function cgSetLastSeed(s) { try { localStorage.setItem('caregoals_last_seed', s || ''); } catch (_) {} }
-
-function cgSeedLine() {
-  var s = cgSeedKey();
-  if (!s) return '';
-  return "You came in thinking about " + CG_SEED_TOPICS[s] + " — we'll get there, and we'll do it as a conversation, not a checklist.\n\n";
-}
-
-// Resume case: a saved conversation exists but the URL carries a NEW seed (a
-// different value card than last time). Steer Sage to that topic with a
-// distinct question instead of silently re-showing the same resumed thread.
-// Non-destructive — it appends to the existing conversation.
-function cgPivotToSeed(seed) {
-  var q = CG_SEED_PIVOTS[seed];
-  if (!q) return;
-  addMsg(q, 'reed');
-  try { speak(q); } catch (_) {}
-  cgSetLastSeed(seed);
-  try { saveConversation(); } catch (_) {}
-}
-
-// Start — always show something
-function startFresh() {
-  step = 1;
-  var msg = "Hi. I'm Sage.\n\nI'm glad you're here. What we're going to do is simple — just talk. About you. About what matters to you. About the things you want the people you love to understand.\n\n" + cgSeedLine() + "By the end, you'll have something real — a document in your own words that your family and your doctor can hold onto. Not medical language. Your language.\n\nWhat's your name?";
-  addMsg(msg, 'reed');
-}
-
-// Clear any corrupted state from old redirect era
-try {
-  var old = localStorage.getItem('caregoals_conversation');
-  if (old) {
-    var parsed = JSON.parse(old);
-    if (!parsed || !parsed.messages || !Array.isArray(parsed.messages)) {
-      localStorage.removeItem('caregoals_conversation');
-    }
-  }
-} catch(e) {
-  localStorage.removeItem('caregoals_conversation');
-}
-
-window.addEventListener('load', function() {
-  // Initialize the voice button label to reflect persisted state.
-  try { updateSpeakerBtn(); } catch (_) {}
-  setTimeout(function() {
-    try {
-      var resumed = loadConversation();
-      var seedNow = cgSeedKey();
-      if (!resumed) {
-        startFresh();
-        if (seedNow) cgSetLastSeed(seedNow);
-      } else if (seedNow && seedNow !== cgGetLastSeed()) {
-        // Resumed an existing conversation, but this is a DIFFERENT value card
-        // than last time — pivot Sage to the new topic so each box is unique.
-        setTimeout(function () { cgPivotToSeed(seedNow); }, 500);
-      }
-    } catch(e) {
-      console.error('Start error:', e);
-      localStorage.removeItem('caregoals_conversation');
-      startFresh();
-    }
-    // Safety net — if chat is still empty after 2s, force start
-    setTimeout(function() {
-      if (chat.children.length === 0) {
-        localStorage.removeItem('caregoals_conversation');
-        startFresh();
-      }
-    }, 2000);
-  }, 600);
-});
-</script>
-
-<!-- Save to ComfortCard — reads the SSO Supabase session (set on sign-in) and
-     posts the directive to the token-gated solvinghealth.com/api/save-directive.
-     The directive lands in the member's own cg_advance_directives row. -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-(function () {
-  var SUPA_URL = 'https://uhizqukdctkvluluheux.supabase.co';
-  var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVoaXpxdWtkY3Rrdmx1bHVoZXV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NzQ1ODQsImV4cCI6MjA4OTQ1MDU4NH0._AxT5pBEi1GZ167JPJpHeg_k1E0Bbtzyj3UPKdTFEug';
-  var _supa = null;
-  function supa() {
-    if (_supa) return _supa;
-    if (!window.supabase || typeof window.supabase.createClient !== 'function') return null;
-    _supa = window.supabase.createClient(SUPA_URL, SUPA_KEY);
-    return _supa;
-  }
-  async function getToken() {
-    var s = supa(); if (!s) return null;
-    try { var r = await s.auth.getSession(); return (r && r.data && r.data.session) ? r.data.session.access_token : null; } catch (_) { return null; }
-  }
-  function signInPrompt(status) {
-    if (!status) return;
-    status.style.display = 'block';
-    status.innerHTML = 'Sign in to save this privately to your ComfortCard — it stays visible only to you. <button type="button" onclick="cgSignInToSave()" style="margin-top:8px;padding:8px 14px;border:1px solid #4A7A5A;background:#fff;border-radius:8px;font-weight:600;cursor:pointer;">Continue with Google →</button>';
-  }
-  window.cgSignInToSave = async function () {
-    var s = supa();
-    var status = document.getElementById('cc-save-status');
-    if (!s) { if (status) { status.style.display = 'block'; status.textContent = 'Sign-in is still loading — try again in a moment.'; } return; }
-    try { await s.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + '/conversation?save=1' } }); } catch (e) {}
-  };
-  window.saveToComfortCard = async function () {
-    var btn = document.getElementById('cc-save-btn');
-    var status = document.getElementById('cc-save-status');
-    var w = {};
-    try { w = (typeof wishes !== 'undefined' && (wishes.__extracted || wishes)) || {}; } catch (_) {}
-    var t = await getToken();
-    if (!t) { signInPrompt(status); return; }
-    if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
-    var proxy = (w && w.speaks_for_me) ? { name: w.speaks_for_me.who, relationship: w.speaks_for_me.why } : null;
-    try {
-      var r = await fetch('https://solvinghealth.com/api/save-directive', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + t },
-        body: JSON.stringify({ sections: w, state: (w && w.state) || null, proxy: proxy })
-      });
-      var d = {}; try { d = await r.json(); } catch (_) {}
-      if (r.ok && d.ok) {
-        if (status) { status.style.display = 'block'; status.innerHTML = '✓ Saved to your ComfortCard. <a href="https://comfortcard.org/profile" style="color:#2E5238;font-weight:600;">View it in your wallet &rarr;</a>'; }
-        if (btn) { btn.textContent = 'Saved to your ComfortCard ✓'; }
-        // Generate emergency access token + show QR card
-        try {
-          var er = await fetch('https://solvinghealth.com/api/emergency-token', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + t }
-          });
-          var ed = {}; try { ed = await er.json(); } catch (_) {}
-          if (er.ok && ed.ok && ed.url) window.showEmergencyCard(ed.url);
-        } catch (_) {}
-      } else if (r.status === 401) {
-        if (btn) { btn.disabled = false; btn.textContent = 'Save to your ComfortCard →'; }
-        signInPrompt(status);
-      } else {
-        throw new Error((d && d.error) || ('http_' + r.status));
-      }
-    } catch (e) {
-      if (status) { status.style.display = 'block'; status.textContent = 'Could not save just now — your wishes are still saved on this device. Please try again.'; }
-      if (btn) { btn.disabled = false; btn.textContent = 'Save to your ComfortCard →'; }
-    }
-  };
-  // Emergency QR card — shown after successful save.
-  window.showEmergencyCard = function (url) {
-    var old = document.getElementById('emergency-qr-card');
-    if (old) old.remove();
-    var qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=216x216&ecc=M&color=1B2A4A&bgcolor=FFFFFF&data=' + encodeURIComponent(url);
-    var card = document.createElement('div');
-    card.id = 'emergency-qr-card';
-    card.className = 'emergency-card';
-    card.innerHTML =
-      '<div class="ec-qr"><img src="' + qrSrc + '" alt="Emergency QR code" width="108" height="108" loading="lazy"></div>' +
-      '<div class="ec-body">' +
-        '<div class="ec-title">Your emergency card</div>' +
-        '<div class="ec-desc">Screenshot or print this QR code. Anyone can scan it in an emergency — no login needed — to see your most important wishes. Add it to your Medical ID or give it to your family.</div>' +
-        '<div class="ec-actions">' +
-          '<a href="' + url + '" target="_blank" rel="noopener" class="ec-btn">Open emergency view</a>' +
-          '<button type="button" class="ec-btn" onclick="window.print()">Print</button>' +
-        '</div>' +
-      '</div>';
-    var saveCta = document.querySelector('.cc-save-cta');
-    if (saveCta) saveCta.appendChild(card);
-  };
+var currentDomain = 0;
 
-  // After returning from Google sign-in (?save=1), auto-save once the card is shown.
-  document.addEventListener('DOMContentLoaded', function () {
-    if (location.search.indexOf('save=1') > -1) {
-      setTimeout(function () { if (document.getElementById('cc-save-btn')) window.saveToComfortCard(); }, 1500);
+// Summary entries for each domain (unlocked by revealing any answer in that domain)
+var summaryData = {
+  0: { label: "What matters most", text: "Slow mornings, independence, staying home. Daily walks and family connection are non-negotiable." },
+  1: { label: "Medical wishes", text: "Quality over duration. Wants realistic prognosis before any aggressive treatment. Comfort-focused care preferred." },
+  2: { label: "Living preferences", text: "Home-based care. Morning solitude is essential. Caregiver should feel like a neighbor, not an employee." },
+  3: { label: "Healthcare proxy", text: "David named as proxy. Has been prepared. Understands the wishes and will act without guilt." },
+  4: { label: "Legacy", text: "Showed up for people. Music as private inner language. Values curiosity and stubborn hope." }
+};
+
+var unlockedDomains = {};
+var totalRevealed = 0;
+
+function selectDomain(index) {
+  // Update sidebar buttons
+  for (var i = 0; i < 5; i++) {
+    document.getElementById('domain-btn-' + i).classList.remove('active');
+    document.getElementById('panel-' + i).classList.remove('active');
+  }
+  document.getElementById('domain-btn-' + index).classList.add('active');
+  document.getElementById('panel-' + index).classList.add('active');
+  currentDomain = index;
+}
+
+function revealAnswer(btn, domainIndex, questionIndex) {
+  var card = btn.parentElement;
+  var reveal = card.querySelector('.answer-reveal');
+  var isOpen = reveal.classList.contains('open');
+
+  if (isOpen) {
+    reveal.classList.remove('open');
+    btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:15px;">visibility</span> See a sample answer';
+    btn.classList.remove('revealed');
+  } else {
+    reveal.classList.add('open');
+    btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:15px;">visibility_off</span> Hide answer';
+    btn.classList.add('revealed');
+
+    // Unlock this domain's summary entry if not already done
+    if (!unlockedDomains[domainIndex]) {
+      unlockedDomains[domainIndex] = true;
+      addSummaryEntry(domainIndex);
+      totalRevealed++;
     }
+
+    // Show CTA after 2 reveals
+    if (totalRevealed >= 2) {
+      document.getElementById('summary-cta').style.display = 'block';
+    }
+  }
+}
+
+function addSummaryEntry(domainIndex) {
+  var emptyEl = document.getElementById('summary-empty');
+  if (emptyEl) emptyEl.style.display = 'none';
+
+  var data = summaryData[domainIndex];
+  var container = document.getElementById('summary-entries');
+
+  var entry = document.createElement('div');
+  entry.className = 'summary-entry';
+  entry.id = 'summary-entry-' + domainIndex;
+
+  var iconColors = ['#a8d38a', '#fc6451', '#2d5016', '#a8d38a', '#173901'];
+  var iconNames = ['favorite', 'medical_services', 'home', 'record_voice_over', 'auto_stories'];
+
+  entry.innerHTML =
+    '<span class="material-symbols-outlined" style="font-size:16px;color:' + iconColors[domainIndex] + ';flex-shrink:0;margin-top:1px;">' + iconNames[domainIndex] + '</span>' +
+    '<div>' +
+      '<div style="font-family:Inter,sans-serif;font-size:11px;font-weight:700;color:#73796c;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:3px;">' + data.label + '</div>' +
+      '<p style="font-family:Inter,sans-serif;font-size:12px;color:#1c1b1b;line-height:1.6;">' + data.text + '</p>' +
+    '</div>';
+
+  container.appendChild(entry);
+
+  // Animate in
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      entry.classList.add('visible');
+    });
   });
-})();
+}
 </script>
 
-<div style="text-align:center;padding:16px 24px;font-size:11px;color:#9CA3AF;border-top:1px solid #E5E7EB;">
-  <p>CareGoals provides advance care planning tools, not medical or legal advice. Consult your healthcare provider and attorney for clinical and legal decisions.</p>
-  <p style="margin-top:8px;">
-    <a href="https://solvinghealth.com/privacy" style="color:#9CA3AF;">Privacy</a> |
-    <a href="https://solvinghealth.com/terms" style="color:#9CA3AF;">Terms</a> |
-    <a href="https://solvinghealth.com/hipaa" style="color:#9CA3AF;">HIPAA Notice</a>
-  </p>
+<!-- ═══════════════════════════════════════════════════════════════
+     SAGE PERSISTENT BAR — unified voice + chat input
+     Voice and text share one panel; mic transcribes into the text field.
+═══════════════════════════════════════════════════════════════ -->
+<style>
+body { padding-bottom: 62px; }
+#sage-bar {
+  position:fixed;bottom:0;left:0;right:0;z-index:9998;
+  background:#173901;border-top:1px solid rgba(255,255,255,0.07);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+#sage-panel {
+  position:fixed;bottom:62px;left:0;right:0;z-index:9997;
+  background:#ffffff;border-top:2px solid #a8d38a;
+  box-shadow:0 -8px 40px rgba(0,0,0,0.18);
+  transform:translateY(100%);transition:transform 0.3s cubic-bezier(.4,0,.2,1);
+  max-height:420px;display:flex;flex-direction:column;
+}
+#sage-panel.sp-open { transform:translateY(0); }
+#sage-msgs {
+  flex:1;overflow-y:auto;padding:16px 20px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.sp-row { display:flex; }
+.sp-bubble {
+  max-width:78%;padding:9px 13px;border-radius:10px;
+  font-size:13.5px;line-height:1.55;font-family:Inter,sans-serif;
+  color:#1c1b1b;
+}
+.sp-bubble.sage { background:#eaf4e0; }
+.sp-bubble.user { background:#a8d38a;color:#fff;margin-left:auto; }
+#sage-inp-row {
+  border-top:1px solid #c3c9b9;padding:10px 14px;
+  display:flex;gap:8px;align-items:center;flex-shrink:0;
+}
+#sage-text {
+  flex:1;border:1px solid #c3c9b9;border-radius:22px;
+  padding:8px 15px;font-size:13.5px;font-family:Inter,sans-serif;
+  outline:none;background:#fcf9f8;color:#1c1b1b;
+}
+#sage-text:focus { border-color:#173901; }
+#sp-send {
+  background:#a8d38a;color:#fff;border:none;border-radius:50%;
+  width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+#sp-mic {
+  background:none;border:1px solid #c3c9b9;border-radius:50%;
+  width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  color:#1c1b1b;flex-shrink:0;transition:all .2s;
+}
+#sp-mic.listening {
+  background:#a8d38a;border-color:#a8d38a;color:#fff;
+  animation:sp-pulse 1s infinite;
+}
+@keyframes sp-pulse { 0%,100%{opacity:1} 50%{opacity:.55} }
+.sp-typing { display:flex;gap:4px;align-items:center;padding:9px 13px; }
+.sp-typing span {
+  width:6px;height:6px;background:#a8d38a;border-radius:50%;
+  animation:sp-bounce 1.2s infinite;
+}
+.sp-typing span:nth-child(2) { animation-delay:.2s }
+.sp-typing span:nth-child(3) { animation-delay:.4s }
+@keyframes sp-bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+#sage-bar-fake-input {
+  flex:1;cursor:pointer;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);border-radius:26px;
+  padding:7px 14px;display:flex;align-items:center;gap:8px;max-width:480px;
+}
+</style>
+
+<!-- BAR -->
+<div id="sage-bar">
+  <div style="max-width:1180px;margin:0 auto;padding:0 16px;height:62px;display:flex;align-items:center;gap:10px;">
+    <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
+      <div style="width:7px;height:7px;background:#a8d38a;border-radius:50%;box-shadow:0 0 6px #a8d38a66;"></div>
+      <span style="font-family:Inter,sans-serif;font-size:11px;font-weight:800;color:rgba(255,255,255,.55);letter-spacing:.08em;">SAGE</span>
+    </div>
+    <div id="sage-bar-fake-input" onclick="spOpen()">
+      <span style="font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.32);flex:1;">Ask anything about Care Goals…</span>
+      <button id="sp-bar-mic" onclick="event.stopPropagation();spVoice()" title="Voice" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;padding:0;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.38)" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      </button>
+    </div>
+    <a href="https://co-op.care" target="_blank" style="text-decoration:none;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:6px;padding:5px 11px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.6);white-space:nowrap;">co-op.care →</a>
+  </div>
 </div>
-<script src="https://harnesshealth.ai/footer.js?v=8" data-brand="co-op.care" data-theme="light"></script>
+
+<!-- SLIDE-UP PANEL -->
+<div id="sage-panel">
+  <div style="padding:10px 16px;border-bottom:1px solid #c3c9b9;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="width:7px;height:7px;background:#a8d38a;border-radius:50%;"></div>
+      <span style="font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#1c1b1b;">Sage AI</span>
+      <span style="font-family:Inter,sans-serif;font-size:11px;color:#2d5016;background:#eaf4e0;padding:2px 8px;border-radius:10px;">Care Goals</span>
+    </div>
+    <button onclick="spClose()" style="background:none;border:none;cursor:pointer;font-size:20px;color:#2d5016;line-height:1;padding:2px 6px;">×</button>
+  </div>
+  <div id="sage-msgs">
+    <div class="sp-row"><div class="sp-bubble sage">Hi, I'm Sage. I help with advance care planning, family conversations, and co-op.care. Type your question or tap the mic to speak.</div></div>
+  </div>
+  <div id="sage-inp-row">
+    <button id="sp-mic" onclick="spVoice()" title="Voice input">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+    </button>
+    <input id="sage-text" type="text" placeholder="Type or speak…" onkeydown="if(event.key==='Enter')spSend()">
+    <button id="sp-send" onclick="spSend()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* ── RESPONSES ─────────────────────────────────────────────── */
+  const R = {
+  'directive': 'Advance directives through CareGoals are conversational — Sage asks questions over time rather than presenting a form all at once. Most people complete theirs across 2–3 conversations.',
+  'advance': 'Advance directives through CareGoals are conversational — Sage asks questions over time. Most people complete theirs across 2–3 conversations.',
+  'family': 'Family members can be added to your care circle with read-only access to your preferences. In an emergency, everyone knows what matters most to you.',
+  'dnr': 'DNR decisions are one part of advance planning. Sage explores the full picture: what comfort-focused care means to you, and which interventions you do or don\'t want — across many scenarios.',
+  'hsa': 'A Letter of Medical Necessity from Sage unlocks HSA and FSA dollars for home care. A single letter typically unlocks about $936/year in tax-free spending.',
+  'cost': 'CareGoals is free. co-op.care companion care starts at $59/month — most of which is HSA-eligible with an LMN from Sage.',
+  'proxy': 'A healthcare proxy is the person who speaks for you when you can\'t. CareGoals walks you through choosing this person and produces a shareable designation.',
+  'memory': 'Sage builds a persistent care profile across every conversation — so you never repeat yourself. Your preferences compound over time.',
+  'hospital': 'Your CareGoals summary can be shared with any hospital as a one-page PDF: your values, medical preferences, proxy, and what matters most.',
+  '_default': 'Sage is here for care planning, advance directives, family communication, and HSA/FSA guidance. What\'s on your mind right now?'
+};
+
+  /* ── STATE ─────────────────────────────────────────────────── */
+  let open = false, listening = false, rec = null;
+
+  /* ── PANEL ─────────────────────────────────────────────────── */
+  function spOpen() {
+    open = true;
+    document.getElementById('sage-panel').classList.add('sp-open');
+    document.getElementById('sage-text').focus();
+  }
+  window.spOpen = spOpen;
+
+  function spClose() {
+    open = false;
+    document.getElementById('sage-panel').classList.remove('sp-open');
+    stopRec();
+  }
+  window.spClose = spClose;
+  const chatHistory = [];
+
+  async function spSend() {{
+    const inp = document.getElementById('sage-text');
+    const txt = inp.value.trim();
+    if (!txt) return;
+    inp.value = '';
+    addBubble(txt, 'user');
+    addTyping();
+    chatHistory.push({{ role: 'user', content: txt }});
+
+    try {{
+      const resp = await fetch('/api/sage', {{
+        method: 'POST',
+        headers: {{ 'Content-Type': 'application/json' }},
+        body: JSON.stringify({{
+          message: txt,
+          site: 'caregoals',
+          history: chatHistory.slice(-8)
+        }})
+      }});
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const data = await resp.json();
+      removeTyping();
+      const reply = data.response || getReply(txt);
+      addBubble(reply, 'sage');
+      chatHistory.push({{ role: 'assistant', content: reply }});
+    }} catch(e) {{
+      removeTyping();
+      const fallback = getReply(txt);
+      addBubble(fallback, 'sage');
+      chatHistory.push({{ role: 'assistant', content: fallback }});
+    }}
+  }}, 900 + Math.random() * 700);
+  }
+  window.spSend = spSend;
+
+  function addBubble(text, who) {
+    const msgs = document.getElementById('sage-msgs');
+    const row = document.createElement('div');
+    row.className = 'sp-row';
+    const b = document.createElement('div');
+    b.className = 'sp-bubble ' + who;
+    b.textContent = text;
+    if (who === 'user') row.style.justifyContent = 'flex-end';
+    row.appendChild(b);
+    msgs.appendChild(row);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function addTyping() {
+    const msgs = document.getElementById('sage-msgs');
+    const row = document.createElement('div');
+    row.id = 'sp-typing';
+    row.className = 'sp-row';
+    row.innerHTML = '<div class="sp-typing"><span></span><span></span><span></span></div>';
+    msgs.appendChild(row);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function removeTyping() {
+    const t = document.getElementById('sp-typing');
+    if (t) t.remove();
+  }
+
+  function getReply(text) {
+    const t = text.toLowerCase();
+    for (const [k, v] of Object.entries(R)) {
+      if (k !== '_default' && t.includes(k)) return v;
+    }
+    return R._default || "I'm here to help — can you tell me more?";
+  }
+
+  /* ── VOICE ─────────────────────────────────────────────────── */
+  function initRec() {
+    if (rec) return true;
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) return false;
+    rec = new SR();
+    rec.continuous = false;
+    rec.interimResults = true;
+    rec.onresult = (e) => {
+      const t = Array.from(e.results).map(r => r[0].transcript).join('');
+      document.getElementById('sage-text').value = t;
+      if (e.results[e.results.length - 1].isFinal) {
+        stopRec();
+        if (!open) spOpen();
+        setTimeout(spSend, 80);
+      }
+    };
+    rec.onend = stopRec;
+    return true;
+  }
+
+  function spVoice() {
+    if (!initRec()) { alert('Voice input is not supported in this browser. Try Chrome.'); return; }
+    if (listening) { stopRec(); return; }
+    listening = true;
+    document.getElementById('sp-mic').classList.add('listening');
+    const bm = document.getElementById('sp-bar-mic');
+    if (bm) bm.querySelector('svg').setAttribute('stroke', '#a8d38a');
+    if (!open) spOpen();
+    try { rec.start(); } catch(e) {}
+  }
+  window.spVoice = spVoice;
+
+  function stopRec() {
+    listening = false;
+    if (rec) try { rec.stop(); } catch(e) {}
+    document.getElementById('sp-mic').classList.remove('listening');
+    const bm = document.getElementById('sp-bar-mic');
+    if (bm) bm.querySelector('svg').setAttribute('stroke', 'rgba(255,255,255,.38)');
+  }
+})();
+</script>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<!-- co-op.care ecosystem footer -->
+<footer style="background:#1B2A4A;padding:48px 24px 32px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+<div style="max-width:800px;margin:0 auto;">
+<div style="text-align:center;margin-bottom:24px;">
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-bottom:16px;">
+<a href="https://co-op.care" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">co-op.care</a>
+<a href="https://surgeonvalue.com" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">SurgeonValue</a>
+<a href="https://caregoals.com" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">CareGoals</a>
+<a href="https://comfortcard.org" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">ComfortCard</a>
+<a href="https://clinicalswipe.com" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">ClinicalSwipe</a>
+<a href="https://solvinghealth.com" style="font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;">SolvingHealth</a>
+</div>
+<p style="font-size:14px;color:rgba(255,255,255,0.5);font-style:italic;margin:0 0 20px;">The health system that works for you — instead of you working for it.</p>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:24px;">
+<a href="https://comfortcard.org" style="font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:8px 20px;border-radius:100px;text-decoration:none;">Get a ComfortCard</a>
+<a href="https://co-op.care" style="font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:8px 20px;border-radius:100px;text-decoration:none;">Start a co-op near you</a>
+<a href="https://solvinghealth.com/afhm" style="font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:8px 20px;border-radius:100px;text-decoration:none;">For Health Systems</a>
+</div>
+</div>
+<p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.15);margin:0;">Physician-governed AI. HIPAA compliant. SolvingHealth LLC.</p>
+</div>
+</footer>
+
+<script src="https://harnesshealth.ai/footer.js" defer></script>
 </body>
 </html>
