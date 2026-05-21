@@ -1,6 +1,6 @@
 # CareGoals
 
-> Free advance directive in 20 minutes. One conversation with Sage AI, physician-reviewed, complete directive. Then share it with your family on ComfortCard.
+> Free advance directive in 20 minutes. One conversation with Reed AI, physician-reviewed, complete directive. Then share it with your family on ComfortCard.
 
 ## What we do
 CareGoals guides families through advance care planning conversations. AI asks five questions (inspired by Five Wishes), generates a state-specific advance directive, and a physician reviews it. Free to the user — billable to Medicare as ACP (99497/99498).
@@ -12,7 +12,7 @@ CareGoals guides families through advance care planning conversations. AI asks f
 - Less than 3% of Medicare patients have a billed ACP conversation
 
 ## Products
-- **Sage conversation**: Voice or text AI-guided advance care planning
+- **Reed conversation**: Voice or text AI-guided advance care planning
 - **Advance directive**: Generated from your conversation, physician-reviewed
 - **ComfortCard family pack**: Digital care identity for every family member
 - **Values mapping**: Structured capture of what matters most

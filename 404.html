@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Not found — CareGoals</title>
+<meta name="description" content="That page isn't here. Let's get you back to the conversation.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --hotblue:       #1F4CFF;
+  --sage:          #4A7A5A;
+  --sage-deep:     #2E5238;
+  --sage-soft:     #E6EEE7;
+  --paper:         #F9F7F0;
+  --paper-dim:     #EFEBDD;
+  --card:          #FFFFFF;
+  --ink:           #0B0E27;
+  --ink-dim:       #3B4158;
+  --ink-soft:      #6C7089;
+  --rule:          #D3CEBD;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 17px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh; display: flex; flex-direction: column;
+}
+.serif { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; }
+.mono  { font-family: 'IBM Plex Mono', ui-monospace, monospace; letter-spacing: 0.02em; }
+
+main {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  padding: 4rem 1.5rem; max-width: 720px; margin: 0 auto; text-align: center;
+}
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--sage); background: var(--sage-soft);
+  padding: 7px 14px; border-radius: 999px; margin-bottom: 2rem;
+}
+.eyebrow::before { content: ""; width: 6px; height: 6px; background: var(--sage); border-radius: 50%; }
+h1 {
+  font-family: 'Fraunces', serif; font-weight: 500;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 1.05; letter-spacing: -0.03em;
+  color: var(--ink); margin-bottom: 1.4rem;
+}
+h1 em { font-style: italic; color: var(--sage); font-weight: 500; }
+p.lede {
+  font-size: 1.15rem; line-height: 1.55; color: var(--ink-dim);
+  max-width: 540px; margin: 0 auto 2.4rem;
+}
+.ctas { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+.btn-primary, .btn-secondary {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 26px; border-radius: 999px;
+  font-size: 1rem; font-weight: 600; text-decoration: none;
+  transition: all 0.2s; border: 1px solid transparent;
+}
+.btn-primary { background: var(--ink); color: var(--paper); }
+.btn-primary:hover { background: var(--sage-deep); }
+.btn-secondary { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn-secondary:hover { border-color: var(--ink); background: var(--paper-dim); }
+
+footer.site {
+  border-top: 1px solid var(--rule);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem; color: var(--ink-soft);
+}
+footer.site a { color: var(--ink-dim); text-decoration: none; }
+footer.site a:hover { color: var(--sage); }
+</style>
+</head>
+<body>
+
+<main>
+  <div>
+    <div class="eyebrow">404 · page not found</div>
+    <h1 class="serif">That page is<br><em>not here.</em></h1>
+    <p class="lede">The link may have changed, or the conversation moved on. Either way — every life deserves more than a dash between two dates. Let's get back to it.</p>
+    <div class="ctas">
+      <a href="/" class="btn-primary">Back to home →</a>
+      <a href="/first-session" class="btn-secondary">Have your first session</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site">
+  <div>© CareGoals · Built with <a href="https://co-op.care">co-op.care</a> · by <a href="https://solvinghealth.com">SolvingHealth</a></div>
+</footer>
+
+</body>
+</html>
