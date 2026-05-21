@@ -334,6 +334,32 @@ body {
   margin-top: 12px;
 }
 
+/* Emergency QR card — appears after saving to ComfortCard */
+.emergency-card {
+  margin: 1rem 0 0;
+  padding: 1.1rem 1.25rem;
+  background: #F0F4FF;
+  border: 1.5px solid #3D5A99;
+  border-radius: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+  animation: fadeUp 0.4s ease;
+}
+.ec-qr { flex-shrink: 0; }
+.ec-qr img { width: 108px; height: 108px; border-radius: 8px; display: block; border: 1px solid rgba(61,90,153,0.18); }
+.ec-body { flex: 1; min-width: 160px; }
+.ec-title { font-weight: 700; font-size: 0.93rem; color: #1B2A4A; margin-bottom: 0.3rem; }
+.ec-desc { font-size: 0.82rem; color: #3B4158; line-height: 1.45; margin-bottom: 0.6rem; }
+.ec-actions { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+.ec-btn {
+  padding: 5px 11px; border-radius: 8px; font-size: 0.78rem; font-weight: 600;
+  cursor: pointer; border: 1.5px solid #3D5A99; background: #fff; color: #1B2A4A;
+  text-decoration: none; display: inline-block; line-height: 1.5;
+}
+.ec-btn:hover { background: #EAF0FF; }
+
 /* "Send to Josh for review" CTA block on the wishes document */
 .review-cta {
   margin: 18px 0 14px;
@@ -1851,6 +1877,15 @@ window.addEventListener('load', function() {
       if (r.ok && d.ok) {
         if (status) { status.style.display = 'block'; status.innerHTML = '✓ Saved to your ComfortCard. <a href="https://comfortcard.org/profile" style="color:#2E5238;font-weight:600;">View it in your wallet &rarr;</a>'; }
         if (btn) { btn.textContent = 'Saved to your ComfortCard ✓'; }
+        // Generate emergency access token + show QR card
+        try {
+          var er = await fetch('https://solvinghealth.com/api/emergency-token', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + t }
+          });
+          var ed = {}; try { ed = await er.json(); } catch (_) {}
+          if (er.ok && ed.ok && ed.url) window.showEmergencyCard(ed.url);
+        } catch (_) {}
       } else if (r.status === 401) {
         if (btn) { btn.disabled = false; btn.textContent = 'Save to your ComfortCard →'; }
         signInPrompt(status);
@@ -1862,6 +1897,28 @@ window.addEventListener('load', function() {
       if (btn) { btn.disabled = false; btn.textContent = 'Save to your ComfortCard →'; }
     }
   };
+  // Emergency QR card — shown after successful save.
+  window.showEmergencyCard = function (url) {
+    var old = document.getElementById('emergency-qr-card');
+    if (old) old.remove();
+    var qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=216x216&ecc=M&color=1B2A4A&bgcolor=FFFFFF&data=' + encodeURIComponent(url);
+    var card = document.createElement('div');
+    card.id = 'emergency-qr-card';
+    card.className = 'emergency-card';
+    card.innerHTML =
+      '<div class="ec-qr"><img src="' + qrSrc + '" alt="Emergency QR code" width="108" height="108" loading="lazy"></div>' +
+      '<div class="ec-body">' +
+        '<div class="ec-title">Your emergency card</div>' +
+        '<div class="ec-desc">Screenshot or print this QR code. Anyone can scan it in an emergency — no login needed — to see your most important wishes. Add it to your Medical ID or give it to your family.</div>' +
+        '<div class="ec-actions">' +
+          '<a href="' + url + '" target="_blank" rel="noopener" class="ec-btn">Open emergency view</a>' +
+          '<button type="button" class="ec-btn" onclick="window.print()">Print</button>' +
+        '</div>' +
+      '</div>';
+    var saveCta = document.querySelector('.cc-save-cta');
+    if (saveCta) saveCta.appendChild(card);
+  };
+
   // After returning from Google sign-in (?save=1), auto-save once the card is shown.
   document.addEventListener('DOMContentLoaded', function () {
     if (location.search.indexOf('save=1') > -1) {
