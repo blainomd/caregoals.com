@@ -243,6 +243,54 @@ footer {
   max-width: 760px; margin: 0 auto;
   font-size: 11px; color: rgba(255,255,255,0.25); line-height: 1.7; text-align: center;
 }
+
+/* ─── Elevation: scroll-reveal ─── */
+.reveal {
+  opacity: 0; transform: translateY(22px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ─── Elevation: card hover-lift ─── */
+.three-card, .test-card, .doc-card {
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.three-card:hover, .test-card:hover, .doc-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(27,42,74,0.13);
+}
+
+/* ─── Elevation: doc cards as links ─── */
+a.doc-card {
+  display: block; text-decoration: none; color: inherit;
+  background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 28px 24px;
+}
+a.doc-card:hover { border-color: var(--teal); }
+
+/* ─── Elevation: stat boxes as links ─── */
+a.stat-box {
+  display: block; text-align: center; text-decoration: none; color: inherit;
+  padding: 8px 16px; border-radius: 8px;
+  transition: background 0.2s ease;
+}
+a.stat-box:hover { background: rgba(13,115,119,0.06); }
+
+/* ─── Elevation: button press ─── */
+.btn-primary, .btn-ghost, .scenario-cta, .nav-cta {
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+.btn-primary:active, .btn-ghost:active, .scenario-cta:active { transform: scale(0.97); }
+
+/* ─── Elevation: animated underline on nav links ─── */
+.nav-links a {
+  position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; left: 0; bottom: -2px;
+  width: 0; height: 1px; background: var(--teal-light);
+  transition: width 0.25s ease;
+}
+.nav-links a:hover::after { width: 100%; }
 </style>
 </head>
 <body>
@@ -274,18 +322,18 @@ footer {
 <!-- WHY IT MATTERS — STATS -->
 <section style="background:var(--off-white);border-bottom:1px solid var(--border);padding:52px 24px;">
   <div style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:40px;">
-    <div style="text-align:center;">
+    <a href="#how" class="stat-box reveal">
       <div style="font-size:52px;font-weight:900;color:var(--navy);line-height:1;">70%</div>
       <div style="font-size:14px;color:var(--text-muted);margin-top:10px;line-height:1.55;">of adults have no advance directive</div>
-    </div>
-    <div style="text-align:center;">
+    </a>
+    <a href="sage-onboarding.html" class="stat-box reveal" style="transition-delay:0.1s;">
       <div style="font-size:52px;font-weight:900;color:var(--navy);line-height:1;">33%</div>
       <div style="font-size:14px;color:var(--text-muted);margin-top:10px;line-height:1.55;">have discussed end-of-life wishes with family</div>
-    </div>
-    <div style="text-align:center;">
+    </a>
+    <a href="sage-onboarding.html" class="stat-box reveal" style="transition-delay:0.2s;">
       <div style="font-size:52px;font-weight:900;color:var(--navy);line-height:1;">40%</div>
       <div style="font-size:14px;color:var(--text-muted);margin-top:10px;line-height:1.55;">less family conflict when a care plan exists</div>
-    </div>
+    </a>
   </div>
 </section>
 
@@ -294,21 +342,21 @@ footer {
   <div class="section-label">What it helps with</div>
   <h2 class="section-h2">Three things, done once, that matter forever</h2>
   <div class="three-grid">
-    <div class="three-card">
+    <a href="sage-onboarding.html" class="three-card reveal" style="text-decoration:none;color:inherit;display:block;">
       <div class="three-card-num">01</div>
       <h3>Articulate your values</h3>
       <p>What matters most to you in daily life? What makes a good day? What would you never want to lose? Sage asks the questions that are hard to ask yourself.</p>
-    </div>
-    <div class="three-card">
+    </a>
+    <a href="sage-onboarding.html" class="three-card reveal" style="text-decoration:none;color:inherit;display:block;transition-delay:0.1s;">
       <div class="three-card-num">02</div>
       <h3>Document care preferences</h3>
       <p>Your answers become a readable care summary — not buried in legal language. Medical preferences, daily life preferences, and the person you trust to speak for you.</p>
-    </div>
-    <div class="three-card">
+    </a>
+    <a href="sage-onboarding.html" class="three-card reveal" style="text-decoration:none;color:inherit;display:block;transition-delay:0.2s;">
       <div class="three-card-num">03</div>
       <h3>Share with family and providers</h3>
       <p>Download a one-page summary to bring to your doctor. Share access with the family members you choose. Update it whenever your thinking changes.</p>
-    </div>
+    </a>
   </div>
 </section>
 
@@ -347,26 +395,26 @@ footer {
     <div class="section-label">The four core documents</div>
     <h2 class="section-h2">What advance care planning actually covers</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;">
-      <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:28px 24px;">
+      <a href="sage-onboarding.html" class="doc-card reveal">
         <div style="font-size:12px;font-weight:800;color:var(--teal);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;">Healthcare Proxy</div>
         <h3 style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px;">Who speaks for you</h3>
         <p style="font-size:13px;color:var(--text-muted);line-height:1.7;">Designates the person authorized to make medical decisions on your behalf when you cannot. Without one, hospitals default to next-of-kin in a legally determined order — which may not match your wishes.</p>
-      </div>
-      <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:28px 24px;">
+      </a>
+      <a href="sage-onboarding.html" class="doc-card reveal" style="transition-delay:0.08s;">
         <div style="font-size:12px;font-weight:800;color:var(--teal);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;">Living Will</div>
         <h3 style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px;">What treatment you want</h3>
         <p style="font-size:13px;color:var(--text-muted);line-height:1.7;">Documents your preferences about specific medical interventions — ventilators, feeding tubes, resuscitation, dialysis — if you are terminally ill or permanently unconscious. Your values on paper, not your family's interpretation of them.</p>
-      </div>
-      <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:28px 24px;">
+      </a>
+      <a href="https://polst.org" target="_blank" rel="noopener" class="doc-card reveal" style="transition-delay:0.16s;">
         <div style="font-size:12px;font-weight:800;color:var(--teal);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;">POLST / MOLST</div>
         <h3 style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px;">For active medical care</h3>
         <p style="font-size:13px;color:var(--text-muted);line-height:1.7;">A Physician Orders for Life-Sustaining Treatment is a medical order — not just a statement of wishes — used when someone is seriously ill. It travels with the patient and guides emergency responders. Completed with and signed by a physician.</p>
-      </div>
-      <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:28px 24px;">
+      </a>
+      <a href="sage-onboarding.html" class="doc-card reveal" style="transition-delay:0.24s;">
         <div style="font-size:12px;font-weight:800;color:var(--teal);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;">Values Summary</div>
         <h3 style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px;">The human context</h3>
         <p style="font-size:13px;color:var(--text-muted);line-height:1.7;">What legal documents miss: what matters to you, what a good day looks like, who you are as a person. CareGoals starts here. This context helps your proxy make decisions that feel right, not just legal.</p>
-      </div>
+      </a>
     </div>
     <p style="font-size:13px;color:var(--text-muted);text-align:center;margin-top:28px;line-height:1.7;">CareGoals helps you build the values summary and proxy designation. A licensed attorney can formalize the legal documents; a physician can complete a POLST when clinically indicated.</p>
   </div>
@@ -413,15 +461,15 @@ footer {
   <div class="section-label">What people say</div>
   <h2 class="section-h2">From families who had the conversation</h2>
   <div class="test-grid">
-    <div class="test-card">
+    <div class="test-card reveal">
       <p>"We kept putting it off. After Mom had her stroke, we had no idea what she wanted. CareGoals gave us a place to start — even 20 minutes changed everything."</p>
       <cite>Renee, 54 — daughter of stroke survivor</cite>
     </div>
-    <div class="test-card">
+    <div class="test-card reveal" style="transition-delay:0.1s;">
       <p>"My dad was the tough, don't-talk-about-it type. Sage asked him questions in a way I never could. He opened up about things he'd never said out loud before."</p>
       <cite>Marcus, 49 — son of a veteran</cite>
     </div>
-    <div class="test-card">
+    <div class="test-card reveal" style="transition-delay:0.2s;">
       <p>"I'm 71. I don't want my kids arguing about me. I did my session alone one afternoon. Now they know exactly what I want."</p>
       <cite>Carol, 71 — completed her own plan</cite>
     </div>
@@ -520,6 +568,18 @@ footer {
 <div class="disclaimer">
   <p>This tool supports conversations — it is not a legal document or medical advice. A care summary generated by CareGoals does not constitute an advance directive, POLST, healthcare power of attorney, or any other legally binding instrument. Consult a licensed attorney for formal advance directive documents and a physician for clinical guidance.</p>
 </div>
+
+<!-- Scroll-reveal -->
+<script>
+(function(){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+})();
+</script>
 
 <!-- Ecosystem footer widget -->
 <script src="https://harnesshealth.ai/footer.js?v=10" data-brand="caregoals" data-theme="light" defer></script>
