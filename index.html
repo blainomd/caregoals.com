@@ -702,6 +702,106 @@ a.stat-box:hover { background: rgba(13,115,119,0.06); }
   </div>
 </section>
 
+<!-- ONE QUESTION TO ASK TONIGHT -->
+<section id="question-tonight" style="padding:56px 24px;background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div style="max-width:680px;margin:0 auto;text-align:center;">
+    <div class="section-label">A gentle place to start</div>
+    <h2 class="section-h2" style="margin-bottom:6px;">One question to ask tonight.</h2>
+    <p style="font-size:15px;color:var(--text-muted);margin-bottom:32px;line-height:1.7;">Advance care planning researchers have found that these six questions — asked in any order, in any conversation — open the door more reliably than any form or framework. Ask one tonight.</p>
+    <div id="qrotator-wrap" style="position:relative;background:var(--off-white);border:1px solid var(--border);border-radius:16px;padding:36px 32px 28px;min-height:120px;cursor:pointer;" role="region" aria-live="polite" aria-label="Rotating conversation prompt" title="Tap to see the next question">
+      <div id="qrotator-q" style="font-family:'Manrope','Inter',sans-serif;font-size:clamp(18px,2.8vw,24px);font-weight:800;color:var(--navy);line-height:1.32;letter-spacing:-0.02em;margin-bottom:14px;transition:opacity 0.35s ease,transform 0.35s ease;"></div>
+      <div id="qrotator-ctx" style="font-size:13px;color:var(--text-muted);line-height:1.65;font-style:italic;transition:opacity 0.35s ease;"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:22px;">
+        <div id="qrotator-dots" style="display:flex;gap:6px;" role="list" aria-label="Question progress"></div>
+        <button id="qrotator-next" style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--teal);background:none;border:none;cursor:pointer;padding:4px 0;display:flex;align-items:center;gap:6px;" aria-label="Next question">
+          Next
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:14px;line-height:1.6;">Questions adapted from research by Ariadne Labs (Serious Illness Conversation Guide), The Conversation Project, and Bernacki &amp; Block, <em>JAMA Intern Med.</em> 2014. Tap the card to cycle, or it advances every 8 seconds.</p>
+  </div>
+</section>
+<script>
+(function(){
+  var qs = [
+    {
+      q: "If your health gets worse, what's most important to you?",
+      ctx: "The most reliable opening question in serious illness conversations. Patients answer it immediately — they have been waiting to be asked. (Ariadne Labs, 2015)"
+    },
+    {
+      q: "Is there any condition that would make life not worth living?",
+      ctx: "Harder to ask than to answer. Most people have a clear private answer. The family almost never knows it. (Bernacki &amp; Block, JAMA Intern Med. 2014)"
+    },
+    {
+      q: "Who should speak for you if you cannot?",
+      ctx: "Half of Americans cannot name a healthcare proxy on the spot — yet almost everyone has a person in mind. Naming them out loud is 80% of the work."
+    },
+    {
+      q: "What are you most afraid of?",
+      ctx: "Research consistently finds that the fear is not death itself — it's being a burden, being in pain, or losing dignity. The conversation reduces all three. (Gawande, <em>Being Mortal</em>, 2014)"
+    },
+    {
+      q: "What does a good day look like for you right now?",
+      ctx: "The values summary starts here. When your care team knows what a good day looks like, they can fight for it. This question builds the clinical record that a living will cannot."
+    },
+    {
+      q: "What would you want your family to know about how you want to be remembered?",
+      ctx: "Legacy and identity questions are among the most under-asked in clinical settings — and among the most important to families after a death. (The Conversation Project, 2023)"
+    }
+  ];
+  var idx = 0;
+  var timer = null;
+  var wrap = document.getElementById('qrotator-wrap');
+  var qEl = document.getElementById('qrotator-q');
+  var ctxEl = document.getElementById('qrotator-ctx');
+  var dotsEl = document.getElementById('qrotator-dots');
+  var nextBtn = document.getElementById('qrotator-next');
+
+  function buildDots(){
+    dotsEl.innerHTML = '';
+    qs.forEach(function(_,i){
+      var d = document.createElement('span');
+      d.style.cssText = 'width:6px;height:6px;border-radius:50%;background:' + (i===idx ? 'var(--teal)' : 'var(--border)') + ';transition:background 0.3s;display:inline-block;';
+      d.setAttribute('role','listitem');
+      d.setAttribute('aria-label', 'Question ' + (i+1) + (i===idx ? ' (current)' : ''));
+      dotsEl.appendChild(d);
+    });
+  }
+
+  function show(n, dir){
+    qEl.style.opacity = '0'; qEl.style.transform = 'translateY(' + (dir > 0 ? '10px' : '-10px') + ')';
+    ctxEl.style.opacity = '0';
+    setTimeout(function(){
+      idx = ((n % qs.length) + qs.length) % qs.length;
+      qEl.innerHTML = '“' + qs[idx].q + '”';
+      ctxEl.innerHTML = qs[idx].ctx;
+      qEl.style.opacity = '1'; qEl.style.transform = 'translateY(0)';
+      ctxEl.style.opacity = '1';
+      buildDots();
+    }, 180);
+  }
+
+  function advance(){ show(idx + 1, 1); }
+
+  function startTimer(){
+    clearInterval(timer);
+    timer = setInterval(advance, 8000);
+  }
+
+  wrap.addEventListener('click', function(e){
+    if (e.target === nextBtn || nextBtn.contains(e.target)) return;
+    advance(); startTimer();
+  });
+  nextBtn.addEventListener('click', function(e){
+    e.stopPropagation(); advance(); startTimer();
+  });
+
+  show(0, 1);
+  startTimer();
+})();
+</script>
+
 <!-- CTA STRIP -->
 <section class="cta-strip">
   <h2>Start the conversation.</h2>
