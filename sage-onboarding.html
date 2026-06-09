@@ -401,7 +401,7 @@ tailwind.config = {
           <span class="material-symbols-outlined" style="color:#173901;font-size:18px;flex-shrink:0;margin-top:1px;">pause</span>
           <div>
             <div style="font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:#1c1b1b;margin-bottom:2px;">Stop anytime</div>
-            <div style="font-family:'Inter',sans-serif;font-size:12px;color:#43493d;line-height:1.55;">Come back tomorrow, next week. Sage remembers everything.</div>
+            <div style="font-family:'Inter',sans-serif;font-size:12px;color:#43493d;line-height:1.55;">Come back tomorrow, next week. Your conversation is saved on this device.</div>
           </div>
         </div>
         <div style="background:#f6f3f2;border-radius:10px;padding:16px;display:flex;align-items:flex-start;gap:10px;">
@@ -415,7 +415,7 @@ tailwind.config = {
           <span class="material-symbols-outlined" style="color:#173901;font-size:18px;flex-shrink:0;margin-top:1px;">description</span>
           <div>
             <div style="font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:#1c1b1b;margin-bottom:2px;">Your care summary</div>
-            <div style="font-family:'Inter',sans-serif;font-size:12px;color:#43493d;line-height:1.55;">Generated after your session. Reviewed by a physician. Share anytime.</div>
+            <div style="font-family:'Inter',sans-serif;font-size:12px;color:#43493d;line-height:1.55;">Generated after your session. Download and share with family or your doctor.</div>
           </div>
         </div>
       </div>
@@ -640,6 +640,9 @@ function beginWithSage() {
   btn.style.background = '#2d5016';
   btn.style.cursor = 'default';
   btn.onclick = null;
+  setTimeout(function() {
+    window.location.href = 'conversation.html';
+  }, 700);
 }
 
 /* ==================== SHARED UTILITIES ==================== */
@@ -858,38 +861,37 @@ body { padding-bottom: 62px; }
   window.spClose = spClose;
   const chatHistory = [];
 
-  async function spSend() {{
+  async function spSend() {
     const inp = document.getElementById('sage-text');
     const txt = inp.value.trim();
     if (!txt) return;
     inp.value = '';
     addBubble(txt, 'user');
     addTyping();
-    chatHistory.push({{ role: 'user', content: txt }});
+    chatHistory.push({ role: 'user', content: txt });
 
-    try {{
-      const resp = await fetch('/api/sage', {{
+    try {
+      const resp = await fetch('/api/sage', {
         method: 'POST',
-        headers: {{ 'Content-Type': 'application/json' }},
-        body: JSON.stringify({{
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           message: txt,
           site: 'caregoals',
           history: chatHistory.slice(-8)
-        }})
-      }});
+        })
+      });
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
       const data = await resp.json();
       removeTyping();
       const reply = data.response || getReply(txt);
       addBubble(reply, 'sage');
-      chatHistory.push({{ role: 'assistant', content: reply }});
-    }} catch(e) {{
+      chatHistory.push({ role: 'assistant', content: reply });
+    } catch(e) {
       removeTyping();
       const fallback = getReply(txt);
       addBubble(fallback, 'sage');
-      chatHistory.push({{ role: 'assistant', content: fallback }});
-    }}
-  }}, 900 + Math.random() * 700);
+      chatHistory.push({ role: 'assistant', content: fallback });
+    }
   }
   window.spSend = spSend;
 

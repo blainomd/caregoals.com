@@ -471,38 +471,37 @@ body { padding-bottom: 62px; }
   window.spClose = spClose;
   const chatHistory = [];
 
-  async function spSend() {{
+  async function spSend() {
     const inp = document.getElementById('sage-text');
     const txt = inp.value.trim();
     if (!txt) return;
     inp.value = '';
     addBubble(txt, 'user');
     addTyping();
-    chatHistory.push({{ role: 'user', content: txt }});
+    chatHistory.push({ role: 'user', content: txt });
 
-    try {{
-      const resp = await fetch('/api/sage', {{
+    try {
+      const resp = await fetch('/api/sage', {
         method: 'POST',
-        headers: {{ 'Content-Type': 'application/json' }},
-        body: JSON.stringify({{
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           message: txt,
           site: 'caregoals',
           history: chatHistory.slice(-8)
-        }})
-      }});
+        })
+      });
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
       const data = await resp.json();
       removeTyping();
       const reply = data.response || getReply(txt);
       addBubble(reply, 'sage');
-      chatHistory.push({{ role: 'assistant', content: reply }});
-    }} catch(e) {{
+      chatHistory.push({ role: 'assistant', content: reply });
+    } catch(e) {
       removeTyping();
       const fallback = getReply(txt);
       addBubble(fallback, 'sage');
-      chatHistory.push({{ role: 'assistant', content: fallback }});
-    }}
-  }}, 900 + Math.random() * 700);
+      chatHistory.push({ role: 'assistant', content: fallback });
+    }
   }
   window.spSend = spSend;
 

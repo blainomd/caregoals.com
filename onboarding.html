@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta http-equiv="refresh" content="0; url=sage-onboarding.html"/>
+<script>window.location.replace('sage-onboarding.html');</script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -93,7 +94,7 @@
   </head>
 <body class="bg-background text-on-background min-h-screen">
 <header class="fixed top-0 w-full flex justify-between items-center px-6 py-4 bg-[#f8faf1]/80 backdrop-blur-xl z-50">
-<div class="font-['Plus_Jakarta_Sans'] font-black text-[#0a2200] tracking-tighter text-xl">Resilient Sanctuary</div>
+<div class="font-['Plus_Jakarta_Sans'] font-black text-[#0a2200] tracking-tighter text-xl">CareGoals</div>
 <div class="flex items-center gap-4">
 <span class="material-symbols-outlined text-[#0a2200] hover:opacity-80 transition-opacity cursor-pointer">settings</span>
 <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high">
@@ -126,9 +127,9 @@
 </div>
 <div class="absolute -bottom-6 -left-6 bg-surface-container-lowest p-8 rounded-lg shadow-xl max-w-xs border-l-4 border-secondary-container">
 <p class="text-on-surface italic font-medium leading-relaxed">
-                        "The sanctuary I needed during a time when everything felt like a storm."
+                        "Having the conversation before the crisis — that's the whole point."
                     </p>
-<span class="block mt-4 text-xs font-bold uppercase tracking-widest text-on-surface-variant">— Elena, Care Planner</span>
+<span class="block mt-4 text-xs font-bold uppercase tracking-widest text-on-surface-variant">— Why families start</span>
 </div>
 </div>
 </section>
@@ -166,8 +167,8 @@
                         Careplanning doesn't have to feel like a checklist. We've built a digital garden where hard conversations find a soft place to land. Explore our library of resources curated by experts.
                     </p>
 <div class="flex gap-4">
-<span class="inline-flex items-center px-4 py-2 rounded-full bg-white/10 text-on-primary-container text-sm font-medium backdrop-blur-md">4.9/5 User Rating</span>
-<span class="inline-flex items-center px-4 py-2 rounded-full bg-white/10 text-on-primary-container text-sm font-medium backdrop-blur-md">HIPAA Compliant</span>
+<span class="inline-flex items-center px-4 py-2 rounded-full bg-white/10 text-on-primary-container text-sm font-medium backdrop-blur-md">Free to start</span>
+<span class="inline-flex items-center px-4 py-2 rounded-full bg-white/10 text-on-primary-container text-sm font-medium backdrop-blur-md">HIPAA-compliant infrastructure</span>
 </div>
 </div>
 <div class="relative z-10 md:w-1/2 flex justify-center">
@@ -349,38 +350,37 @@ body { padding-bottom: 62px; }
   window.spClose = spClose;
   const chatHistory = [];
 
-  async function spSend() {{
+  async function spSend() {
     const inp = document.getElementById('sage-text');
     const txt = inp.value.trim();
     if (!txt) return;
     inp.value = '';
     addBubble(txt, 'user');
     addTyping();
-    chatHistory.push({{ role: 'user', content: txt }});
+    chatHistory.push({ role: 'user', content: txt });
 
-    try {{
-      const resp = await fetch('/api/sage', {{
+    try {
+      const resp = await fetch('/api/sage', {
         method: 'POST',
-        headers: {{ 'Content-Type': 'application/json' }},
-        body: JSON.stringify({{
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           message: txt,
           site: 'caregoals',
           history: chatHistory.slice(-8)
-        }})
-      }});
+        })
+      });
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
       const data = await resp.json();
       removeTyping();
       const reply = data.response || getReply(txt);
       addBubble(reply, 'sage');
-      chatHistory.push({{ role: 'assistant', content: reply }});
-    }} catch(e) {{
+      chatHistory.push({ role: 'assistant', content: reply });
+    } catch(e) {
       removeTyping();
       const fallback = getReply(txt);
       addBubble(fallback, 'sage');
-      chatHistory.push({{ role: 'assistant', content: fallback }});
-    }}
-  }}, 900 + Math.random() * 700);
+      chatHistory.push({ role: 'assistant', content: fallback });
+    }
   }
   window.spSend = spSend;
 
